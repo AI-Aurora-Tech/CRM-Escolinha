@@ -1334,7 +1334,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                             </div>
                         )}
                         {!isGuardian && (
-                            <button onClick={() => { setEditingChargeId(null); setManualCharge({ description: '', amount: 0, date: new Date().toISOString().split('T')[0] }); setShowChargeModal(true); }} className="w-full py-3 bg-white text-gray-700 border border-gray-300 rounded-xl font-bold hover:bg-gray-50 transition-all flex items-center justify-center gap-2">
+                            <button onClick={() => { setEditingChargeId(null); setManualCharge({ description: '', amount: 0, date: new Date().toISOString().split('T')[0], type: TransactionType.INCOME }); setShowChargeModal(true); }} className="w-full py-3 bg-white text-gray-700 border border-gray-300 rounded-xl font-bold hover:bg-gray-50 transition-all flex items-center justify-center gap-2">
                                 <PlusCircle className="w-5 h-5" /> Lançar Taxa / Avulso
                             </button>
                         )}
