@@ -663,9 +663,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
           date: manualCharge.date 
         });
       } else {
-        const transactionData = { ...manualCharge, status: PaymentStatus.PENDING, studentId: editingId };
-        console.log('[StudentsPage.tsx] Enviando para onAddTransaction:', transactionData);
-        onAddTransaction(transactionData);
+        onAddTransaction({ ...manualCharge, status: PaymentStatus.PENDING, studentId: editingId });
       }
       resetChargeModal();
     }
