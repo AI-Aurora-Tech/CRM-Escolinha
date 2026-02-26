@@ -21,9 +21,7 @@ export const FinancePage: React.FC<FinancePageProps> = ({ transactions, plans, s
   
   // Settings State
   const [mpToken, setMpToken] = useState('');
-  const [zapiInstanceId, setZapiInstanceId] = useState('');
-  const [zapiToken, setZapiToken] = useState('');
-  const [zapiClientToken, setZapiClientToken] = useState('');
+
   const [loadingSettings, setLoadingSettings] = useState(false);
   
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -61,9 +59,7 @@ export const FinancePage: React.FC<FinancePageProps> = ({ transactions, plans, s
         if (data) {
             data.forEach(s => {
                 if (s.key === 'mp_access_token') setMpToken(s.value);
-                if (s.key === 'zapi_instance_id') setZapiInstanceId(s.value);
-                if (s.key === 'zapi_token') setZapiToken(s.value);
-                if (s.key === 'zapi_client_token') setZapiClientToken(s.value);
+
             });
         }
     };
@@ -75,9 +71,7 @@ export const FinancePage: React.FC<FinancePageProps> = ({ transactions, plans, s
       try {
           const settings = [
               { key: 'mp_access_token', value: mpToken },
-              { key: 'zapi_instance_id', value: zapiInstanceId },
-              { key: 'zapi_token', value: zapiToken },
-              { key: 'zapi_client_token', value: zapiClientToken }
+
           ];
           const { error } = await supabase.from('app_settings').upsert(settings);
           if (error) throw error;
@@ -338,13 +332,13 @@ export const FinancePage: React.FC<FinancePageProps> = ({ transactions, plans, s
 
               <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
                   <div className="mb-6 border-b border-gray-100 pb-4">
-                      <h3 className="text-lg font-bold text-gray-800 flex items-center gap-2"><Smartphone className="w-5 h-5 text-green-600" /> Z-API (WhatsApp)</h3>
-                      <p className="text-xs text-gray-500 mt-1">Integração para envios de comunicados e cobranças automáticas.</p>
+                      <h3 className="text-lg font-bold text-gray-800 flex items-center gap-2"><Smartphone className="w-5 h-5 text-green-600" /> Evolution (WhatsApp)</h3>
+                      <p className="text-xs text-gray-500 mt-1">As credenciais da Evolution API agora são gerenciadas através de variáveis de ambiente no arquivo .env.</p>
                   </div>
-                  <div className="space-y-4">
-                      <div><label className="block text-xs font-medium text-gray-700 mb-1">ID da instancia</label><input type="text" value={zapiInstanceId} onChange={(e) => setZapiInstanceId(e.target.value)} className="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm" placeholder="ID da sua instância" /></div>
-                      <div><label className="block text-xs font-medium text-gray-700 mb-1">Token da instancia</label><input type="password" value={zapiToken} onChange={(e) => setZapiToken(e.target.value)} className="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm" placeholder="Token da instância" /></div>
-                      <div><label className="block text-xs font-medium text-gray-700 mb-1">Client- Token</label><input type="password" value={zapiClientToken} onChange={(e) => setZapiClientToken(e.target.value)} className="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm" placeholder="Client-Token da Z-API" /></div>
+                  <div className="space-y-2 text-sm text-gray-600 bg-gray-50 p-4 rounded-lg">
+                      <p><strong>URL da API:</strong> {import.meta.env.VITE_EVOLUTION_API_URL || 'Não definida'}</p>
+                      <p><strong>API Key:</strong> {import.meta.env.VITE_EVOLUTION_API_KEY ? '******' : 'Não definida'}</p>
+                      <p><strong>Instância:</strong> {import.meta.env.VITE_EVOLUTION_INSTANCE_NAME || 'Não definida'}</p>
                   </div>
               </div>
 
