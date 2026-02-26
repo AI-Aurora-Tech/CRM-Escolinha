@@ -12,7 +12,7 @@ import { AICoachPage } from './pages/AICoachPage';
 import { Student, Group, Plan, Transaction, Activity, User, UserRole, PaymentStatus, TransactionType, PaymentMethod, Occurrence } from './types';
 import { supabase } from './lib/supabaseClient';
 import { Menu, Loader2 } from 'lucide-react';
-import { sendZApiMessage } from './services/zapiService';
+import { sendEvolutionMessage } from './services/evolutionService';
 
 const TX_SELECT_FIELDS = 'id, description, category, amount, type, date, payment_date, status, student_id, plan_id, payment_method, payment_link, external_reference, preference_id, recurrence';
 
@@ -371,7 +371,7 @@ function App() {
                 const amount = t.amount || fullTx.amount;
                 const description = t.description || fullTx.description;
                 const msg = `✅ *PAGAMENTO RECEBIDO* ⚽\n\nOlá *${student.guardian.name}*!\nConfirmamos o recebimento do pagamento do atleta *${student.name}*:\n\n📌 *${description}*\n💰 Valor: *R$ ${amount.toFixed(2)}*\n\nObrigado! Garotos do Martinica.`;
-                sendZApiMessage(student.guardian.phone, msg);
+                sendEvolutionMessage(student.guardian.phone, msg);
             }
         }
         await fetchData(true);
@@ -622,7 +622,7 @@ function App() {
 
         if (student.guardian.phone) {
             const msg = `✅ *PAGAMENTO DE TAXA RECEBIDO* ⚽\n\nOlá *${student.guardian.name}*!\n\nConfirmamos o recebimento da taxa de *R$ ${Number(activity.fee).toFixed(2)}* referente à atividade: *${activity.title}* do atleta *${student.name}*.\n\nObrigado! Garotos do Martinica.`;
-            sendZApiMessage(student.guardian.phone, msg);
+            sendEvolutionMessage(student.guardian.phone, msg);
         }
     } else {
         if (existingTx) {
@@ -642,7 +642,7 @@ function App() {
       const student = students.find(s => s.id === studentId);
       if (student?.guardian.phone) {
           const msg = `⚽ *COMUNICADO DE OCORRÊNCIA* ⚽\n\nOlá *${student.guardian.name}*!\n\nRegistramos a seguinte ocorrência para o atleta *${student.name}* em ${date.split('-').reverse().join('/')}:\n\n"${description}"\n\nQualquer dúvida, procure a coordenação. Garotos do Martinica.`;
-          sendZApiMessage(student.guardian.phone, msg);
+          sendEvolutionMessage(student.guardian.phone, msg);
       }
       await fetchData(true);
       return true;

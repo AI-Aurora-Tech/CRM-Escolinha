@@ -6,7 +6,7 @@ import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { createPixPayment, createMPPreference } from '../services/mercadoPago';
-import { sendZApiMessage } from '../services/zapiService';
+import { sendEvolutionMessage } from '../services/evolutionService';
 
 interface StudentsPageProps {
   students: Student[];
@@ -281,7 +281,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
               
               message += `\n*TOTAL: R$ ${totalDebt.toFixed(2)}*\n\n*Pagamento via PIX (Chave Celular):* 11987019721\nNome: CLUBE DESPORTIVO MUNICIPAL JARDIM MARTINICA\n\nPor favor, realize a regularização via Portal do Aluno ou procure a secretaria para regularizar a situação. Caso já tenha pago, favor desconsiderar.\n\nAgradecemos a confiança e parceria de sempre!`;
               
-              const sent = await sendZApiMessage(phone, message);
+              const sent = await sendEvolutionMessage(phone, message);
               if (sent) successCount++;
           }
 
@@ -401,7 +401,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
     const phone = student.guardian.phone.replace(/\D/g, '');
     if (!phone) return alert("Responsável sem telefone cadastrado.");
     const msg = `Olá *${student.guardian.name}*, aqui é da escolinha *Garotos do Martinica*! ⚽\n\nNotamos que o(a) atleta *${student.name}* está com pendências na entrega da documentação obrigatória (RG, CPF, Comprovante de Endereço ou Escolar).\n\nPor favor, entregue o quanto antes na secretaria para regularizar a inscrição. Obrigado!`;
-    const sent = await sendZApiMessage(phone, msg);
+    const sent = await sendEvolutionMessage(phone, msg);
     if (sent) alert(`Lembrete de documentos enviado para ${student.guardian.name}!`);
     else alert("Erro ao enviar mensagem via Z-API. Verifique as configurações no menu Financeiro.");
   };
@@ -411,7 +411,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
     if (!phone) return alert("Responsável sem telefone cadastrado.");
     const date = formatDate(student.medicalCertificateExpiry);
     const msg = `Olá *${student.guardian.name}*, tudo bem? Aqui é da *Garotos do Martinica*! ⚽\n\nIdentificamos que o atestado médico do(a) atleta *${student.name}* venceu em *${date}*. \n\nA renovação do exame médico é fundamental para a segurança e continuidade do aluno nos treinos. Por favor, providencie um novo atestado.\n\nQualquer dúvida, estamos à disposição!`;
-    const sent = await sendZApiMessage(phone, msg);
+    const sent = await sendEvolutionMessage(phone, msg);
     if (sent) alert(`Aviso de atestado enviado para ${student.guardian.name}!`);
     else alert("Erro ao enviar via Z-API. Verifique as configurações no menu Financeiro.");
   };
@@ -493,7 +493,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
       
       message += `\n\nObrigado!`;
       
-      const sent = await sendZApiMessage(phone, message);
+      const sent = await sendEvolutionMessage(phone, message);
       if (sent) alert("Cobrança enviada com sucesso!"); else alert("Erro ao enviar via Z-API. Verifique as configurações.");
   };
 
@@ -515,7 +515,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
       
       message += `\n*TOTAL: R$ ${totalAmount.toFixed(2)}*\n\n*Pagamento via PIX (Chave Celular):* 11987019721\nNome: CLUBE DESPORTIVO MUNICIPAL JARDIM MARTINICA\n\nPor favor, realize a regularização via Portal do Aluno ou procure a secretaria. Caso já tenha pago, favor desconsiderar.`;
       
-      const sent = await sendZApiMessage(phone, message);
+      const sent = await sendEvolutionMessage(phone, message);
       if (sent) alert(`${selectedTxs.length} cobrança(s) enviada(s) com sucesso!`);
       else alert("Erro ao enviar mensagens via Z-API.");
   };
@@ -821,7 +821,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
 
       message += `\n\nAcompanhe o desempenho completo pelo Portal do Aluno!`;
 
-      const sent = await sendZApiMessage(student.guardian.phone, message);
+      const sent = await sendEvolutionMessage(student.guardian.phone, message);
       if (sent) alert("Relatório enviado com sucesso via WhatsApp!");
       else alert("Erro ao enviar via Z-API. Verifique as configurações no menu Financeiro.");
   };

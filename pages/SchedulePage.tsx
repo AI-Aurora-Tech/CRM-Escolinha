@@ -4,7 +4,7 @@ import { Activity, Student, Group, User, UserRole, Transaction, TransactionType,
 import { Calendar as CalendarIcon, Clock, CheckCircle, Users, Repeat, CheckSquare, Square, Search, User as UserIcon, FileText, XCircle, Edit, Trophy, Coins, DollarSign, Trash2, MapPin, Megaphone, X, Play, Pause, Zap, ChevronLeft, ChevronRight, Filter, Minus, PlusCircle, Medal, BarChart3, ChevronDown, DollarSign as CashIcon, Goal, ChevronRight as ChevronRightIcon, Flag, AlertTriangle } from 'lucide-react';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { sendZApiMessage } from '../services/zapiService';
+import { sendEvolutionMessage } from '../services/evolutionService';
 import { createMPPreference } from '../services/mercadoPago';
 
 interface SchedulePageProps {
@@ -473,7 +473,7 @@ export const SchedulePage: React.FC<SchedulePageProps> = ({ activities, students
               msg += `\n\nContamos com a presença!`;
           }
           
-          const sent = await sendZApiMessage(phone, msg);
+          const sent = await sendEvolutionMessage(phone, msg);
           setNotifyLogs(prev => [`${sent ? '✅' : '❌'} ${student.name}`, ...prev]);
       } else {
           setNotifyLogs(prev => [`⚠️ Sem telefone para ${student.name}`, ...prev]);
