@@ -19,7 +19,7 @@ export const sendEvolutionMessage = async (phone: string, message: string): Prom
 
     const payload = {
       number: `55${phone.replace(/\D/g, '')}`,
-      textMessage: { text: message }
+      text: message
     };
     console.log('Payload:', JSON.stringify(payload, null, 2));
 
