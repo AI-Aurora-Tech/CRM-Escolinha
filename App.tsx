@@ -379,12 +379,16 @@ function App() {
   };
 
   const handleAddTransaction = async (t: Omit<Transaction, 'id'>) => {
-    
     const payload = { description: t.description, category: t.category || 'Outros', amount: t.amount, type: t.type, date: t.date, payment_date: t.paymentDate, status: t.status, student_id: safeId(t.studentId), plan_id: safeId(t.planId), payment_method: t.paymentMethod || PaymentMethod.CASH, recurrence: t.recurrence || 'NONE' };
-    
 
-    await supabase.from('transactions').insert([payload]);
-    await fetchData(true);
+    const { data, error } = await supabase.from('transactions').insert([payload]).select();
+
+    if (error) {
+      console.error('Erro do Supabase ao inserir transação:', error);
+      alert(`Erro ao salvar a transação: ${error.message}`);
+    } else {
+      await fetchData(true);
+    }
   };
 
   const handleGenerateGlobalTuitions = async () => {
