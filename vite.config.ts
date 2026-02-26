@@ -8,18 +8,5 @@ export default defineConfig({
     // Polyfill process.env safely for libraries that expect it
     'process.env': {},
   },
-  server: {
-    proxy: {
-      '/api/mp': {
-        target: 'https://api.mercadopago.com',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api\/mp/, ''),
-      },
-      '/api/evolution': {
-        target: 'https://evolution.iss.tec.br',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api\/evolution/, ''),
-      },
-    },
-  },
+
 });
