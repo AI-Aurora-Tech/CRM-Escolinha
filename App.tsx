@@ -379,9 +379,19 @@ function App() {
   };
 
   const handleAddTransaction = async (t: Omit<Transaction, 'id'>) => {
+    console.log('[App.tsx] Tentando adicionar transação:', t);
     const payload = { description: t.description, category: t.category || 'Outros', amount: t.amount, type: t.type, date: t.date, payment_date: t.paymentDate, status: t.status, student_id: safeId(t.studentId), plan_id: safeId(t.planId), payment_method: t.paymentMethod, recurrence: t.recurrence || 'NONE' };
-    await supabase.from('transactions').insert([payload]);
-    await fetchData(true);
+    console.log('[App.tsx] Payload enviado para o Supabase:', payload);
+
+    const { data, error } = await supabase.from('transactions').insert([payload]).select();
+
+    if (error) {
+      console.error('[App.tsx] Erro do Supabase ao inserir:', error);
+      alert(`Erro ao salvar no banco de dados: ${error.message}`);
+    } else {
+      console.log('[App.tsx] Sucesso ao inserir no Supabase:', data);
+      await fetchData(true);
+    }
   };
 
   const handleGenerateGlobalTuitions = async () => {
