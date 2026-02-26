@@ -67,7 +67,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
 
   const [showChargeModal, setShowChargeModal] = useState(false);
   const [editingChargeId, setEditingChargeId] = useState<string | null>(null);
-  const [manualCharge, setManualCharge] = useState({ description: '', amount: 0, date: new Date().toISOString().split('T')[0] });
+  const [manualCharge, setManualCharge] = useState({ description: '', amount: 0, date: new Date().toISOString().split('T')[0], type: TransactionType.INCOME });
 
   const [showOccurrenceModal, setShowOccurrenceModal] = useState(false);
   const [newOccurrence, setNewOccurrence] = useState({ description: '', date: new Date().toISOString().split('T')[0], studentId: '' });
@@ -646,6 +646,12 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
     setIsModalOpen(false); setCapturedImage(null); setEditingId(null); setStudentForm(initialFormState); setSelectedFinanceIds(new Set());
   };
 
+  const resetChargeModal = () => {
+    setShowChargeModal(false);
+    setEditingChargeId(null);
+    setManualCharge({ description: '', amount: 0, date: new Date().toISOString().split('T')[0], type: TransactionType.INCOME });
+  };
+
   const handleSaveManualCharge = (e: React.FormEvent) => {
     e.preventDefault();
     if (manualCharge.description && manualCharge.amount > 0 && editingId) {
@@ -657,11 +663,9 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
           date: manualCharge.date 
         });
       } else {
-        onAddTransaction({ ...manualCharge, type: TransactionType.INCOME, status: PaymentStatus.PENDING, studentId: editingId, paymentMethod: PaymentMethod.CASH });
+        onAddTransaction({ ...manualCharge, status: PaymentStatus.PENDING, studentId: editingId, paymentMethod: PaymentMethod.CASH });
       }
-      setShowChargeModal(false); 
-      setEditingChargeId(null);
-      setManualCharge({ description: '', amount: 0, date: new Date().toISOString().split('T')[0] });
+      resetChargeModal();
     }
   };
 
@@ -671,7 +675,8 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
       setManualCharge({ 
           description: tx.description, 
           amount: tx.amount, 
-          date: tx.date 
+          date: tx.date,
+          type: tx.type
       });
       setShowChargeModal(true);
   };
@@ -1565,18 +1570,22 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
           <div className="bg-white rounded-2xl shadow-xl w-full max-sm p-6 animate-in slide-in-from-bottom-4 duration-200">
             <div className="flex justify-between items-center mb-6">
                 <h3 className="text-lg font-black text-gray-800 uppercase tracking-tighter">{editingChargeId ? 'Editar Cobrança' : 'Lançar Cobrança'}</h3>
-                <button onClick={() => { setShowChargeModal(false); setEditingChargeId(null); }} className="text-gray-400 hover:text-gray-600 transition-colors">✕</button>
+                <button onClick={resetChargeModal} className="text-gray-400 hover:text-gray-600 transition-colors">✕</button>
             </div>
             <form onSubmit={handleSaveManualCharge} className="space-y-4">
-                <div><label className="block text-xs font-bold text-gray-500 uppercase mb-1">Descrição</label><input required className="w-full border rounded-xl p-3 focus:ring-2 focus:ring-primary-500 outline-none" placeholder="Ex: Uniforme, Taxa de Torneio..." value={manualCharge.description} onChange={e => setManualCharge({...manualCharge, description: e.target.value})} /></div>
-                <div className="grid grid-cols-2 gap-4">
-                    <div><label className="block text-xs font-bold text-gray-500 uppercase mb-1">Valor (R$)</label><input required type="number" step="0.01" className="w-full border rounded-xl p-3 focus:ring-2 focus:ring-primary-500 outline-none font-bold" placeholder="0,00" value={manualCharge.amount || ''} onChange={e => setManualCharge({...manualCharge, amount: parseFloat(e.target.value) || 0})} /></div>
-                    <div><label className="block text-xs font-bold text-gray-500 uppercase mb-1">Vencimento</label><input required type="date" className="w-full border rounded-xl p-3 focus:ring-2 focus:ring-primary-500 outline-none" value={manualCharge.date} onChange={e => setManualCharge({...manualCharge, date: e.target.value})} /></div>
-                </div>
-                <div className="pt-4 flex gap-3">
-                  <button type="button" onClick={() => { setShowChargeModal(false); setEditingChargeId(null); }} className="flex-1 py-3 text-gray-500 font-bold hover:bg-gray-100 rounded-xl transition-colors">Cancelar</button>
-                  <button type="submit" className="flex-1 py-3 bg-gray-900 text-white rounded-xl font-black hover:bg-black transition-all uppercase tracking-tight">{editingChargeId ? 'SALVAR' : 'LANÇAR'}</button>
-                </div>
+                  <div className="flex gap-2 p-1 bg-gray-100 rounded-xl">
+                      <button type="button" onClick={() => setManualCharge({...manualCharge, type: TransactionType.INCOME})} className={`flex-1 py-2 text-xs font-black rounded-lg transition-all flex items-center justify-center gap-2 uppercase ${manualCharge.type === TransactionType.INCOME ? 'bg-white text-green-700 shadow-sm' : 'text-gray-500'}`}>Receita</button>
+                      <button type="button" onClick={() => setManualCharge({...manualCharge, type: TransactionType.EXPENSE})} className={`flex-1 py-2 text-xs font-black rounded-lg transition-all flex items-center justify-center gap-2 uppercase ${manualCharge.type === TransactionType.EXPENSE ? 'bg-white text-red-700 shadow-sm' : 'text-gray-500'}`}>Despesa</button>
+                  </div>
+                  <div><label className="block text-xs font-bold text-gray-500 uppercase mb-1">Descrição</label><input required className="w-full border rounded-xl p-3 focus:ring-2 focus:ring-primary-500 outline-none" placeholder="Ex: Uniforme, Taxa de Torneio..." value={manualCharge.description} onChange={e => setManualCharge({...manualCharge, description: e.target.value})} /></div>
+                  <div className="grid grid-cols-2 gap-4">
+                      <div><label className="block text-xs font-bold text-gray-500 uppercase mb-1">Valor (R$)</label><input required type="number" step="0.01" className="w-full border rounded-xl p-3 focus:ring-2 focus:ring-primary-500 outline-none font-bold" placeholder="0,00" value={manualCharge.amount || ''} onChange={e => setManualCharge({...manualCharge, amount: parseFloat(e.target.value) || 0})} /></div>
+                      <div><label className="block text-xs font-bold text-gray-500 uppercase mb-1">Vencimento</label><input required type="date" className="w-full border rounded-xl p-3 focus:ring-2 focus:ring-primary-500 outline-none" value={manualCharge.date} onChange={e => setManualCharge({...manualCharge, date: e.target.value})} /></div>
+                  </div>
+                  <div className="pt-4 flex gap-3">
+                    <button type="button" onClick={resetChargeModal} className="flex-1 py-3 text-gray-500 font-bold hover:bg-gray-100 rounded-xl transition-colors">Cancelar</button>
+                    <button type="submit" className="flex-1 py-3 bg-gray-900 text-white rounded-xl font-black hover:bg-black transition-all uppercase tracking-tight">{editingChargeId ? 'SALVAR' : 'LANÇAR'}</button>
+                  </div>
             </form>
           </div>
         </div>
