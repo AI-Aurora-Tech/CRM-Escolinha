@@ -6,33 +6,42 @@
  */
 export const sendEvolutionMessage = async (phone: string, message: string): Promise<boolean> => {
   try {
-    const apiUrl = import.meta.env.VITE_EVOLUTION_API_URL;
     const apiKey = import.meta.env.VITE_EVOLUTION_API_KEY;
     const instanceName = import.meta.env.VITE_EVOLUTION_INSTANCE_NAME;
 
-    if (!apiUrl || !apiKey || !instanceName) {
+    if (!apiKey || !instanceName) {
         console.error('Evolution API credentials not found in environment variables.');
         return false;
     }
 
-    const url = `${apiUrl}/message/sendText/${instanceName}`;
+    const url = `/api/evolution/message/sendText/${instanceName}`;
+    console.log(`Sending to Evolution API: ${url}`);
+
+    const payload = {
+      number: `55${phone.replace(/\D/g, '')}`,
+      textMessage: { text: message }
+    };
+    console.log('Payload:', JSON.stringify(payload, null, 2));
+
     const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'apikey': apiKey
       },
-      body: JSON.stringify({
-        number: `55${phone.replace(/\D/g, '')}`,
-        textMessage: {
-          text: message
-        }
-      })
+      body: JSON.stringify(payload)
     });
+
+    console.log('Evolution API Response:', response.status, response.statusText);
+
+    if (!response.ok) {
+      const errorBody = await response.text();
+      console.error('Evolution API Error Body:', errorBody);
+    }
 
     return response.ok;
   } catch (err) {
-    console.error('Erro de conexão com a Evolution API:', err);
+    console.error('Fetch Error to Evolution API:', err);
     return false;
   }
 };
@@ -51,7 +60,7 @@ export const sendEvolutionDocument = async (phone: string, base64: string, fileN
         return false;
     }
 
-    const url = `${apiUrl}/message/sendMedia/${instanceName}`;
+    const url = `/api/evolution/message/sendMedia/${instanceName}`;
     const response = await fetch(url, {
       method: 'POST',
       headers: {

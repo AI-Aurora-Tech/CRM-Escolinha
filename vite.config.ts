@@ -15,6 +15,11 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/mp/, ''),
       },
+      '/api/evolution': {
+        target: 'https://evolution.iss.tec.br',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/evolution/, ''),
+      },
     },
   },
 });
