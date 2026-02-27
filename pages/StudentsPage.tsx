@@ -275,8 +275,8 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
 
       for (let i = 0; i < studentsWithMissingDocs.length; i++) {
           const student = studentsWithMissingDocs[i];
-          await sendDocReminder(student);
-          successCount++; // Assume success if sendDocReminder doesn't throw
+          const sent = await sendDocReminder(student, false); // Pass false to suppress alerts
+          if (sent) successCount++;
 
           if (i < studentsWithMissingDocs.length - 1) {
               await new Promise(resolve => setTimeout(resolve, 10000));
@@ -284,7 +284,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
       }
 
       setIsGenerating(false);
-      alert(`Processo concluído!\nLembretes enviados: ${successCount}`);
+      alert(`Processo concluído!\nEnviados com sucesso: ${successCount}\nFalhas/Sem Tel: ${studentsWithMissingDocs.length - successCount}`);
   };
 
   const handleBatchSendCharges = async () => {
@@ -438,22 +438,30 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
       XLSX.writeFile(wb, "Modelo_Importacao_Alunos.xlsx");
   };
 
-  const sendDocReminder = async (student: Student) => {
+  const sendDocReminder = async (student: Student, showAlerts = true): Promise<boolean> => {
     const phone = student.guardian.phone.replace(/\D/g, '');
-    if (!phone) return alert("Responsável sem telefone cadastrado.");
+    if (!phone) {
+        if (showAlerts) alert("Responsável sem telefone cadastrado.");
+        return false;
+    }
 
     const missingDocs = getMissingDocsList(student);
     if (missingDocs.length === 0) {
-        alert("Este aluno não possui documentos pendentes.");
-        return;
+        if (showAlerts) alert("Este aluno não possui documentos pendentes.");
+        return true; // Not an error, just nothing to send.
     }
 
     const docListString = missingDocs.map(doc => `• ${doc}`).join('\n');
 
     const msg = `Olá *${student.guardian.name}*, aqui é da escolinha *Pintagueiras*! ⚽\n\nNotamos que o(a) atleta *${student.name}* está com os seguintes documentos pendentes:\n\n${docListString}\n\nPor favor, entregue o quanto antes na secretaria para regularizar a inscrição. Obrigado!`;
     const sent = await sendEvolutionMessage(phone, msg);
-    if (sent) alert(`Lembrete de documentos enviado para ${student.guardian.name}!`);
-    else alert("Erro ao enviar mensagem via Z-API. Verifique as configurações no menu Financeiro.");
+    
+    if (showAlerts) {
+        if (sent) alert(`Lembrete de documentos enviado para ${student.guardian.name}!`);
+        else alert("Erro ao enviar mensagem via Z-API. Verifique as configurações no menu Financeiro.");
+    }
+    
+    return sent;
   };
 
   const sendMedicalReminder = async (student: Student) => {
