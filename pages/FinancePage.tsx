@@ -363,8 +363,8 @@ export const FinancePage: React.FC<FinancePageProps> = ({ transactions, plans, s
             </div>
             <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
                 <div className="flex items-center gap-3">
-                    <div className={`p-2 rounded-lg ${realizedBalance >= 0 ? 'bg-blue-100 text-blue-600' : 'bg-orange-100 text-orange-600'}`}><Filter className="w-5 h-5" /></div>
-                    <div><p className="text-[9px] font-black text-gray-400 uppercase">Saldo Período</p><h3 className={`text-base font-black truncate ${realizedBalance >= 0 ? 'text-blue-600' : 'text-orange-600'}`}>R$ {realizedBalance.toFixed(2)}</h3></div>
+                    <div className={`p-2 rounded-lg ${realizedBalance >= 0 ? 'bg-blue-100 text-blue-600' : 'bg-blue-100 text-blue-600'}`}><Filter className="w-5 h-5" /></div>
+                    <div><p className="text-[9px] font-black text-gray-400 uppercase">Saldo Período</p><h3 className={`text-base font-black truncate ${realizedBalance >= 0 ? 'text-blue-600' : 'text-blue-600'}`}>R$ {realizedBalance.toFixed(2)}</h3></div>
                 </div>
             </div>
             <div className="bg-white p-4 rounded-xl border border-blue-50 shadow-sm ring-1 ring-blue-50">
@@ -379,10 +379,10 @@ export const FinancePage: React.FC<FinancePageProps> = ({ transactions, plans, s
                     <div><p className="text-[9px] font-black text-red-400 uppercase">A Pagar</p><h3 className="text-base font-black text-red-700 truncate">R$ {pendingExpense.toFixed(2)}</h3></div>
                 </div>
             </div>
-            <div className="bg-white p-4 rounded-xl border border-orange-50 shadow-sm ring-1 ring-orange-100">
+            <div className="bg-white p-4 rounded-xl border border-blue-50 shadow-sm ring-1 ring-blue-100">
                 <div className="flex items-center gap-3">
-                    <div className="p-2 bg-orange-100 rounded-lg text-orange-600"><AlertCircle className="w-5 h-5" /></div>
-                    <div><p className="text-[9px] font-black text-orange-500 uppercase">Total Atrasado</p><h3 className="text-base font-black text-orange-700 truncate">R$ {lateIncomeTotal.toFixed(2)}</h3></div>
+                    <div className="p-2 bg-blue-100 rounded-lg text-blue-600"><AlertCircle className="w-5 h-5" /></div>
+                    <div><p className="text-[9px] font-black text-blue-500 uppercase">Total Atrasado</p><h3 className="text-base font-black text-blue-700 truncate">R$ {lateIncomeTotal.toFixed(2)}</h3></div>
                 </div>
             </div>
         </div>
@@ -444,7 +444,7 @@ export const FinancePage: React.FC<FinancePageProps> = ({ transactions, plans, s
                                 const student = t.studentId ? students.find(s => s.id === t.studentId) : null;
                                 const isLate = t.status === PaymentStatus.PENDING && t.date < todayStr;
                                 return (
-                                <tr key={t.id} className={`hover:bg-gray-50 transition-colors ${isLate ? 'bg-orange-50/30' : ''}`}>
+                                <tr key={t.id} className={`hover:bg-gray-50 transition-colors ${isLate ? 'bg-blue-50/30' : ''}`}>
                                     <td className="px-6 py-4 text-sm text-gray-600 whitespace-nowrap font-medium">{formatDate(t.date)}</td>
                                     <td className="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">{formatDate(t.paymentDate)}</td>
                                     <td className="px-6 py-4">
@@ -460,7 +460,7 @@ export const FinancePage: React.FC<FinancePageProps> = ({ transactions, plans, s
                                         <span className={`text-[10px] font-black px-2 py-1 rounded uppercase ${
                                             t.status === PaymentStatus.PAID ? 'bg-green-100 text-green-700' : 
                                             t.status === PaymentStatus.CANCELLED ? 'bg-gray-100 text-gray-500' :
-                                            isLate ? 'bg-orange-100 text-orange-700 animate-pulse' :
+                                            isLate ? 'bg-blue-100 text-blue-700 animate-pulse' :
                                             'bg-yellow-50 text-yellow-600'
                                         }`}>
                                             {t.status === PaymentStatus.PAID ? 'Pago' : (t.status === PaymentStatus.CANCELLED ? 'Cancelado' : (isLate ? 'Atrasada' : 'Pendente'))}
@@ -488,7 +488,7 @@ export const FinancePage: React.FC<FinancePageProps> = ({ transactions, plans, s
                     const student = t.studentId ? students.find(s => s.id === t.studentId) : null;
                     const isLate = t.status === PaymentStatus.PENDING && t.date < todayStr;
                     return (
-                        <div key={t.id} className={`bg-white p-4 rounded-xl border shadow-sm transition-all ${isLate ? 'border-orange-200 bg-orange-50/10' : 'border-gray-100'}`}>
+                        <div key={t.id} className={`bg-white p-4 rounded-xl border shadow-sm transition-all ${isLate ? 'border-blue-200 bg-blue-50/10' : 'border-gray-100'}`}>
                             <div className="flex justify-between items-start mb-3">
                                 <div>
                                     <span className={`text-[9px] font-black px-2 py-0.5 rounded uppercase border ${t.type === TransactionType.INCOME ? 'bg-green-50 text-green-700 border-green-100' : 'bg-red-50 text-red-700 border-red-100'}`}>
@@ -507,7 +507,7 @@ export const FinancePage: React.FC<FinancePageProps> = ({ transactions, plans, s
                                     <span className={`text-[9px] font-black px-2 py-0.5 rounded uppercase block mt-1 ${
                                         t.status === PaymentStatus.PAID ? 'bg-green-100 text-green-700' : 
                                         t.status === PaymentStatus.CANCELLED ? 'bg-gray-100 text-gray-500' :
-                                        isLate ? 'bg-orange-100 text-orange-700' : 'bg-yellow-50 text-yellow-600'
+                                        isLate ? 'bg-blue-100 text-blue-700' : 'bg-yellow-50 text-yellow-600'
                                     }`}>
                                         {t.status === PaymentStatus.PAID ? 'Pago' : t.status === PaymentStatus.CANCELLED ? 'Cancelado' : (isLate ? 'Atrasada' : 'Pendente')}
                                     </span>

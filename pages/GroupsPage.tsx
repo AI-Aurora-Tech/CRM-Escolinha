@@ -371,13 +371,13 @@ export const GroupsPage: React.FC<GroupsPageProps> = ({ groups, students, transa
                                         const overdueBgClass = overdueCount >= 3 
                                             ? 'bg-red-50 hover:bg-red-100' 
                                             : overdueCount === 2 
-                                            ? 'bg-orange-50 hover:bg-orange-100' 
+                                            ? 'bg-blue-50 hover:bg-blue-100' 
                                             : isSelected ? 'bg-primary-50/50' : 'hover:bg-white';
                                         
                                         const overdueBadgeClass = overdueCount >= 3
                                             ? 'bg-red-600 text-white'
                                             : overdueCount === 2
-                                            ? 'bg-orange-500 text-white'
+                                            ? 'bg-blue-500 text-white'
                                             : '';
 
                                         const groupNames = (student.groupIds || []).map(gid => {

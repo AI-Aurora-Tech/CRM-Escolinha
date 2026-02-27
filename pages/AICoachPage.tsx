@@ -102,7 +102,7 @@ export const AICoachPage: React.FC<AICoachPageProps> = ({ income, expense }) => 
                     </div>
                     <div className="md:col-span-2 bg-gray-50 rounded-xl p-6 border border-gray-100 overflow-y-auto max-h-[500px]">
                         {result ? (
-                             <article className="prose prose-sm prose-orange max-w-none">
+                             <article className="prose prose-sm prose-blue max-w-none">
                                 <pre className="whitespace-pre-wrap font-sans text-gray-700">{result}</pre>
                              </article>
                         ) : (

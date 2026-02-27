@@ -530,7 +530,7 @@ export const SchedulePage: React.FC<SchedulePageProps> = ({ activities, students
                                 <h4 className="font-bold flex items-center gap-2 text-lg">
                                   {a.type === 'GAME' ? <Trophy className="text-yellow-500 w-5 h-5" /> : <CalendarIcon className="text-primary-500 w-5 h-5" />}
                                   {a.title}
-                                  {a.fee ? <span className="bg-orange-100 text-orange-700 text-[10px] px-1.5 py-0.5 rounded-full font-bold ml-2 uppercase">Taxa: R$ {a.fee}</span> : null}
+                                  {a.fee ? <span className="bg-blue-100 text-blue-700 text-[10px] px-1.5 py-0.5 rounded-full font-bold ml-2 uppercase">Taxa: R$ {a.fee}</span> : null}
                                   {isFinished && <span className="bg-green-100 text-green-700 text-[10px] px-1.5 py-0.5 rounded-full font-black ml-2 uppercase border border-green-200">Finalizado</span>}
                                 </h4>
                                 {a.type === 'GAME' && isFinished && (<div className="mt-3 p-3 bg-yellow-50 rounded-lg border border-yellow-100">
@@ -551,7 +551,7 @@ export const SchedulePage: React.FC<SchedulePageProps> = ({ activities, students
                             {!isGuardian && (
                                 <div className="flex gap-2">
                                     {a.type === 'GAME' && (
-                                      <button onClick={(e) => handleOpenFinishMatch(e, a)} className="p-1.5 text-orange-600 hover:bg-orange-50 rounded-lg transition-colors" title="Encerrar Partida (Lançar Placar)">
+                                      <button onClick={(e) => handleOpenFinishMatch(e, a)} className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" title="Encerrar Partida (Lançar Placar)">
                                         <Flag className="w-4 h-4" />
                                       </button>
                                     )}
@@ -575,7 +575,7 @@ export const SchedulePage: React.FC<SchedulePageProps> = ({ activities, students
                 <div className="bg-white rounded-xl border border-gray-100 flex flex-col shadow-sm">
                     <div className="p-4 border-b bg-gray-50 rounded-t-xl font-bold flex justify-between items-center text-sm">
                       <span className="truncate mr-2">Lista: {selectedActivity.title}</span>
-                      {selectedActivity.fee ? <span className="text-[10px] text-orange-600 font-black bg-orange-100 px-2 py-1 rounded whitespace-nowrap uppercase">R$ {selectedActivity.fee.toFixed(2)}</span> : null}
+                      {selectedActivity.fee ? <span className="text-[10px] text-blue-600 font-black bg-blue-100 px-2 py-1 rounded whitespace-nowrap uppercase">R$ {selectedActivity.fee.toFixed(2)}</span> : null}
                     </div>
                     <div className="p-2 max-h-[500px] overflow-y-auto">
                         {getAttendeesList(selectedActivity).map(s => {
@@ -640,14 +640,14 @@ export const SchedulePage: React.FC<SchedulePageProps> = ({ activities, students
               </div>
               <div className="bg-gray-50 p-4 rounded-xl border border-gray-100"><label className="block text-xs font-bold text-gray-500 uppercase mb-2">Filtrar por Jogo (Opcional)</label><select className="w-full border border-gray-200 rounded-lg p-2 text-sm bg-white outline-none focus:ring-2 focus:ring-primary-500" value={reportSelectedGameId} onChange={(e) => setReportSelectedGameId(e.target.value)}><option value="ALL">Todos os Jogos do Período</option>{gamesForSelect.map(game => (<option key={game.id} value={game.id}>{formatFriendlyDate(game.date)} - {game.title}</option>))}</select></div>
               <div className="pt-4 border-t space-y-3 h-[300px] overflow-y-auto pr-2">
-                <button onClick={generateTrainingReport} className="w-full flex items-center justify-between p-4 bg-gray-50 hover:bg-orange-50 border border-gray-100 hover:border-orange-200 rounded-xl transition-all group text-left">
-                  <div className="flex items-center gap-3"><div className="p-2 bg-orange-100 rounded-lg group-hover:bg-orange-200 transition-colors"><CheckSquare className="w-5 h-5 text-orange-600" /></div><div><span className="font-bold text-gray-800 block group-hover:text-orange-700">Frequência nos Treinos</span><span className="text-[10px] text-gray-500 uppercase font-bold tracking-tight">Presenças vs Faltas</span></div></div><ChevronRightIcon className="w-5 h-5 text-gray-300 group-hover:text-orange-500" />
+                <button onClick={generateTrainingReport} className="w-full flex items-center justify-between p-4 bg-gray-50 hover:bg-blue-50 border border-gray-100 hover:border-blue-200 rounded-xl transition-all group text-left">
+                  <div className="flex items-center gap-3"><div className="p-2 bg-blue-100 rounded-lg group-hover:bg-blue-200 transition-colors"><CheckSquare className="w-5 h-5 text-blue-600" /></div><div><span className="font-bold text-gray-800 block group-hover:text-blue-700">Frequência nos Treinos</span><span className="text-[10px] text-gray-500 uppercase font-bold tracking-tight">Presenças vs Faltas</span></div></div><ChevronRightIcon className="w-5 h-5 text-gray-300 group-hover:text-blue-500" />
                 </button>
                 <button onClick={generateGameAttendanceAndPaymentReport} className="w-full flex items-center justify-between p-4 bg-gray-50 hover:bg-indigo-50 border border-gray-100 hover:border-indigo-200 rounded-xl transition-all group text-left">
                   <div className="flex items-center gap-3"><div className="p-2 bg-indigo-100 rounded-lg group-hover:bg-indigo-200 transition-colors"><DollarSign className="w-5 h-5 text-indigo-600" /></div><div><span className="font-bold text-gray-800 block group-hover:text-indigo-700">Taxas e Presença em Jogos</span><span className="text-[10px] text-gray-500 uppercase font-bold tracking-tight">Status de Pagamento por Jogo</span></div></div><ChevronRightIcon className="w-5 h-5 text-gray-300 group-hover:text-indigo-500" />
                 </button>
                 <button onClick={generateGameGeneralReport} className="w-full flex items-center justify-between p-4 bg-gray-50 hover:bg-yellow-50 border border-gray-100 hover:border-yellow-200 rounded-xl transition-all group text-left">
-                  <div className="flex items-center gap-3"><div className="p-2 bg-yellow-100 rounded-lg group-hover:bg-yellow-200 transition-colors"><BarChart3 className="w-5 h-5 text-yellow-600" /></div><div><span className="font-bold text-gray-800 block group-hover:text-yellow-700">Geral dos Jogos</span><span className="text-[10px] text-gray-500 uppercase font-bold tracking-tight">Vitórias, Derrotas e Gols</span></div></div><ChevronRightIcon className="w-5 h-5 text-gray-300 group-hover:text-orange-500" />
+                  <div className="flex items-center gap-3"><div className="p-2 bg-yellow-100 rounded-lg group-hover:bg-yellow-200 transition-colors"><BarChart3 className="w-5 h-5 text-yellow-600" /></div><div><span className="font-bold text-gray-800 block group-hover:text-yellow-700">Geral dos Jogos</span><span className="text-[10px] text-gray-500 uppercase font-bold tracking-tight">Vitórias, Derrotas e Gols</span></div></div><ChevronRightIcon className="w-5 h-5 text-gray-300 group-hover:text-blue-500" />
                 </button>
                 <button onClick={generateStudentStatsReport} className="w-full flex items-center justify-between p-4 bg-gray-50 hover:bg-blue-50 border border-gray-100 hover:border-blue-200 rounded-xl transition-all group text-left">
                   <div className="flex items-center gap-3"><div className="p-2 bg-blue-100 rounded-lg group-hover:bg-blue-200 transition-colors"><Goal className="w-5 h-5 text-blue-600" /></div><div><span className="font-bold text-gray-800 block group-hover:text-blue-700">Estatísticas de Atletas</span><span className="text-[10px] text-gray-500 uppercase font-bold tracking-tight">Artilharia e Participações</span></div></div><ChevronRightIcon className="w-5 h-5 text-gray-300 group-hover:text-blue-500" />
@@ -663,7 +663,7 @@ export const SchedulePage: React.FC<SchedulePageProps> = ({ activities, students
       {showFinishModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
              <div className="bg-white rounded-2xl shadow-xl w-full max-md p-6 animate-in zoom-in duration-200">
-                <div className="flex justify-between items-center mb-6"><h3 className="text-xl font-bold text-gray-900 flex items-center gap-2"><Flag className="text-orange-600" /> Encerrar Partida</h3><button onClick={() => setShowFinishModal(false)} className="text-gray-400 hover:text-gray-600 transition-colors"><X className="w-6 h-6" /></button></div>
+                <div className="flex justify-between items-center mb-6"><h3 className="text-xl font-bold text-gray-900 flex items-center gap-2"><Flag className="text-blue-600" /> Encerrar Partida</h3><button onClick={() => setShowFinishModal(false)} className="text-gray-400 hover:text-gray-600 transition-colors"><X className="w-6 h-6" /></button></div>
                 <form onSubmit={handleFinishMatchSubmit} className="space-y-6">
                     <div className="p-4 bg-gray-50 rounded-xl border border-gray-100">
                       <p className="text-xs font-bold text-gray-400 uppercase mb-3 text-center tracking-widest">Placar Final</p>

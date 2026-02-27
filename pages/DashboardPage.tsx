@@ -245,18 +245,18 @@ export const DashboardPage: React.FC<DashboardProps> = ({ students, transactions
 
         {(role === UserRole.ADMIN || role === UserRole.RESPONSAVEL) && missingDocsCount > 0 && (
             <div 
-                className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between cursor-pointer hover:border-orange-300 transition-colors group"
+                className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between cursor-pointer hover:border-blue-300 transition-colors group"
                 onClick={() => onNavigate && onNavigate('students', { filter: 'MISSING_DOCS' })}
             >
                 <div>
-                <p className="text-sm text-gray-500 font-medium group-hover:text-orange-600 transition-colors">Doc. Pendente</p>
-                <h3 className="text-2xl font-bold text-orange-600 mt-1 flex items-center gap-2">
+                <p className="text-sm text-gray-500 font-medium group-hover:text-blue-600 transition-colors">Doc. Pendente</p>
+                <h3 className="text-2xl font-bold text-blue-600 mt-1 flex items-center gap-2">
                     {missingDocsCount}
-                    <span className="text-xs font-normal text-orange-400 bg-orange-50 px-2 py-0.5 rounded-full">Ver</span>
+                    <span className="text-xs font-normal text-blue-400 bg-blue-50 px-2 py-0.5 rounded-full">Ver</span>
                 </h3>
                 </div>
-                <div className="bg-orange-50 p-3 rounded-lg group-hover:bg-orange-100 transition-colors">
-                    <FileWarning className="w-6 h-6 text-orange-600" />
+                <div className="bg-blue-50 p-3 rounded-lg group-hover:bg-blue-100 transition-colors">
+                    <FileWarning className="w-6 h-6 text-blue-600" />
                 </div>
             </div>
         )}
@@ -338,14 +338,14 @@ export const DashboardPage: React.FC<DashboardProps> = ({ students, transactions
         </div>
 
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col h-full lg:min-h-[400px]">
-            <div className="p-4 border-b border-gray-100 bg-orange-50 rounded-t-xl flex justify-between items-center">
+            <div className="p-4 border-b border-gray-100 bg-blue-50 rounded-t-xl flex justify-between items-center">
                 <div className="flex items-center gap-2">
-                    <Cake className="w-5 h-5 text-orange-600" />
+                    <Cake className="w-5 h-5 text-blue-600" />
                     <h3 className="font-bold text-gray-800">Aniversariantes</h3>
                 </div>
                 <button 
                     onClick={handleExportBirthdays}
-                    className="p-1.5 bg-white text-orange-600 rounded-lg hover:bg-orange-100 transition-colors shadow-sm"
+                    className="p-1.5 bg-white text-blue-600 rounded-lg hover:bg-blue-100 transition-colors shadow-sm"
                     title="Exportar Lista"
                     disabled={birthdayStudents.length === 0}
                 >
@@ -357,7 +357,7 @@ export const DashboardPage: React.FC<DashboardProps> = ({ students, transactions
                 <select 
                     value={birthdayMonth} 
                     onChange={(e) => setBirthdayMonth(Number(e.target.value))}
-                    className="w-full p-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 bg-white"
+                    className="w-full p-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
                 >
                     {months.map((m, index) => (
                         <option key={index} value={index}>{m}</option>
@@ -372,7 +372,7 @@ export const DashboardPage: React.FC<DashboardProps> = ({ students, transactions
                             const day = student.birthDate.split('-')[2];
                             return (
                                 <div key={student.id} className="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg transition-colors border border-gray-50 hover:border-gray-100">
-                                    <div className="flex-shrink-0 w-10 h-10 bg-orange-100 text-orange-700 rounded-lg flex flex-col items-center justify-center">
+                                    <div className="flex-shrink-0 w-10 h-10 bg-blue-100 text-blue-700 rounded-lg flex flex-col items-center justify-center">
                                         <span className="text-xs font-bold uppercase">{months[Number(birthdayMonth)].substring(0,3)}</span>
                                         <span className="text-sm font-bold leading-none">{day}</span>
                                     </div>

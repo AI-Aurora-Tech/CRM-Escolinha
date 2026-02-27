@@ -369,7 +369,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
           startY: 35,
           head: [['Nome', 'Cat.', 'Idade', 'Posições', 'RG/CPF', 'Responsável', 'Telefone', 'Plano', 'Status', 'Atraso']],
           body: body,
-          headStyles: { fillColor: [249, 115, 22] },
+          headStyles: { fillColor: [59, 130, 246] },
           styles: { fontSize: 7, cellPadding: 2 }
       });
       doc.save("Relatorio_Completo_Alunos_Pintagueiras.pdf");
@@ -483,7 +483,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
 
       let message = `Olá *${studentForm.guardian.name}*, somos da *Pintagueiras*. ⚽\n\nConstatamos a pendência: *${tx.description}*\nVencimento: ${formatDate(tx.date)}\nValor: *R$ ${tx.amount.toFixed(2)}*`;
       
-      message += `\n\n*Pagamento via PIX (Chave Celular):* 11987019721\nNome: CLUBE DESPORTIVO MUNICIPAL JARDIM MARTINICA`;
+      message += `\n\n*Pagamento via PIX (Chave Celular):* 11987019721\nNome: CLUBE DESPORTIVO MUNICIPAL JARDIM PINTAGUEIRAS`;
 
       if (finalPaymentLink) {
           message += `\n\nOu, se preferir, pague via Cartão clicando no link abaixo:\n${finalPaymentLink}`;
@@ -952,7 +952,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
               const overdueBorderClass = overdueCount >= 3 
                   ? 'border-red-500 bg-red-50/50' 
                   : overdueCount === 2 
-                  ? 'border-orange-500 bg-orange-50/50' 
+                  ? 'border-blue-500 bg-blue-50/50' 
                   : overdueCount === 1 
                   ? 'border-red-200 bg-red-50/20' 
                   : 'border-gray-100';
@@ -1005,12 +1005,12 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                               </span>
                           )}
                           {hasMissingDocs(student) && !isGuardian && (
-                              <button onClick={() => sendDocReminder(student)} className="bg-orange-100 text-orange-700 text-[10px] px-2 py-1 rounded-lg font-black border border-orange-200 flex items-center gap-1">
+                              <button onClick={() => sendDocReminder(student)} className="bg-blue-100 text-blue-700 text-[10px] px-2 py-1 rounded-lg font-black border border-blue-200 flex items-center gap-1">
                                   <FileWarning className="w-3 h-3" /> DOCS PENDENTES
                               </button>
                           )}
                           {isMedicalExpired(student.medicalCertificateExpiry) && !isGuardian && (
-                              <button onClick={() => sendMedicalReminder(student)} className="bg-orange-100 text-orange-700 text-[10px] px-2 py-1 rounded-lg font-black border border-orange-200 flex items-center gap-1">
+                              <button onClick={() => sendMedicalReminder(student)} className="bg-blue-100 text-blue-700 text-[10px] px-2 py-1 rounded-lg font-black border border-blue-200 flex items-center gap-1">
                                   <HeartPulse className="w-3 h-3" /> ATESTADO VENCIDO
                               </button>
                           )}
@@ -1020,7 +1020,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                           <button onClick={() => handleGenerateContract(student)} className="flex-shrink-0 flex items-center justify-center gap-2 bg-gray-50 text-gray-700 p-2 rounded-lg text-xs font-bold border border-gray-200"><Printer className="w-3.5 h-3.5" /></button>
                           <button onClick={() => handleOpenAttendance(student)} className="flex-shrink-0 flex items-center justify-center gap-2 bg-purple-50 text-purple-700 p-2 rounded-lg text-xs font-bold border border-purple-100"><CalendarCheck className="w-3.5 h-3.5" /></button>
                           <button onClick={() => handleOpenHistory(student)} className={`flex-shrink-0 flex items-center justify-center gap-2 p-2 rounded-lg text-xs font-bold border ${overdueCount > 0 ? 'bg-gray-800 text-white' : 'bg-blue-50 text-blue-700 border-blue-100'}`}><History className="w-3.5 h-3.5" /></button>
-                          {!isGuardian && <button onClick={(e) => handleOpenAddOccurrence(e, student)} className="flex-shrink-0 flex items-center justify-center gap-2 bg-orange-50 text-orange-700 p-2 rounded-lg text-xs font-bold border border-orange-100"><MessageSquareWarning className="w-3.5 h-3.5" /></button>}
+                          {!isGuardian && <button onClick={(e) => handleOpenAddOccurrence(e, student)} className="flex-shrink-0 flex items-center justify-center gap-2 bg-blue-50 text-blue-700 p-2 rounded-lg text-xs font-bold border border-blue-100"><MessageSquareWarning className="w-3.5 h-3.5" /></button>}
                           <button onClick={() => handleOpenEdit(student)} className="flex-shrink-0 flex items-center justify-center gap-2 bg-gray-50 text-gray-700 p-2 rounded-lg text-xs font-bold border border-gray-200"><Edit className="w-3.5 h-3.5" /></button>
                       </div>
                   </div>
@@ -1056,7 +1056,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                 const rowBgClass = overdueCount >= 3 
                     ? 'bg-red-50 hover:bg-red-100/80' 
                     : overdueCount === 2 
-                    ? 'bg-orange-50 hover:bg-orange-100/80' 
+                    ? 'bg-blue-50 hover:bg-blue-100/80' 
                     : overdueCount === 1 
                     ? 'bg-red-50/30 hover:bg-red-50/60' 
                     : 'hover:bg-gray-50';
@@ -1079,7 +1079,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                               {hasMissingDocs(student) && !isGuardian && (
                                 <button 
                                   onClick={() => sendDocReminder(student)}
-                                  className="bg-orange-100 text-orange-600 text-[10px] px-1.5 py-0.5 rounded-full font-bold border border-orange-200 hover:bg-orange-200 transition-colors flex items-center gap-1"
+                                  className="bg-blue-100 text-blue-600 text-[10px] px-1.5 py-0.5 rounded-full font-bold border border-blue-200 hover:bg-blue-200 transition-colors flex items-center gap-1"
                                 >
                                   <FileWarning className="w-3 h-3" /> DOC
                                 </button>
@@ -1130,7 +1130,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                           {isMedicalExpired(student.medicalCertificateExpiry) && !isGuardian && (
                             <button 
                               onClick={() => sendMedicalReminder(student)}
-                              className="px-2 py-0.5 bg-orange-100 text-orange-600 rounded-md text-[10px] font-bold flex items-center gap-1 hover:bg-orange-200 transition-colors"
+                              className="px-2 py-0.5 bg-blue-100 text-blue-600 rounded-md text-[10px] font-bold flex items-center gap-1 hover:bg-blue-200 transition-colors"
                             >
                               <HeartPulse className="w-3 h-3" /> Atestado Vencido
                             </button>
@@ -1142,7 +1142,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                         <button onClick={() => handleGenerateContract(student)} className="text-gray-600 hover:text-gray-800 p-2 bg-gray-50 rounded-lg" title="Imprimir Contrato"><Printer className="w-4 h-4" /></button>
                         <button onClick={() => handleOpenAttendance(student)} className="text-purple-600 hover:text-purple-800 transition-colors p-2 bg-purple-50 rounded-lg" title="Frequência"><CalendarCheck className="w-4 h-4" /></button>
                         <button onClick={() => handleOpenHistory(student)} className={`p-2 rounded-lg transition-colors ${overdueCount > 0 ? 'bg-gray-800 text-white shadow-md' : 'bg-blue-50 text-blue-600'}`} title="Financeiro"><History className="w-4 h-4" /></button>
-                        {!isGuardian && <button onClick={(e) => handleOpenAddOccurrence(e, student)} className="text-orange-600 hover:text-orange-800 p-2 bg-orange-50 rounded-lg transition-colors" title="Enviar Ocorrência"><MessageSquareWarning className="w-4 h-4" /></button>}
+                        {!isGuardian && <button onClick={(e) => handleOpenAddOccurrence(e, student)} className="text-blue-600 hover:text-blue-800 p-2 bg-blue-50 rounded-lg transition-colors" title="Enviar Ocorrência"><MessageSquareWarning className="w-4 h-4" /></button>}
                         <button onClick={() => handleOpenEdit(student)} className="text-primary-600 hover:text-primary-800 p-2 bg-primary-50 rounded-lg" title="Editar"><Edit className="w-4 h-4" /></button>
                       </div>
                     </td>
@@ -1173,7 +1173,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                   {editingId && !isGuardian && (
                       <button 
                           onClick={(e) => handleOpenAddOccurrence(e, students.find(s => s.id === editingId)!)}
-                          className="flex items-center gap-2 px-3 py-1.5 bg-orange-100 border border-orange-200 rounded-lg text-xs font-bold text-orange-700 hover:bg-orange-200 transition-colors shadow-sm"
+                          className="flex items-center gap-2 px-3 py-1.5 bg-blue-100 border border-blue-200 rounded-lg text-xs font-bold text-blue-700 hover:bg-blue-200 transition-colors shadow-sm"
                       >
                           <MessageSquareWarning className="w-4 h-4" />
                           <span className="hidden sm:inline">Nova Ocorrência</span>
@@ -1291,12 +1291,12 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                             </div>
 
                             <div className="space-y-4">
-                                <h4 className="text-sm font-bold border-b pb-2 flex items-center gap-2"><FolderCheck className="w-4 h-4 text-orange-500" /> Documentação Obrigatória</h4>
+                                <h4 className="text-sm font-bold border-b pb-2 flex items-center gap-2"><FolderCheck className="w-4 h-4 text-blue-500" /> Documentação Obrigatória</h4>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
                                     {[ {id:'rg', label:'RG Atleta'}, {id:'cpf', label:'CPF Atleta'}, {id:'medical', label:'Atestado'}, {id:'address', label:'Endereço'}, {id:'school', label:'Escolar'} ].map(doc => {
                                         const val = studentForm.documents[doc.id] || { delivered: false, isDigital: false };
                                         return (
-                                            <div key={doc.id} className={`p-3 rounded-xl border transition-all ${val.delivered ? 'bg-green-50 border-green-200 shadow-inner' : 'bg-orange-50 border-orange-200'}`}>
+                                            <div key={doc.id} className={`p-3 rounded-xl border transition-all ${val.delivered ? 'bg-green-50 border-green-200 shadow-inner' : 'bg-blue-50 border-blue-200'}`}>
                                                 <p className="text-[10px] font-black uppercase text-gray-500 mb-2 truncate">{doc.label}</p>
                                                 <div className="space-y-2">
                                                     <label className="flex items-center gap-2 cursor-pointer"><input type="checkbox" checked={val.delivered} onChange={e => updateDoc(doc.id, 'delivered', e.target.checked)} className="rounded text-green-600" disabled={isGuardian} /><span className="text-xs font-bold text-gray-700">Entregue</span></label>
@@ -1486,10 +1486,10 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                     <div className="max-w-4xl mx-auto space-y-6">
                         <div className="flex justify-between items-center bg-white p-4 rounded-xl border shadow-sm">
                             <h4 className="font-bold text-gray-700 flex items-center gap-2">
-                                <MessageSquareWarning className="w-5 h-5 text-orange-600" /> Histórico de Comunicados
+                                <MessageSquareWarning className="w-5 h-5 text-blue-600" /> Histórico de Comunicados
                             </h4>
                             {!isGuardian && (
-                                <button onClick={(e) => handleOpenAddOccurrence(e, students.find(s => s.id === editingId)!)} className="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg text-xs font-black transition-colors shadow-sm flex items-center gap-2">
+                                <button onClick={(e) => handleOpenAddOccurrence(e, students.find(s => s.id === editingId)!)} className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-xs font-black transition-colors shadow-sm flex items-center gap-2">
                                     <Plus className="w-4 h-4" /> NOVO REGISTRO
                                 </button>
                             )}
@@ -1499,7 +1499,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                             {studentOccurrences.map(occ => (
                                 <div key={occ.id} className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
                                     <div className="flex justify-between items-start mb-2">
-                                        <span className="bg-orange-50 text-orange-700 text-[10px] font-black px-2 py-0.5 rounded uppercase border border-orange-100">Comunicado WA</span>
+                                        <span className="bg-blue-50 text-blue-700 text-[10px] font-black px-2 py-0.5 rounded uppercase border border-blue-100">Comunicado WA</span>
                                         <span className="text-xs text-gray-400 font-bold flex items-center gap-1"><Calendar className="w-3 h-3" /> {formatDate(occ.date)}</span>
                                     </div>
                                     <p className="text-sm text-gray-700 leading-relaxed italic">"{occ.description}"</p>
@@ -1597,26 +1597,26 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
           <div className="bg-white rounded-2xl shadow-xl w-full max-sm p-6 animate-in slide-in-from-bottom-4 duration-200">
             <div className="flex justify-between items-center mb-6">
                 <h3 className="text-lg font-black text-gray-800 uppercase tracking-tighter flex items-center gap-2">
-                    <MessageSquareWarning className="text-orange-600 w-5 h-5" /> Registrar Ocorrência
+                    <MessageSquareWarning className="text-blue-600 w-5 h-5" /> Registrar Ocorrência
                 </h3>
                 <button onClick={() => setShowOccurrenceModal(false)} className="text-gray-400 hover:text-gray-600 transition-colors">✕</button>
             </div>
             <form onSubmit={handleSaveOccurrence} className="space-y-4">
                 <div>
                     <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Descrição do Ocorrido</label>
-                    <textarea required rows={4} className="w-full border rounded-xl p-3 focus:ring-2 focus:ring-orange-500 outline-none text-sm" 
+                    <textarea required rows={4} className="w-full border rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none text-sm" 
                         placeholder="Descreva o comportamento, atraso ou aviso para o responsável..."
                         value={newOccurrence.description} onChange={e => setNewOccurrence({...newOccurrence, description: e.target.value})} />
                 </div>
                 <div>
                     <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Data da Ocorrência</label>
-                    <input required type="date" className="w-full border rounded-xl p-3 focus:ring-2 focus:ring-orange-500 outline-none" 
+                    <input required type="date" className="w-full border rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none" 
                         value={newOccurrence.date} onChange={e => setNewOccurrence({...newOccurrence, date: e.target.value})} />
                 </div>
                 <p className="text-[10px] text-gray-400 italic">Ao salvar, uma mensagem será enviada automaticamente para o WhatsApp do responsável cadastrado.</p>
                 <div className="pt-4 flex gap-3">
                     <button type="button" onClick={() => setShowOccurrenceModal(false)} className="flex-1 py-3 text-gray-500 font-bold hover:bg-gray-100 rounded-xl transition-colors">Cancelar</button>
-                    <button type="submit" className="flex-1 py-3 bg-orange-600 text-white rounded-xl font-black hover:bg-orange-700 transition-all shadow-lg shadow-orange-100">SALVAR E ENVIAR</button>
+                    <button type="submit" className="flex-1 py-3 bg-blue-600 text-white rounded-xl font-black hover:bg-blue-700 transition-all shadow-lg shadow-blue-100">SALVAR E ENVIAR</button>
                 </div>
             </form>
           </div>
