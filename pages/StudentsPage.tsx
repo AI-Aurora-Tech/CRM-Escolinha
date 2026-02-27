@@ -130,11 +130,23 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
     return new Date(dateString) < new Date();
   };
 
-  const hasMissingDocs = (student: Student) => {
-      if (!student.documents) return true;
+  const getMissingDocsList = (student: Student): string[] => {
+      if (!student.documents) return ['RG', 'CPF', 'Atestado Médico', 'Comp. Endereço', 'Comp. Escolar'];
+      const missing: string[] = [];
       const d = student.documents as any;
       const check = (doc: any) => (typeof doc === 'boolean' ? doc : doc?.delivered);
-      return !check(d.rg) || !check(d.cpf) || !check(d.medical) || !check(d.address) || !check(d.school);
+
+      if (!check(d.rg)) missing.push('RG');
+      if (!check(d.cpf)) missing.push('CPF');
+      if (!check(d.medical)) missing.push('Atestado Médico');
+      if (!check(d.address)) missing.push('Comp. Endereço');
+      if (!check(d.school)) missing.push('Comp. Escolar');
+      
+      return missing;
+  };
+
+  const hasMissingDocs = (student: Student) => {
+      return getMissingDocsList(student).length > 0;
   };
 
   const getStudentOverdueCount = (studentId: string) => {
@@ -400,7 +412,16 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
   const sendDocReminder = async (student: Student) => {
     const phone = student.guardian.phone.replace(/\D/g, '');
     if (!phone) return alert("Responsável sem telefone cadastrado.");
-    const msg = `Olá *${student.guardian.name}*, aqui é da escolinha *Pintagueiras*! ⚽\n\nNotamos que o(a) atleta *${student.name}* está com pendências na entrega da documentação obrigatória (RG, CPF, Comprovante de Endereço ou Escolar).\n\nPor favor, entregue o quanto antes na secretaria para regularizar a inscrição. Obrigado!`;
+
+    const missingDocs = getMissingDocsList(student);
+    if (missingDocs.length === 0) {
+        alert("Este aluno não possui documentos pendentes.");
+        return;
+    }
+
+    const docListString = missingDocs.map(doc => `• ${doc}`).join('\n');
+
+    const msg = `Olá *${student.guardian.name}*, aqui é da escolinha *Pintagueiras*! ⚽\n\nNotamos que o(a) atleta *${student.name}* está com os seguintes documentos pendentes:\n\n${docListString}\n\nPor favor, entregue o quanto antes na secretaria para regularizar a inscrição. Obrigado!`;
     const sent = await sendEvolutionMessage(phone, msg);
     if (sent) alert(`Lembrete de documentos enviado para ${student.guardian.name}!`);
     else alert("Erro ao enviar mensagem via Z-API. Verifique as configurações no menu Financeiro.");
