@@ -42,11 +42,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentUser, currentPage, onNa
       `}>
         <div className="p-6 border-b border-gray-800 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="bg-white p-2 rounded-full">
-                <img src="/logo.png" alt="Logo" className="w-8 h-8" />
+            <div className="bg-white p-1 rounded-lg shadow-lg">
+                <img src="/logo.png" alt="Pintagueiras FC" className="w-10 h-10 object-contain" />
             </div>
             <div>
-                <h1 className="font-bold text-lg leading-tight">Pintagueiras</h1>
+                <h1 className="font-bold text-lg leading-tight tracking-tight">Pintagueiras</h1>
+                <p className="text-[10px] text-blue-400 font-bold uppercase tracking-widest">Futebol Clube</p>
             </div>
           </div>
           <button onClick={onClose} className="md:hidden text-gray-400 hover:text-white">
@@ -80,7 +81,16 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentUser, currentPage, onNa
 
         <div className="absolute bottom-0 w-full p-4 border-t border-gray-800 bg-gray-900">
           <div className="flex items-center gap-3 mb-4">
-            <img src={currentUser.avatar} alt="User" className="w-10 h-10 rounded-full border-2 border-blue-500 bg-white" />
+            <div className="relative">
+              {currentUser.role === UserRole.ADMIN ? (
+                <div className="w-10 h-10 rounded-full border-2 border-blue-500 bg-white flex items-center justify-center shadow-lg overflow-hidden">
+                  <img src="/logo.png" alt="Admin" className="w-full h-full object-contain" />
+                </div>
+              ) : (
+                <img src={currentUser.avatar} alt="User" className="w-10 h-10 rounded-full border-2 border-blue-500 bg-white" />
+              )}
+              <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 border-2 border-gray-900 rounded-full"></div>
+            </div>
             <div className="overflow-hidden">
               <p className="text-sm font-semibold truncate">{currentUser.name}</p>
               <p className="text-xs text-gray-400 truncate capitalize">

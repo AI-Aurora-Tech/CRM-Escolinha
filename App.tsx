@@ -11,7 +11,7 @@ import { UsersPage } from './pages/UsersPage';
 import { AICoachPage } from './pages/AICoachPage';
 import { Student, Group, Plan, Transaction, Activity, User, UserRole, PaymentStatus, TransactionType, PaymentMethod, Occurrence } from './types';
 import { supabase } from './lib/supabaseClient';
-import { Menu, Loader2 } from 'lucide-react';
+import { Menu, Loader2, Shirt } from 'lucide-react';
 import { sendEvolutionMessage } from './services/evolutionService';
 
 const TX_SELECT_FIELDS = 'id, description, category, amount, type, date, payment_date, status, student_id, plan_id, payment_method, payment_link, external_reference, preference_id, recurrence';
@@ -710,8 +710,11 @@ function App() {
         <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
             <div className="bg-white rounded-2xl shadow-xl w-full max-md overflow-hidden">
                 <div className="bg-blue-600 p-8 text-center">
-                    <h1 className="text-2xl font-bold text-white mb-1">Pintagueiras</h1>
-                    <p className="text-blue-100">Gestão de Escolinha</p>
+                    <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-2xl overflow-hidden p-2">
+                        <img src="/logo.png" alt="Logo" className="w-full h-full object-contain" />
+                    </div>
+                    <h1 className="text-2xl font-bold text-white mb-1 tracking-tight">Pintagueiras</h1>
+                    <p className="text-blue-100 text-sm font-medium uppercase tracking-widest">Futebol Clube</p>
                 </div>
                 <div className="flex border-b">
                     <button className={`flex-1 py-4 text-sm font-semibold ${activeLoginTab === 'EMAIL' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500'}`} onClick={() => setActiveLoginTab('EMAIL')}>Gestão</button>

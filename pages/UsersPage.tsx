@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { User, UserRole } from '../types';
-import { Plus, Edit, Trash2, Shield, X, User as UserIcon, Mail, Key } from 'lucide-react';
+import { Plus, Edit, Trash2, Shield, X, User as UserIcon, Mail, Key, Shirt } from 'lucide-react';
 import { supabase } from '../lib/supabaseClient';
 
 interface UsersPageProps {
@@ -90,7 +90,7 @@ export const UsersPage: React.FC<UsersPageProps> = ({ users, onAddUser, onUpdate
         <h2 className="text-2xl font-bold text-gray-800">Usuários do Sistema</h2>
         <button 
           onClick={handleOpenNew}
-          className="flex items-center gap-2 bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors shadow-sm"
+          className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors shadow-sm"
         >
           <Plus className="w-4 h-4" />
           Novo Usuário
@@ -99,17 +99,23 @@ export const UsersPage: React.FC<UsersPageProps> = ({ users, onAddUser, onUpdate
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {users.map(user => (
-            <div key={user.id} className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:border-primary-200 transition-colors">
+            <div key={user.id} className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:border-blue-200 transition-colors">
                 <div className="flex justify-between items-start mb-4">
                     <div className="flex items-center gap-3">
-                        <img src={user.avatar} alt={user.name} className="w-12 h-12 rounded-full border border-gray-200" />
+                        {user.role === UserRole.ADMIN ? (
+                            <div className="w-12 h-12 rounded-full border border-gray-200 bg-white flex items-center justify-center overflow-hidden p-1 shadow-sm">
+                                <img src="/logo.png" alt="Admin" className="w-full h-full object-contain" />
+                            </div>
+                        ) : (
+                            <img src={user.avatar} alt={user.name} className="w-12 h-12 rounded-full border border-gray-200" />
+                        )}
                         <div>
                              <h3 className="text-lg font-bold text-gray-900 leading-tight">{user.name}</h3>
                              <p className="text-sm text-gray-500">{user.email}</p>
                         </div>
                     </div>
                     <div className="flex gap-2">
-                        <button onClick={() => handleOpenEdit(user)} className="p-1.5 text-gray-500 hover:text-primary-600 hover:bg-gray-50 rounded-lg transition-colors">
+                        <button onClick={() => handleOpenEdit(user)} className="p-1.5 text-gray-500 hover:text-blue-600 hover:bg-gray-50 rounded-lg transition-colors">
                             <Edit className="w-4 h-4" />
                         </button>
                         <button onClick={() => handleDelete(user.id)} className="p-1.5 text-gray-500 hover:text-red-600 hover:bg-gray-50 rounded-lg transition-colors">
@@ -120,10 +126,12 @@ export const UsersPage: React.FC<UsersPageProps> = ({ users, onAddUser, onUpdate
                 
                 <div className="flex items-center gap-3 pt-4 border-t border-gray-50 mt-4">
                     <span className={`px-2 py-1 rounded-full text-xs font-bold uppercase flex items-center gap-1 ${
-                        user.role === UserRole.ADMIN ? 'bg-purple-100 text-purple-700' : 'bg-blue-100 text-blue-700'
+                        user.role === UserRole.ADMIN ? 'bg-purple-100 text-purple-700' : 
+                        user.role === UserRole.PROFESSOR ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-700'
                     }`}>
                         <Shield className="w-3 h-3" />
-                        {user.role === UserRole.ADMIN ? 'Administrador' : 'Professor'}
+                        {user.role === UserRole.ADMIN ? 'Administrador' : 
+                         user.role === UserRole.PROFESSOR ? 'Professor' : 'Responsável'}
                     </span>
                 </div>
             </div>
@@ -143,7 +151,7 @@ export const UsersPage: React.FC<UsersPageProps> = ({ users, onAddUser, onUpdate
                         <label className="block text-sm font-medium text-gray-700 mb-1">Nome Completo</label>
                         <div className="relative">
                             <UserIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                            <input required type="text" className="w-full border rounded-lg p-2.5 pl-9 focus:ring-2 focus:ring-primary-500 outline-none" 
+                            <input required type="text" className="w-full border rounded-lg p-2.5 pl-9 focus:ring-2 focus:ring-blue-500 outline-none" 
                                 placeholder="Ex: João da Silva"
                                 value={form.name} onChange={e => setForm({...form, name: e.target.value})} />
                         </div>
@@ -152,7 +160,7 @@ export const UsersPage: React.FC<UsersPageProps> = ({ users, onAddUser, onUpdate
                         <label className="block text-sm font-medium text-gray-700 mb-1">Email (Login)</label>
                         <div className="relative">
                             <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                            <input required type="email" className="w-full border rounded-lg p-2.5 pl-9 focus:ring-2 focus:ring-primary-500 outline-none" 
+                            <input required type="email" className="w-full border rounded-lg p-2.5 pl-9 focus:ring-2 focus:ring-blue-500 outline-none" 
                                 placeholder="email@exemplo.com"
                                 value={form.email} onChange={e => setForm({...form, email: e.target.value})} />
                         </div>
@@ -165,7 +173,7 @@ export const UsersPage: React.FC<UsersPageProps> = ({ users, onAddUser, onUpdate
                             <Key className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                             <input 
                                 type="password" 
-                                className="w-full border rounded-lg p-2.5 pl-9 focus:ring-2 focus:ring-primary-500 outline-none" 
+                                className="w-full border rounded-lg p-2.5 pl-9 focus:ring-2 focus:ring-blue-500 outline-none" 
                                 placeholder="******"
                                 required={!editingId}
                                 value={form.password} onChange={e => setForm({...form, password: e.target.value})} 
@@ -214,7 +222,7 @@ export const UsersPage: React.FC<UsersPageProps> = ({ users, onAddUser, onUpdate
                         <button 
                             type="submit" 
                             disabled={loading}
-                            className="px-5 py-2.5 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 transition-colors shadow-lg shadow-primary-500/30 flex items-center gap-2"
+                            className="px-5 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors shadow-lg shadow-blue-500/30 flex items-center gap-2"
                         >
                             {loading && <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>}
                             Salvar Usuário
