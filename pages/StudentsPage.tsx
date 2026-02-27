@@ -138,7 +138,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
 
       if (!check(d.rg)) missing.push('RG');
       if (!check(d.cpf)) missing.push('CPF');
-      if (!check(d.medical)) missing.push('Atestado Médico');
+      if (!check(d.medical) || isMedicalExpired(student.medicalCertificateExpiry)) missing.push('Atestado Médico');
       if (!check(d.address)) missing.push('Comp. Endereço');
       if (!check(d.school)) missing.push('Comp. Escolar');
       
