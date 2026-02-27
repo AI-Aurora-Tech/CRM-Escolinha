@@ -67,7 +67,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentUser, currentPage, onNa
                 onClick={() => { onNavigate(item.id); onClose(); }}
                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors text-sm font-medium ${
                   isActive 
-                    ? 'bg-primary-600 text-white shadow-md' 
+                    ? 'bg-blue-600 text-white shadow-md' 
                     : 'text-gray-300 hover:bg-gray-800 hover:text-white'
                 }`}
               >
@@ -80,7 +80,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentUser, currentPage, onNa
 
         <div className="absolute bottom-0 w-full p-4 border-t border-gray-800 bg-gray-900">
           <div className="flex items-center gap-3 mb-4">
-            <img src={currentUser.avatar} alt="User" className="w-10 h-10 rounded-full border-2 border-primary-500 bg-white" />
+            <img src={currentUser.avatar} alt="User" className="w-10 h-10 rounded-full border-2 border-blue-500 bg-white" />
             <div className="overflow-hidden">
               <p className="text-sm font-semibold truncate">{currentUser.name}</p>
               <p className="text-xs text-gray-400 truncate capitalize">

@@ -709,26 +709,26 @@ function App() {
     return (
         <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
             <div className="bg-white rounded-2xl shadow-xl w-full max-md overflow-hidden">
-                <div className="bg-primary-600 p-8 text-center">
+                <div className="bg-blue-600 p-8 text-center">
                     <h1 className="text-2xl font-bold text-white mb-1">Pintagueiras</h1>
-                    <p className="text-primary-100">Gestão de Escolinha</p>
+                    <p className="text-blue-100">Gestão de Escolinha</p>
                 </div>
                 <div className="flex border-b">
-                    <button className={`flex-1 py-4 text-sm font-semibold ${activeLoginTab === 'EMAIL' ? 'text-primary-600 border-b-2 border-primary-600' : 'text-gray-500'}`} onClick={() => setActiveLoginTab('EMAIL')}>Gestão</button>
-                    <button className={`flex-1 py-4 text-sm font-semibold ${activeLoginTab === 'CPF' ? 'text-primary-600 border-b-2 border-primary-600' : 'text-gray-500'}`} onClick={() => setActiveLoginTab('CPF')}>Responsável</button>
+                    <button className={`flex-1 py-4 text-sm font-semibold ${activeLoginTab === 'EMAIL' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500'}`} onClick={() => setActiveLoginTab('EMAIL')}>Gestão</button>
+                    <button className={`flex-1 py-4 text-sm font-semibold ${activeLoginTab === 'CPF' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500'}`} onClick={() => setActiveLoginTab('CPF')}>Responsável</button>
                 </div>
                 <div className="p-8">
                     {activeLoginTab === 'EMAIL' ? (
                         <form onSubmit={handleEmailLogin} className="space-y-4">
                             <input type="email" placeholder="Email" className="w-full border rounded-lg p-3 outline-none" value={loginEmail} onChange={e => setLoginEmail(e.target.value)} />
                             <input type="password" placeholder="Senha" className="w-full border rounded-lg p-3 outline-none" value={loginPassword} onChange={e => setLoginPassword(e.target.value)} />
-                            <button className="w-full bg-primary-600 text-white py-3 rounded-lg font-bold">Entrar</button>
+                            <button className="w-full bg-blue-600 text-white py-3 rounded-lg font-bold">Entrar</button>
                         </form>
                     ) : (
                         <form onSubmit={handleCpfCheck} className="space-y-4">
                             <input type="text" placeholder="CPF do Responsável" className="w-full border rounded-lg p-3 outline-none" value={loginCpf} onChange={e => setLoginCpf(e.target.value)} />
                             <input type="password" placeholder="Senha (ou escolha uma no 1º acesso)" className="w-full border rounded-lg p-3 outline-none" value={loginPassword} onChange={e => setLoginPassword(e.target.value)} />
-                            <button className="w-full bg-primary-600 text-white py-3 rounded-lg font-bold">Acessar</button>
+                            <button className="w-full bg-blue-600 text-white py-3 rounded-lg font-bold">Acessar</button>
                         </form>
                     )}
                     {loginError && <p className="text-red-500 text-sm mt-4 text-center">{loginError}</p>}
@@ -740,7 +740,7 @@ function App() {
 
   return (
     <div className="flex bg-gray-50 min-h-screen">
-      {isLoading && <div className="fixed inset-0 z-[100] bg-black/20 flex items-center justify-center"><Loader2 className="animate-spin text-primary-600 w-12 h-12" /></div>}
+      {isLoading && <div className="fixed inset-0 z-[100] bg-black/20 flex items-center justify-center"><Loader2 className="animate-spin text-blue-600 w-12 h-12" /></div>}
       <Sidebar currentUser={currentUser!} currentPage={currentPage} onNavigate={handleNavigate} onLogout={handleLogout} isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
       <main className="flex-1 md:ml-64 p-4 md:p-8">
         <header className="mb-8 flex items-center gap-4">
