@@ -43,7 +43,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentUser, currentPage, onNa
         <div className="p-6 border-b border-gray-800 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="bg-white p-2 rounded-full">
-                <img src="/logo.svg" alt="Logo" className="w-8 h-8" />
+                <img src="/logo.png" alt="Logo" className="w-8 h-8" />
             </div>
             <div>
                 <h1 className="font-bold text-lg leading-tight">Pintagueiras</h1>
