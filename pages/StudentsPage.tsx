@@ -834,77 +834,77 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
   return (
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <h2 className="text-xl md:text-2xl font-bold text-blue-800">{isGuardian ? 'Meus Filhos' : 'Alunos e Responsáveis'}</h2>
+        <h2 className="text-xl md:text-2xl font-bold text-gray-800">{isGuardian ? 'Meus Filhos' : 'Alunos e Responsáveis'}</h2>
         {!isGuardian && (
             <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2 w-full md:w-auto">
-                <button onClick={handleManualTuitionGen} disabled={isGenerating} className="justify-center flex items-center gap-2 bg-blue-700 text-white px-3 py-2 rounded-lg hover:bg-blue-800 transition-colors shadow-sm text-xs sm:text-sm disabled:opacity-50">
+                <button onClick={handleManualTuitionGen} disabled={isGenerating} className="justify-center flex items-center gap-2 bg-gray-700 text-white px-3 py-2 rounded-lg hover:bg-gray-800 transition-colors shadow-sm text-xs sm:text-sm disabled:opacity-50">
                     {isGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Settings2 className="w-4 h-4" />}
                     <span>Mensalidades</span>
                 </button>
-                <button onClick={handleBatchSendCharges} disabled={isGenerating} className="justify-center flex items-center gap-2 bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition-colors shadow-sm text-xs sm:text-sm disabled:opacity-50">
+                <button onClick={handleBatchSendCharges} disabled={isGenerating} className="justify-center flex items-center gap-2 bg-purple-600 text-white px-3 py-2 rounded-lg hover:bg-purple-700 transition-colors shadow-sm text-xs sm:text-sm disabled:opacity-50">
                     {isGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}
                     <span>Cobrar</span>
                 </button>
                 <input type="file" ref={fileInputRef} className="hidden" />
-                <button onClick={() => fileInputRef.current?.click()} className="justify-center flex items-center gap-2 bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 transition-colors shadow-sm text-xs sm:text-sm"><Upload className="w-4 h-4" /><span>Importar</span></button>
-                <button onClick={handleDownloadTemplate} className="justify-center flex items-center gap-2 bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition-colors shadow-sm text-xs sm:text-sm"><FileSpreadsheet className="w-4 h-4" /><span>Modelo</span></button>
-                <button onClick={handleExportExcel} className="justify-center flex items-center gap-2 bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition-colors shadow-sm text-xs sm:text-sm"><Download className="w-4 h-4" /><span>Excel</span></button>
-                <button onClick={handleExportPDF} className="justify-center flex items-center gap-2 bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition-colors shadow-sm text-xs sm:text-sm"><FileText className="w-4 h-4" /><span>PDF</span></button>
-                <button onClick={handleOpenNew} className="col-span-2 justify-center flex items-center gap-2 bg-blue-800 text-white px-4 py-2 rounded-lg hover:bg-blue-900 transition-colors shadow-sm text-xs sm:text-sm"><Plus className="w-4 h-4" /><span>Novo Aluno</span></button>
+                <button onClick={() => fileInputRef.current?.click()} className="justify-center flex items-center gap-2 bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition-colors shadow-sm text-xs sm:text-sm"><Upload className="w-4 h-4" /><span>Importar</span></button>
+                <button onClick={handleDownloadTemplate} className="justify-center flex items-center gap-2 bg-gray-600 text-white px-3 py-2 rounded-lg hover:bg-gray-700 transition-colors shadow-sm text-xs sm:text-sm"><FileSpreadsheet className="w-4 h-4" /><span>Modelo</span></button>
+                <button onClick={handleExportExcel} className="justify-center flex items-center gap-2 bg-green-600 text-white px-3 py-2 rounded-lg hover:bg-green-700 transition-colors shadow-sm text-xs sm:text-sm"><Download className="w-4 h-4" /><span>Excel</span></button>
+                <button onClick={handleExportPDF} className="justify-center flex items-center gap-2 bg-red-600 text-white px-3 py-2 rounded-lg hover:bg-red-700 transition-colors shadow-sm text-xs sm:text-sm"><FileText className="w-4 h-4" /><span>PDF</span></button>
+                <button onClick={handleOpenNew} className="col-span-2 justify-center flex items-center gap-2 bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors shadow-sm text-xs sm:text-sm"><Plus className="w-4 h-4" /><span>Novo Aluno</span></button>
             </div>
         )}
       </div>
 
       {!isGuardian && (
-        <div className="bg-white p-4 rounded-xl shadow-sm border border-blue-100 flex flex-col gap-4">
+        <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col gap-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-4">
                 <div className="lg:col-span-3 relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-400 w-5 h-5" />
-                    <input type="text" placeholder="Buscar atleta ou responsável..." className="w-full pl-10 pr-4 py-2 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 transition-shadow" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                    <input type="text" placeholder="Buscar atleta ou responsável..." className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 transition-shadow" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                 </div>
                 <div className="lg:col-span-1 relative">
-                    <input type="number" placeholder="Idade" className="w-full px-3 py-2 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 transition-shadow" value={ageFilter} onChange={(e) => setAgeFilter(e.target.value)} />
+                    <input type="number" placeholder="Idade" className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 transition-shadow" value={ageFilter} onChange={(e) => setAgeFilter(e.target.value)} />
                 </div>
                 <div className="lg:col-span-2 relative">
-                    <Target className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-400 w-4 h-4" />
-                    <select className="w-full pl-9 pr-4 py-2 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 transition-shadow bg-white text-gray-600 text-sm" value={positionFilter} onChange={(e) => setPositionFilter(e.target.value)}>
+                    <Target className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                    <select className="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 transition-shadow bg-white text-gray-600 text-sm" value={positionFilter} onChange={(e) => setPositionFilter(e.target.value)}>
                         <option value="ALL">Posição: Todas</option>
                         {positionsList.map(pos => <option key={pos} value={pos}>{pos}</option>)}
                     </select>
                 </div>
                 <div className="lg:col-span-2 relative" ref={categoryDropdownRef}>
-                    <div className="w-full pl-3 pr-4 py-2 border border-blue-200 rounded-lg bg-white text-gray-600 text-sm cursor-pointer flex items-center justify-between hover:border-primary-300 transition-colors" onClick={() => setIsCategoryDropdownOpen(!isCategoryDropdownOpen)}>
+                    <div className="w-full pl-3 pr-4 py-2 border border-gray-200 rounded-lg bg-white text-gray-600 text-sm cursor-pointer flex items-center justify-between hover:border-primary-300 transition-colors" onClick={() => setIsCategoryDropdownOpen(!isCategoryDropdownOpen)}>
                         <div className="flex items-center gap-2 overflow-hidden truncate">
-                            <Layers className="w-4 h-4 flex-shrink-0 text-blue-400" />
+                            <Layers className="w-4 h-4 flex-shrink-0" />
                             <span className="truncate">{selectedCategories.length > 0 ? `${selectedCategories.length} Sel.` : 'Categorias'}</span>
                         </div>
                         <ChevronDown className={`w-4 h-4 transition-transform ${isCategoryDropdownOpen ? 'rotate-180' : ''}`} />
                     </div>
                     {isCategoryDropdownOpen && (
-                        <div className="absolute top-full left-0 w-full mt-1 bg-white border border-blue-200 rounded-lg shadow-xl z-20 max-h-60 overflow-y-auto p-1 animate-in fade-in zoom-in-95 duration-100">
-                            <div className="p-2 text-xs text-blue-400 font-medium uppercase tracking-wider border-b border-blue-100 mb-1">Categorias</div>
+                        <div className="absolute top-full left-0 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-xl z-20 max-h-60 overflow-y-auto p-1 animate-in fade-in zoom-in-95 duration-100">
+                            <div className="p-2 text-xs text-gray-400 font-medium uppercase tracking-wider border-b border-gray-50 mb-1">Categorias</div>
                             {availableCategories.map(cat => (
                                 <label key={cat} className="flex items-center gap-2 p-2 hover:bg-primary-50 rounded-md cursor-pointer text-sm transition-colors">
-                                    <input type="checkbox" checked={selectedCategories.includes(cat)} onChange={() => toggleCategory(cat)} className="rounded border-blue-300 text-primary-600 focus:ring-primary-500 w-4 h-4" />
+                                    <input type="checkbox" checked={selectedCategories.includes(cat)} onChange={() => toggleCategory(cat)} className="rounded border-gray-300 text-primary-600 focus:ring-primary-500 w-4 h-4" />
                                     <span>{cat}</span>
                                 </label>
                             ))}
                             {selectedCategories.length > 0 && (
-                                <button onClick={() => { setSelectedCategories([]); setIsCategoryDropdownOpen(false); }} className="w-full text-center text-xs text-red-500 hover:bg-red-50 p-2 rounded mt-1 border-t border-blue-100">Limpar</button>
+                                <button onClick={() => { setSelectedCategories([]); setIsCategoryDropdownOpen(false); }} className="w-full text-center text-xs text-red-500 hover:bg-red-50 p-2 rounded mt-1 border-t border-gray-50">Limpar</button>
                             )}
                         </div>
                     )}
                 </div>
                 <div className="lg:col-span-2 relative">
-                    <Ticket className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-400 w-4 h-4" />
-                    <select className="w-full pl-9 pr-4 py-2 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 transition-shadow bg-white text-gray-600 text-sm" value={planFilter} onChange={(e) => setPlanFilter(e.target.value)}>
+                    <Ticket className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                    <select className="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 transition-shadow bg-white text-gray-600 text-sm" value={planFilter} onChange={(e) => setPlanFilter(e.target.value)}>
                         <option value="ALL">Plano: Todos</option>
                         {plans.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
                     </select>
                 </div>
                 <div className="lg:col-span-2 relative">
-                    <ShieldCheck className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-400 w-5 h-5" />
-                    <select className="w-full pl-9 pr-4 py-2 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 transition-shadow bg-white text-gray-600 text-sm" value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+                    <ShieldCheck className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                    <select className="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 transition-shadow bg-white text-gray-600 text-sm" value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
                         <option value="ALL">Status: Todos</option>
                         <option value="ACTIVE">Ativos</option>
                         <option value="INACTIVE">Inativos</option>
@@ -913,24 +913,24 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-4">
                 <div className="lg:col-span-3 relative">
-                    <Wallet className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-400 w-5 h-5" />
-                    <select className="w-full pl-9 pr-4 py-2 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 transition-shadow bg-white text-gray-600 text-sm" value={financeFilter} onChange={(e) => setFinanceFilter(e.target.value)}>
+                    <Wallet className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                    <select className="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 transition-shadow bg-white text-gray-600 text-sm" value={financeFilter} onChange={(e) => setFinanceFilter(e.target.value)}>
                         <option value="ALL">Financeiro: Todos</option>
                         <option value="DEFAULTING">Inadimplentes</option>
                         <option value="OK">Em dia</option>
                     </select>
                 </div>
                 <div className="lg:col-span-2 relative">
-                    <FolderCheck className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-400 w-5 h-5" />
-                    <select className="w-full pl-9 pr-2 py-2 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 transition-shadow bg-white text-gray-600 text-sm" value={docsFilter} onChange={(e) => setDocsFilter(e.target.value)}>
+                    <FolderCheck className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                    <select className="w-full pl-9 pr-2 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 transition-shadow bg-white text-gray-600 text-sm" value={docsFilter} onChange={(e) => setDocsFilter(e.target.value)}>
                         <option value="ALL">Docs: Todos</option>
                         <option value="MISSING_DOCS">Docs: Pendentes</option>
                         <option value="OK">Docs: OK</option>
                     </select>
                 </div>
                 <div className="lg:col-span-2 relative">
-                    <HeartPulse className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-400 w-4 h-4" />
-                    <select className="w-full pl-9 pr-2 py-2 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 transition-shadow bg-white text-gray-600 text-sm" value={medicalFilter} onChange={(e) => setMedicalFilter(e.target.value)}>
+                    <HeartPulse className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                    <select className="w-full pl-9 pr-2 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 transition-shadow bg-white text-gray-600 text-sm" value={medicalFilter} onChange={(e) => setMedicalFilter(e.target.value)}>
                         <option value="ALL">Médico: Todos</option>
                         <option value="VALID">Atestado OK</option>
                         <option value="EXPIRED">Vencido</option>
@@ -949,48 +949,56 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
               const groupNames = (student.groupIds || []).map(gid => groups.find(g => g.id === gid)?.name).filter(Boolean).join(', ') || 'Sem Grupo';
               
               // Definir cores conforme o número de mensalidades atrasadas
-              const overdueBorderClass = overdueCount > 0 
+              const overdueBorderClass = overdueCount >= 3 
+                  ? 'border-red-500 bg-red-50/50' 
+                  : overdueCount === 2 
                   ? 'border-blue-500 bg-blue-50/50' 
-                  : 'border-blue-100';
+                  : overdueCount === 1 
+                  ? 'border-red-200 bg-red-50/20' 
+                  : 'border-gray-100';
 
-              const overdueBadgeClass = 'bg-blue-600 text-white';
+              const overdueBadgeClass = overdueCount >= 3
+                  ? 'bg-red-600 text-white'
+                  : overdueCount === 2
+                  ? 'bg-orange-500 text-white'
+                  : 'bg-red-100 text-red-700';
               
               return (
                   <div key={student.id} className={`bg-white p-4 rounded-xl shadow-sm border transition-all ${overdueBorderClass}`}>
                       <div className="flex items-start justify-between gap-3 mb-4">
                           <div className="flex items-center gap-3">
-                              <img src={student.photoUrl} alt="" className="w-14 h-14 rounded-full object-cover bg-blue-200 border-2 border-white shadow-sm" />
+                              <img src={student.photoUrl} alt="" className="w-14 h-14 rounded-full object-cover bg-gray-200 border-2 border-white shadow-sm" />
                               <div>
-                                  <h4 className="font-bold text-blue-900 text-base leading-tight">{student.name}</h4>
-                                  <span className="text-xs text-blue-500 font-medium">Sub-{currentYear - birthYear} • {calculateAge(student.birthDate)} anos</span>
+                                  <h4 className="font-bold text-gray-900 text-base leading-tight">{student.name}</h4>
+                                  <span className="text-xs text-gray-500 font-medium">Sub-{currentYear - birthYear} • {calculateAge(student.birthDate)} anos</span>
                               </div>
                           </div>
-                          <span className={`px-2 py-1 rounded-full text-[10px] font-black uppercase border ${student.active ? 'bg-blue-100 text-blue-700 border-blue-200' : 'bg-gray-100 text-gray-700 border-gray-200'}`}>
+                          <span className={`px-2 py-1 rounded-full text-[10px] font-black uppercase border ${student.active ? 'bg-green-100 text-green-700 border-green-200' : 'bg-red-100 text-red-700 border-red-200'}`}>
                               {student.active ? 'Ativo' : 'Inat.'}
                           </span>
                       </div>
 
                       <div className="grid grid-cols-1 gap-2 mb-4">
                           <div className="flex items-center gap-2 text-xs">
-                              <UserIcon className="w-3.5 h-3.5 text-blue-400" />
-                              <span className="text-blue-800 font-bold">{student.guardian.name}</span>
+                              <UserIcon className="w-3.5 h-3.5 text-gray-400" />
+                              <span className="text-gray-600 font-bold">{student.guardian.name}</span>
                               {student.guardian.phone && (
-                                  <a href={`https://wa.me/55${student.guardian.phone.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="bg-blue-50 text-white p-1 rounded-md ml-auto">
-                                      <MessageCircle className="w-3 h-3 text-blue-600" />
+                                  <a href={`https://wa.me/55${student.guardian.phone.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="bg-green-50 text-white p-1 rounded-md ml-auto">
+                                      <MessageCircle className="w-3 h-3 text-green-600" />
                                   </a>
                               )}
                           </div>
                           <div className="flex items-center gap-2 text-[11px]">
-                              <Target className="w-3.5 h-3.5 text-blue-400" />
-                              <span className="text-blue-500 truncate">{(student.positions || []).join(', ') || 'N/A'}</span>
+                              <Target className="w-3.5 h-3.5 text-gray-400" />
+                              <span className="text-gray-500 truncate">{(student.positions || []).join(', ') || 'N/A'}</span>
                           </div>
                           <div className="flex items-center gap-2 text-[11px]">
-                              <Layers className="w-3.5 h-3.5 text-blue-400" />
-                              <span className="text-blue-500 truncate">{groupNames}</span>
+                              <Layers className="w-3.5 h-3.5 text-gray-400" />
+                              <span className="text-gray-500 truncate">{groupNames}</span>
                           </div>
                       </div>
 
-                      <div className="flex flex-wrap gap-2 mb-4 border-t border-blue-100 pt-3">
+                      <div className="flex flex-wrap gap-2 mb-4 border-t border-gray-50 pt-3">
                           {overdueCount > 0 && (
                               <span className={`${overdueBadgeClass} text-[10px] px-2 py-1 rounded-lg font-black border border-black/5 flex items-center gap-1 animate-pulse`}>
                                   <AlertTriangle className="w-3 h-3" /> {overdueCount} MENSALIDADES ATRASADAS
@@ -1009,59 +1017,63 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                       </div>
 
                       <div className="flex items-center gap-2 overflow-x-auto pb-2">
-                          <button onClick={() => handleGenerateContract(student)} className="flex-shrink-0 flex items-center justify-center gap-2 bg-blue-50 text-blue-700 p-2 rounded-lg text-xs font-bold border border-blue-100"><Printer className="w-3.5 h-3.5" /></button>
-                          <button onClick={() => handleOpenAttendance(student)} className="flex-shrink-0 flex items-center justify-center gap-2 bg-blue-50 text-blue-700 p-2 rounded-lg text-xs font-bold border border-blue-100"><CalendarCheck className="w-3.5 h-3.5" /></button>
-                          <button onClick={() => handleOpenHistory(student)} className={`flex-shrink-0 flex items-center justify-center gap-2 p-2 rounded-lg text-xs font-bold border ${overdueCount > 0 ? 'bg-blue-800 text-white' : 'bg-blue-50 text-blue-700 border-blue-100'}`}><History className="w-3.5 h-3.5" /></button>
-                          {!isGuardian && (
-                              <>
-                                  <button onClick={(e) => handleOpenAddOccurrence(e, student)} className="flex-shrink-0 flex items-center justify-center gap-2 bg-blue-50 text-blue-700 p-2 rounded-lg text-xs font-bold border border-blue-100"><MessageSquareWarning className="w-3.5 h-3.5" /></button>
-                                  <button onClick={() => handleOpenEdit(student)} className="flex-shrink-0 flex items-center justify-center gap-2 bg-blue-50 text-blue-700 p-2 rounded-lg text-xs font-bold border border-blue-100"><Edit className="w-3.5 h-3.5" /></button>
-                              </>
-                          )}
+                          <button onClick={() => handleGenerateContract(student)} className="flex-shrink-0 flex items-center justify-center gap-2 bg-gray-50 text-gray-700 p-2 rounded-lg text-xs font-bold border border-gray-200"><Printer className="w-3.5 h-3.5" /></button>
+                          <button onClick={() => handleOpenAttendance(student)} className="flex-shrink-0 flex items-center justify-center gap-2 bg-purple-50 text-purple-700 p-2 rounded-lg text-xs font-bold border border-purple-100"><CalendarCheck className="w-3.5 h-3.5" /></button>
+                          <button onClick={() => handleOpenHistory(student)} className={`flex-shrink-0 flex items-center justify-center gap-2 p-2 rounded-lg text-xs font-bold border ${overdueCount > 0 ? 'bg-gray-800 text-white' : 'bg-blue-50 text-blue-700 border-blue-100'}`}><History className="w-3.5 h-3.5" /></button>
+                          {!isGuardian && <button onClick={(e) => handleOpenAddOccurrence(e, student)} className="flex-shrink-0 flex items-center justify-center gap-2 bg-blue-50 text-blue-700 p-2 rounded-lg text-xs font-bold border border-blue-100"><MessageSquareWarning className="w-3.5 h-3.5" /></button>}
+                          <button onClick={() => handleOpenEdit(student)} className="flex-shrink-0 flex items-center justify-center gap-2 bg-gray-50 text-gray-700 p-2 rounded-lg text-xs font-bold border border-gray-200"><Edit className="w-3.5 h-3.5" /></button>
                       </div>
                   </div>
               );
           })}
           {filteredStudents.length === 0 && (
-              <div className="p-12 text-center text-blue-400 bg-white rounded-xl border border-dashed"><Calculator className="w-10 h-10 mx-auto mb-2 opacity-20" /><p>Nenhum atleta encontrado.</p></div>
+              <div className="p-12 text-center text-gray-400 bg-white rounded-xl border border-dashed"><Calculator className="w-10 h-10 mx-auto mb-2 opacity-20" /><p>Nenhum atleta encontrado.</p></div>
           )}
       </div>
 
       {/* VISUALIZAÇÃO DESKTOP (Somente em telas grandes LG+ - 1024px) */}
-      <div className="hidden lg:block bg-white rounded-xl shadow-sm border border-blue-100 overflow-hidden">
+      <div className="hidden lg:block bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
          <div className="overflow-x-auto min-w-0">
           <table className="w-full text-left border-collapse min-w-[1000px]">
             <thead>
-              <tr className="bg-blue-50 border-b border-blue-100">
-                <th className="px-6 py-4 text-xs font-semibold text-blue-500 uppercase tracking-wider">Aluno</th>
-                <th className="px-6 py-4 text-xs font-semibold text-blue-500 uppercase tracking-wider">Categoria</th>
-                <th className="px-6 py-4 text-xs font-semibold text-blue-500 uppercase tracking-wider">Posição</th>
-                <th className="px-6 py-4 text-xs font-semibold text-blue-500 uppercase tracking-wider">Grupos</th>
-                <th className="px-6 py-4 text-xs font-semibold text-blue-500 uppercase tracking-wider">Responsável</th>
-                <th className="px-6 py-4 text-xs font-semibold text-blue-500 uppercase tracking-wider">Status</th>
-                <th className="px-6 py-4 text-xs font-semibold text-blue-500 uppercase tracking-wider text-right">Ações</th>
+              <tr className="bg-gray-50 border-b border-gray-100">
+                <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Aluno</th>
+                <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Categoria</th>
+                <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Posição</th>
+                <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Grupos</th>
+                <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Responsável</th>
+                <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
+                <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">Ações</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-blue-100">
+            <tbody className="divide-y divide-gray-100">
               {filteredStudents.map((student) => {
                 const groupNames = (student.groupIds || []).map(gid => groups.find(g => g.id === gid)?.name).filter(Boolean).join(', ') || 'Sem Grupo';
                 const overdueCount = getStudentOverdueCount(student.id);
                 const currentYear = new Date().getFullYear(); const birthYear = student.birthDate ? parseInt(student.birthDate.split('-')[0]) : currentYear;
                 
                 // Definir cor da linha conforme número de atrasos
-                const rowBgClass = overdueCount > 0 
+                const rowBgClass = overdueCount >= 3 
+                    ? 'bg-red-50 hover:bg-red-100/80' 
+                    : overdueCount === 2 
                     ? 'bg-blue-50 hover:bg-blue-100/80' 
-                    : 'hover:bg-blue-50';
+                    : overdueCount === 1 
+                    ? 'bg-red-50/30 hover:bg-red-50/60' 
+                    : 'hover:bg-gray-50';
 
-                const overdueBadgeClass = 'bg-blue-600 text-white';
+                const overdueBadgeClass = overdueCount >= 3
+                    ? 'bg-red-600 text-white'
+                    : overdueCount === 2
+                    ? 'bg-orange-500 text-white'
+                    : 'bg-red-100 text-red-600 border-red-200';
 
                 return (
                   <tr key={student.id} className={`transition-colors ${rowBgClass}`}>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <img src={student.photoUrl} alt="" className="w-10 h-10 rounded-full object-cover bg-blue-200" />
+                        <img src={student.photoUrl} alt="" className="w-10 h-10 rounded-full object-cover bg-gray-200" />
                         <div>
-                          <div className="font-medium text-blue-900 flex items-center gap-2">
+                          <div className="font-medium text-gray-900 flex items-center gap-2">
                               {student.name}
                               {overdueCount > 0 && (<span className={`${overdueBadgeClass} text-[10px] px-1.5 py-0.5 rounded-full font-bold border flex items-center gap-1 shadow-sm`}><AlertTriangle className="w-3 h-3" /> {overdueCount} Pend.</span>)}
                               {hasMissingDocs(student) && !isGuardian && (
@@ -1073,14 +1085,14 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                                 </button>
                               )}
                           </div>
-                          <div className="text-xs text-blue-500 flex items-center gap-1.5">
+                          <div className="text-xs text-gray-500 flex items-center gap-1.5">
                               <span>Tel: {student.phone}</span>
                               {student.phone && (
                                 <a 
                                   href={`https://wa.me/55${student.phone.replace(/\D/g, '')}`} 
                                   target="_blank" 
                                   rel="noopener noreferrer" 
-                                  className="text-blue-500 hover:text-blue-600 transition-colors p-0.5 hover:bg-blue-50 rounded"
+                                  className="text-green-500 hover:text-green-600 transition-colors p-0.5 hover:bg-green-50 rounded"
                                   title="Chamar Aluno no WhatsApp"
                                 >
                                   <MessageCircle className="w-3.5 h-3.5" />
@@ -1090,20 +1102,20 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4"><span className="bg-blue-100 text-blue-700 px-2 py-1 rounded-md text-xs font-bold border border-blue-200">Sub-{currentYear - birthYear}</span></td>
-                    <td className="px-6 py-4"><span className="text-sm text-blue-600">{(student.positions || []).slice(0, 2).join(', ') || '-'}</span></td>
-                    <td className="px-6 py-4 text-sm text-blue-600 truncate max-w-[200px]" title={groupNames}>{groupNames}</td>
+                    <td className="px-6 py-4"><span className="bg-gray-100 text-gray-700 px-2 py-1 rounded-md text-xs font-bold border">Sub-{currentYear - birthYear}</span></td>
+                    <td className="px-6 py-4"><span className="text-sm text-gray-600">{(student.positions || []).slice(0, 2).join(', ') || '-'}</span></td>
+                    <td className="px-6 py-4 text-sm text-gray-600 truncate max-w-[200px]" title={groupNames}>{groupNames}</td>
                     <td className="px-6 py-4">
                       <div className="flex flex-col">
-                        <span className="text-sm font-medium text-blue-900">{student.guardian.name}</span>
-                        <div className="text-xs text-blue-500 flex items-center gap-1.5">
+                        <span className="text-sm font-medium text-gray-900">{student.guardian.name}</span>
+                        <div className="text-xs text-gray-500 flex items-center gap-1.5">
                             <span>{student.guardian.phone}</span>
                             {student.guardian.phone && (
                                 <a 
                                   href={`https://wa.me/55${student.guardian.phone.replace(/\D/g, '')}`} 
                                   target="_blank" 
                                   rel="noopener noreferrer" 
-                                  className="text-blue-500 hover:text-blue-600 transition-colors p-0.5 hover:bg-blue-50 rounded"
+                                  className="text-green-500 hover:text-green-600 transition-colors p-0.5 hover:bg-green-50 rounded"
                                   title="Chamar Responsável no WhatsApp"
                                 >
                                   <MessageCircle className="w-3.5 h-3.5" />
@@ -1114,7 +1126,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex flex-col gap-1">
-                          <span className={`w-fit px-3 py-1 rounded-full text-xs font-medium border ${student.active ? 'bg-blue-50 text-blue-700 border-blue-200' : 'bg-gray-100 text-gray-700 border-gray-200'}`}>{student.active ? 'Ativo' : 'Inativo'}</span>
+                          <span className={`w-fit px-3 py-1 rounded-full text-xs font-medium border ${student.active ? 'bg-green-50 text-green-700 border-green-200' : 'bg-red-50 text-red-700 border-red-200'}`}>{student.active ? 'Ativo' : 'Inativo'}</span>
                           {isMedicalExpired(student.medicalCertificateExpiry) && !isGuardian && (
                             <button 
                               onClick={() => sendMedicalReminder(student)}
@@ -1127,11 +1139,11 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex justify-end gap-2">
-                        <button onClick={() => handleGenerateContract(student)} className="text-blue-600 hover:text-blue-800 p-2 bg-blue-50 rounded-lg" title="Imprimir Contrato"><Printer className="w-4 h-4" /></button>
-                        <button onClick={() => handleOpenAttendance(student)} className="text-blue-600 hover:text-blue-800 transition-colors p-2 bg-blue-50 rounded-lg" title="Frequência"><CalendarCheck className="w-4 h-4" /></button>
-                        <button onClick={() => handleOpenHistory(student)} className={`p-2 rounded-lg transition-colors ${overdueCount > 0 ? 'bg-blue-800 text-white shadow-md' : 'bg-blue-50 text-blue-600'}`} title="Financeiro"><History className="w-4 h-4" /></button>
+                        <button onClick={() => handleGenerateContract(student)} className="text-gray-600 hover:text-gray-800 p-2 bg-gray-50 rounded-lg" title="Imprimir Contrato"><Printer className="w-4 h-4" /></button>
+                        <button onClick={() => handleOpenAttendance(student)} className="text-purple-600 hover:text-purple-800 transition-colors p-2 bg-purple-50 rounded-lg" title="Frequência"><CalendarCheck className="w-4 h-4" /></button>
+                        <button onClick={() => handleOpenHistory(student)} className={`p-2 rounded-lg transition-colors ${overdueCount > 0 ? 'bg-gray-800 text-white shadow-md' : 'bg-blue-50 text-blue-600'}`} title="Financeiro"><History className="w-4 h-4" /></button>
                         {!isGuardian && <button onClick={(e) => handleOpenAddOccurrence(e, student)} className="text-blue-600 hover:text-blue-800 p-2 bg-blue-50 rounded-lg transition-colors" title="Enviar Ocorrência"><MessageSquareWarning className="w-4 h-4" /></button>}
-                        <button onClick={() => handleOpenEdit(student)} className="text-blue-600 hover:text-blue-800 p-2 bg-blue-50 rounded-lg" title="Editar"><Edit className="w-4 h-4" /></button>
+                        <button onClick={() => handleOpenEdit(student)} className="text-primary-600 hover:text-primary-800 p-2 bg-primary-50 rounded-lg" title="Editar"><Edit className="w-4 h-4" /></button>
                       </div>
                     </td>
                   </tr>
@@ -1145,15 +1157,15 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-6xl max-h-[95vh] flex flex-col animate-in zoom-in duration-200">
-             <div className="p-4 md:p-6 border-b flex justify-between items-center bg-blue-50 rounded-t-2xl">
+             <div className="p-4 md:p-6 border-b flex justify-between items-center bg-gray-50 rounded-t-2xl">
               <div>
                   <h3 className="text-lg md:text-xl font-bold">{isGuardian ? 'Ficha do Atleta' : (editingId ? 'Editar Aluno' : 'Novo Aluno')}</h3>
                   {editingId && (
                       <div className="flex gap-4 mt-4 overflow-x-auto pb-1">
-                          <button onClick={() => setActiveTab('DETAILS')} className={`pb-2 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${activeTab === 'DETAILS' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>Dados</button>
-                          <button onClick={() => setActiveTab('FINANCE')} className={`pb-2 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${activeTab === 'FINANCE' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>Financeiro</button>
-                          <button onClick={() => setActiveTab('ATTENDANCE')} className={`pb-2 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${activeTab === 'ATTENDANCE' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>Frequência</button>
-                          <button onClick={() => setActiveTab('OCCURRENCES')} className={`pb-2 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${activeTab === 'OCCURRENCES' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>Ocorrências</button>
+                          <button onClick={() => setActiveTab('DETAILS')} className={`pb-2 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${activeTab === 'DETAILS' ? 'border-primary-600 text-primary-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>Dados</button>
+                          <button onClick={() => setActiveTab('FINANCE')} className={`pb-2 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${activeTab === 'FINANCE' ? 'border-primary-600 text-primary-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>Financeiro</button>
+                          <button onClick={() => setActiveTab('ATTENDANCE')} className={`pb-2 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${activeTab === 'ATTENDANCE' ? 'border-primary-600 text-primary-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>Frequência</button>
+                          <button onClick={() => setActiveTab('OCCURRENCES')} className={`pb-2 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${activeTab === 'OCCURRENCES' ? 'border-primary-600 text-primary-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>Ocorrências</button>
                       </div>
                   )}
               </div>
@@ -1167,7 +1179,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                           <span className="hidden sm:inline">Nova Ocorrência</span>
                       </button>
                   )}
-                  <button onClick={() => { setIsModalOpen(false); stopCamera(); }} className="text-blue-400 hover:text-blue-600">✕</button>
+                  <button onClick={() => { setIsModalOpen(false); stopCamera(); }} className="text-gray-400 hover:text-gray-600">✕</button>
               </div>
             </div>
             
@@ -1175,7 +1187,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                 <div className="flex-1 overflow-y-auto p-4 md:p-6">
                     <form id="student-form" onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                         <div className="space-y-4">
-                            <h4 className="text-sm font-bold border-b border-blue-200 pb-2 text-blue-800">Foto</h4>
+                            <h4 className="text-sm font-bold border-b pb-2">Foto</h4>
                             <div className="flex flex-col items-center gap-4">
                                 {/* Hidden canvas for photo capture */}
                                 <canvas ref={canvasRef} className="hidden" width="300" height="300"></canvas>
@@ -1196,57 +1208,57 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                                         </button>
                                     </div>
                                 ) : capturedImage ? (
-                                    <div className="relative w-32 h-32 md:w-40 md:h-40"><img src={capturedImage} className="w-full h-full object-cover rounded-xl border-2 border-blue-500" />{!isGuardian && <button type="button" onClick={() => setCapturedImage(null)} className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 shadow-md">✕</button>}</div>
+                                    <div className="relative w-32 h-32 md:w-40 md:h-40"><img src={capturedImage} className="w-full h-full object-cover rounded-xl border-2 border-primary-500" />{!isGuardian && <button type="button" onClick={() => setCapturedImage(null)} className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 shadow-md">✕</button>}</div>
                                 ) : (
-                                    <div className="w-32 h-32 md:w-40 md:h-40 bg-blue-50 rounded-xl flex flex-col items-center justify-center border-2 border-dashed border-blue-300 text-blue-400 gap-2"><UserIcon className="w-10 h-10" /><span>Sem foto</span></div>
+                                    <div className="w-32 h-32 md:w-40 md:h-40 bg-gray-100 rounded-xl flex flex-col items-center justify-center border-2 border-dashed border-gray-300 text-gray-400 gap-2"><UserIcon className="w-10 h-10" /><span>Sem foto</span></div>
                                 )}
                                 {!isGuardian && !isCameraOpen && (
                                   <div className="flex flex-wrap justify-center gap-2">
-                                    <button type="button" onClick={startCamera} className="flex items-center gap-2 text-xs text-blue-600 font-bold hover:bg-blue-50 px-3 py-1.5 rounded-lg border border-blue-200 transition-colors"><Camera className="w-4 h-4" /> Tirar Foto</button>
-                                    <button type="button" onClick={() => photoUploadRef.current?.click()} className="flex items-center gap-2 text-xs text-blue-600 font-bold hover:bg-blue-50 px-3 py-1.5 rounded-lg border border-blue-200 transition-colors"><Upload className="w-4 h-4" /> Escolher Foto</button>
+                                    <button type="button" onClick={startCamera} className="flex items-center gap-2 text-xs text-primary-600 font-bold hover:bg-primary-50 px-3 py-1.5 rounded-lg border border-primary-200 transition-colors"><Camera className="w-4 h-4" /> Tirar Foto</button>
+                                    <button type="button" onClick={() => photoUploadRef.current?.click()} className="flex items-center gap-2 text-xs text-gray-600 font-bold hover:bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-200 transition-colors"><Upload className="w-4 h-4" /> Escolher Foto</button>
                                   </div>
                                 )}
                                 {isCameraOpen && <button type="button" onClick={stopCamera} className="text-sm text-red-600 font-bold">Cancelar Câmera</button>}
                             </div>
 
                             <div className="space-y-3 pt-4">
-                                <h4 className="text-sm font-bold border-b border-blue-200 pb-2 flex items-center gap-2 text-blue-800"><Lock className="w-4 h-4" /> Acesso e Plano</h4>
-                                <div><label className="block text-xs font-medium text-blue-500 mb-1">Status do Aluno</label><select className="w-full border border-blue-200 rounded-lg p-2.5 bg-white focus:ring-2 focus:ring-blue-500 outline-none" value={studentForm.active ? 'true' : 'false'} onChange={e => setStudentForm({...studentForm, active: e.target.value === 'true'})} disabled={isGuardian}><option value="true">Ativo</option><option value="false">Inativo / Trancado</option></select></div>
-                                <div><label className="block text-xs font-medium text-blue-500 mb-1">Plano de Mensalidade</label><select className="w-full border border-blue-200 rounded-lg p-2.5 bg-white focus:ring-2 focus:ring-blue-500 outline-none" required value={studentForm.planId} onChange={e => setStudentForm({...studentForm, planId: e.target.value})} disabled={isGuardian}><option value="">Selecione um plano...</option>{plans.map(p => <option key={p.id} value={p.id}>{p.name} - R$ {p.price.toFixed(2)}</option>)}</select></div>
-                                <div><label className="block text-xs font-medium text-blue-500 mb-1">Grupos / Categorias</label><div className="border border-blue-200 rounded-lg p-2 max-h-32 overflow-y-auto bg-white">{groups.map(g => (<label key={g.id} className="flex items-center gap-2 p-1.5 hover:bg-blue-50 rounded cursor-pointer"><input type="checkbox" checked={(studentForm.groupIds || []).includes(g.id)} onChange={() => toggleGroupSelection(g.id)} className="rounded text-blue-600" disabled={isGuardian} /><span className="text-sm">{g.name}</span></label>))}</div></div>
+                                <h4 className="text-sm font-bold border-b pb-2 flex items-center gap-2"><Lock className="w-4 h-4" /> Acesso e Plano</h4>
+                                <div><label className="block text-xs font-medium text-gray-500 mb-1">Status do Aluno</label><select className="w-full border rounded-lg p-2.5 bg-white focus:ring-2 focus:ring-primary-500 outline-none" value={studentForm.active ? 'true' : 'false'} onChange={e => setStudentForm({...studentForm, active: e.target.value === 'true'})} disabled={isGuardian}><option value="true">Ativo</option><option value="false">Inativo / Trancado</option></select></div>
+                                <div><label className="block text-xs font-medium text-gray-500 mb-1">Plano de Mensalidade</label><select className="w-full border rounded-lg p-2.5 bg-white focus:ring-2 focus:ring-primary-500 outline-none" required value={studentForm.planId} onChange={e => setStudentForm({...studentForm, planId: e.target.value})} disabled={isGuardian}><option value="">Selecione um plano...</option>{plans.map(p => <option key={p.id} value={p.id}>{p.name} - R$ {p.price.toFixed(2)}</option>)}</select></div>
+                                <div><label className="block text-xs font-medium text-gray-500 mb-1">Grupos / Categorias</label><div className="border rounded-lg p-2 max-h-32 overflow-y-auto bg-white">{groups.map(g => (<label key={g.id} className="flex items-center gap-2 p-1.5 hover:bg-gray-50 rounded cursor-pointer"><input type="checkbox" checked={(studentForm.groupIds || []).includes(g.id)} onChange={() => toggleGroupSelection(g.id)} className="rounded text-primary-600" disabled={isGuardian} /><span className="text-sm">{g.name}</span></label>))}</div></div>
                             </div>
                         </div>
 
                         <div className="lg:col-span-2 space-y-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-4">
-                                    <h4 className="text-sm font-bold border-b border-blue-200 pb-2 flex items-center gap-2 text-blue-800"><UserIcon className="w-4 h-4 text-blue-500" /> Dados do Atleta</h4>
+                                    <h4 className="text-sm font-bold border-b pb-2 flex items-center gap-2"><UserIcon className="w-4 h-4 text-blue-500" /> Dados do Atleta</h4>
                                     <div className="grid grid-cols-1 gap-4">
-                                        <div><label className="block text-xs font-medium text-blue-500 mb-1">Nome Completo</label><input className="w-full border border-blue-200 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none" required value={studentForm.name} onChange={e => setStudentForm({...studentForm, name: e.target.value})} disabled={isGuardian} /></div>
+                                        <div><label className="block text-xs font-medium text-gray-500 mb-1">Nome Completo</label><input className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" required value={studentForm.name} onChange={e => setStudentForm({...studentForm, name: e.target.value})} disabled={isGuardian} /></div>
                                         <div className="grid grid-cols-2 gap-4">
-                                            <div><label className="block text-xs font-medium text-blue-500 mb-1">Nascimento</label><input type="date" className="w-full border border-blue-200 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none" required value={studentForm.birthDate} onChange={e => setStudentForm({...studentForm, birthDate: e.target.value})} disabled={isGuardian} /></div>
-                                            <div><label className="block text-xs font-medium text-blue-500 mb-1">Telefone Aluno</label><input type="text" className="w-full border border-blue-200 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none" placeholder="(00) 00000-0000" value={studentForm.phone} onChange={e => setStudentForm({...studentForm, phone: e.target.value})} disabled={isGuardian} /></div>
+                                            <div><label className="block text-xs font-medium text-gray-500 mb-1">Nascimento</label><input type="date" className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" required value={studentForm.birthDate} onChange={e => setStudentForm({...studentForm, birthDate: e.target.value})} disabled={isGuardian} /></div>
+                                            <div><label className="block text-xs font-medium text-gray-500 mb-1">Telefone Aluno</label><input type="text" className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" placeholder="(00) 00000-0000" value={studentForm.phone} onChange={e => setStudentForm({...studentForm, phone: e.target.value})} disabled={isGuardian} /></div>
                                         </div>
                                         <div className="grid grid-cols-2 gap-4">
-                                            <div><label className="block text-xs font-medium text-blue-500 mb-1">RG</label><input className="w-full border border-blue-200 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none" value={studentForm.rg} onChange={e => setStudentForm({...studentForm, rg: e.target.value})} disabled={isGuardian} /></div>
-                                            <div><label className="block text-xs font-medium text-blue-500 mb-1">CPF</label><input className="w-full border border-blue-200 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none" value={studentForm.cpf} onChange={e => setStudentForm({...studentForm, cpf: e.target.value})} disabled={isGuardian} /></div>
+                                            <div><label className="block text-xs font-medium text-gray-500 mb-1">RG</label><input className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" value={studentForm.rg} onChange={e => setStudentForm({...studentForm, rg: e.target.value})} disabled={isGuardian} /></div>
+                                            <div><label className="block text-xs font-medium text-gray-500 mb-1">CPF</label><input className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" value={studentForm.cpf} onChange={e => setStudentForm({...studentForm, cpf: e.target.value})} disabled={isGuardian} /></div>
                                         </div>
-                                        <div><label className="block text-xs font-medium text-blue-500 mb-1">Vencimento Atestado Médico</label><input type="date" className={`w-full border rounded-lg p-2.5 focus:ring-2 outline-none ${isMedicalExpired(studentForm.medicalCertificateExpiry) ? 'border-red-300 bg-red-50 focus:ring-red-500' : 'border-blue-200 focus:ring-blue-500'}`} value={studentForm.medicalCertificateExpiry} onChange={e => setStudentForm({...studentForm, medicalCertificateExpiry: e.target.value})} disabled={isGuardian} /></div>
+                                        <div><label className="block text-xs font-medium text-gray-500 mb-1">Vencimento Atestado Médico</label><input type="date" className={`w-full border rounded-lg p-2.5 focus:ring-2 outline-none ${isMedicalExpired(studentForm.medicalCertificateExpiry) ? 'border-red-300 bg-red-50 focus:ring-red-500' : 'focus:ring-primary-500'}`} value={studentForm.medicalCertificateExpiry} onChange={e => setStudentForm({...studentForm, medicalCertificateExpiry: e.target.value})} disabled={isGuardian} /></div>
                                         
                                         {/* NOVO CAMPO: POSIÇÕES DE JOGO */}
                                         <div className="pt-2">
-                                            <label className="block text-xs font-black text-blue-400 uppercase mb-2 tracking-widest">Posições de Jogo</label>
+                                            <label className="block text-xs font-black text-gray-400 uppercase mb-2 tracking-widest">Posições de Jogo</label>
                                             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                                                 {positionsList.map(pos => (
-                                                    <label key={pos} className={`flex items-center gap-2 p-2 border rounded-lg cursor-pointer transition-all ${studentForm.positions?.includes(pos) ? 'bg-blue-50 border-blue-500 ring-1 ring-blue-500/20' : 'bg-blue-50 border-blue-100 hover:bg-white'}`}>
+                                                    <label key={pos} className={`flex items-center gap-2 p-2 border rounded-lg cursor-pointer transition-all ${studentForm.positions?.includes(pos) ? 'bg-primary-50 border-primary-500 ring-1 ring-primary-500/20' : 'bg-gray-50 border-gray-100 hover:bg-white'}`}>
                                                         <input 
                                                             type="checkbox" 
-                                                            className="rounded text-blue-600 w-4 h-4" 
+                                                            className="rounded text-primary-600 w-4 h-4" 
                                                             checked={studentForm.positions?.includes(pos)} 
                                                             onChange={() => togglePositionSelection(pos)}
                                                             disabled={isGuardian}
                                                         />
-                                                        <span className={`text-[10px] font-bold ${studentForm.positions?.includes(pos) ? 'text-blue-700' : 'text-blue-500'}`}>{pos}</span>
+                                                        <span className={`text-[10px] font-bold ${studentForm.positions?.includes(pos) ? 'text-primary-700' : 'text-gray-500'}`}>{pos}</span>
                                                     </label>
                                                 ))}
                                             </div>
@@ -1255,40 +1267,40 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                                 </div>
 
                                 <div className="space-y-4">
-                                    <h4 className="text-sm font-bold border-b border-blue-200 pb-2 flex items-center gap-2 text-blue-800"><HeartPulse className="w-4 h-4 text-red-500" /> Responsável</h4>
+                                    <h4 className="text-sm font-bold border-b pb-2 flex items-center gap-2"><HeartPulse className="w-4 h-4 text-red-500" /> Responsável</h4>
                                     <div className="grid grid-cols-1 gap-4">
-                                        <div><label className="block text-sm font-medium text-blue-700 mb-1">Nome do Responsável</label><input className="w-full border border-blue-200 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none" required value={studentForm.guardian.name} onChange={e => setStudentForm({...studentForm, guardian: {...studentForm.guardian, name: e.target.value}})} disabled={isGuardian} /></div>
-                                        <div><label className="block text-sm font-medium text-blue-700 mb-1">CPF do Responsável (Para PIX e Login)</label><input className="w-full border border-blue-200 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none" required value={studentForm.guardian.cpf} onChange={e => setStudentForm({...studentForm, guardian: {...studentForm.guardian, cpf: e.target.value}})} disabled={isGuardian} /></div>
+                                        <div><label className="block text-sm font-medium text-gray-700 mb-1">Nome do Responsável</label><input className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" required value={studentForm.guardian.name} onChange={e => setStudentForm({...studentForm, guardian: {...studentForm.guardian, name: e.target.value}})} disabled={isGuardian} /></div>
+                                        <div><label className="block text-sm font-medium text-gray-700 mb-1">CPF do Responsável (Para PIX e Login)</label><input className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" required value={studentForm.guardian.cpf} onChange={e => setStudentForm({...studentForm, guardian: {...studentForm.guardian, cpf: e.target.value}})} disabled={isGuardian} /></div>
                                         <div className="grid grid-cols-2 gap-4">
-                                            <div><label className="block text-xs font-medium text-blue-500 mb-1">Telefone (WhatsApp)</label><input className="w-full border border-blue-200 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none" required value={studentForm.guardian.phone} onChange={e => setStudentForm({...studentForm, guardian: {...studentForm.guardian, phone: e.target.value}})} disabled={isGuardian} /></div>
-                                            <div><label className="block text-xs font-medium text-blue-500 mb-1">Email</label><input type="email" className="w-full border border-blue-200 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none" value={studentForm.guardian.email} onChange={e => setStudentForm({...studentForm, guardian: {...studentForm.guardian, email: e.target.value}})} disabled={isGuardian} /></div>
+                                            <div><label className="block text-xs font-medium text-gray-500 mb-1">Telefone (WhatsApp)</label><input className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" required value={studentForm.guardian.phone} onChange={e => setStudentForm({...studentForm, guardian: {...studentForm.guardian, phone: e.target.value}})} disabled={isGuardian} /></div>
+                                            <div><label className="block text-xs font-medium text-gray-500 mb-1">Email</label><input type="email" className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" value={studentForm.guardian.email} onChange={e => setStudentForm({...studentForm, guardian: {...studentForm.guardian, email: e.target.value}})} disabled={isGuardian} /></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             <div className="space-y-4">
-                                <h4 className="text-sm font-bold border-b border-blue-200 pb-2 flex items-center gap-2 text-blue-800"><MapPin className="w-4 h-4 text-green-500" /> Endereço</h4>
+                                <h4 className="text-sm font-bold border-b pb-2 flex items-center gap-2"><MapPin className="w-4 h-4 text-green-500" /> Endereço</h4>
                                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                                    <div className="relative"><label className="block text-xs font-medium text-blue-500 mb-1">CEP</label><input className="w-full border border-blue-200 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none" value={studentForm.address.cep} onChange={e => { const val = e.target.value; setStudentForm({...studentForm, address: {...studentForm.address, cep: val}}); if(val.length >= 8) fetchAddressByCep(val); }} disabled={isGuardian} />{isLoadingCep && <Loader2 className="w-4 h-4 animate-spin absolute right-3 top-9 text-blue-500" />}</div>
-                                    <div className="md:col-span-2"><label className="block text-xs font-medium text-blue-500 mb-1">Rua / Avenida</label><input className="w-full border border-blue-200 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none" value={studentForm.address.street} onChange={e => setStudentForm({...studentForm, address: {...studentForm.address, street: e.target.value}})} disabled={isGuardian} /></div>
-                                    <div><label className="block text-xs font-medium text-blue-500 mb-1">Número</label><input className="w-full border border-blue-200 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none" value={studentForm.address.number} onChange={e => setStudentForm({...studentForm, address: {...studentForm.address, number: e.target.value}})} disabled={isGuardian} /></div>
-                                    <div className="md:col-span-2"><label className="block text-xs font-medium text-blue-500 mb-1">Bairro</label><input className="w-full border border-blue-200 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none" value={studentForm.address.district} onChange={e => setStudentForm({...studentForm, address: {...studentForm.address, district: e.target.value}})} disabled={isGuardian} /></div>
-                                    <div className="md:col-span-2"><label className="block text-xs font-medium text-blue-500 mb-1">Cidade</label><input className="w-full border border-blue-200 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none" value={studentForm.address.city} onChange={e => setStudentForm({...studentForm, address: {...studentForm.address, city: e.target.value}})} disabled={isGuardian} /></div>
+                                    <div className="relative"><label className="block text-xs font-medium text-gray-500 mb-1">CEP</label><input className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" value={studentForm.address.cep} onChange={e => { const val = e.target.value; setStudentForm({...studentForm, address: {...studentForm.address, cep: val}}); if(val.length >= 8) fetchAddressByCep(val); }} disabled={isGuardian} />{isLoadingCep && <Loader2 className="w-4 h-4 animate-spin absolute right-3 top-9 text-primary-500" />}</div>
+                                    <div className="md:col-span-2"><label className="block text-xs font-medium text-gray-500 mb-1">Rua / Avenida</label><input className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" value={studentForm.address.street} onChange={e => setStudentForm({...studentForm, address: {...studentForm.address, street: e.target.value}})} disabled={isGuardian} /></div>
+                                    <div><label className="block text-xs font-medium text-gray-500 mb-1">Número</label><input className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" value={studentForm.address.number} onChange={e => setStudentForm({...studentForm, address: {...studentForm.address, number: e.target.value}})} disabled={isGuardian} /></div>
+                                    <div className="md:col-span-2"><label className="block text-xs font-medium text-gray-500 mb-1">Bairro</label><input className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" value={studentForm.address.district} onChange={e => setStudentForm({...studentForm, address: {...studentForm.address, district: e.target.value}})} disabled={isGuardian} /></div>
+                                    <div className="md:col-span-2"><label className="block text-xs font-medium text-gray-500 mb-1">Cidade</label><input className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" value={studentForm.address.city} onChange={e => setStudentForm({...studentForm, address: {...studentForm.address, city: e.target.value}})} disabled={isGuardian} /></div>
                                 </div>
                             </div>
 
                             <div className="space-y-4">
-                                <h4 className="text-sm font-bold border-b border-blue-200 pb-2 flex items-center gap-2 text-blue-800"><FolderCheck className="w-4 h-4 text-blue-500" /> Documentação Obrigatória</h4>
+                                <h4 className="text-sm font-bold border-b pb-2 flex items-center gap-2"><FolderCheck className="w-4 h-4 text-blue-500" /> Documentação Obrigatória</h4>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
                                     {[ {id:'rg', label:'RG Atleta'}, {id:'cpf', label:'CPF Atleta'}, {id:'medical', label:'Atestado'}, {id:'address', label:'Endereço'}, {id:'school', label:'Escolar'} ].map(doc => {
                                         const val = studentForm.documents[doc.id] || { delivered: false, isDigital: false };
                                         return (
                                             <div key={doc.id} className={`p-3 rounded-xl border transition-all ${val.delivered ? 'bg-green-50 border-green-200 shadow-inner' : 'bg-blue-50 border-blue-200'}`}>
-                                                <p className="text-[10px] font-black uppercase text-blue-500 mb-2 truncate">{doc.label}</p>
+                                                <p className="text-[10px] font-black uppercase text-gray-500 mb-2 truncate">{doc.label}</p>
                                                 <div className="space-y-2">
-                                                    <label className="flex items-center gap-2 cursor-pointer"><input type="checkbox" checked={val.delivered} onChange={e => updateDoc(doc.id, 'delivered', e.target.checked)} className="rounded text-blue-600" disabled={isGuardian} /><span className="text-xs font-bold text-blue-700">Entregue</span></label>
-                                                    {val.delivered && (<label className="flex items-center gap-2 cursor-pointer"><input type="checkbox" checked={val.isDigital} onChange={e => updateDoc(doc.id, 'isDigital', e.target.checked)} className="rounded text-blue-600" disabled={isGuardian} /><span className="text-[10px] text-blue-500">Formato Digital</span></label>)}
+                                                    <label className="flex items-center gap-2 cursor-pointer"><input type="checkbox" checked={val.delivered} onChange={e => updateDoc(doc.id, 'delivered', e.target.checked)} className="rounded text-green-600" disabled={isGuardian} /><span className="text-xs font-bold text-gray-700">Entregue</span></label>
+                                                    {val.delivered && (<label className="flex items-center gap-2 cursor-pointer"><input type="checkbox" checked={val.isDigital} onChange={e => updateDoc(doc.id, 'isDigital', e.target.checked)} className="rounded text-blue-600" disabled={isGuardian} /><span className="text-[10px] text-gray-500">Formato Digital</span></label>)}
                                                 </div>
                                             </div>
                                         );
@@ -1300,29 +1312,29 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                 </div>
             ) : activeTab === 'FINANCE' ? (
                 <div className="flex-1 overflow-hidden flex flex-col md:flex-row">
-                    <div className="w-full md:w-80 border-r border-blue-100 bg-blue-50/30 p-4 md:p-6 space-y-6">
-                        <div className="bg-white p-4 rounded-xl border border-blue-200 shadow-sm space-y-1">
-                             <p className="text-xs font-bold text-blue-500 uppercase">Mensalidades em Aberto</p>
-                             <h4 className="text-2xl font-black text-blue-600">{studentTransactions.filter(t => t.status === PaymentStatus.PENDING).length}</h4>
+                    <div className="w-full md:w-80 border-r bg-gray-50 p-4 md:p-6 space-y-6">
+                        <div className="bg-white p-4 rounded-xl border shadow-sm space-y-1">
+                             <p className="text-xs font-bold text-gray-500 uppercase">Mensalidades em Aberto</p>
+                             <h4 className="text-2xl font-black text-red-600">{studentTransactions.filter(t => t.status === PaymentStatus.PENDING).length}</h4>
                         </div>
-                        <div className="bg-white p-4 rounded-xl border border-blue-200 shadow-sm space-y-1">
-                             <p className="text-xs font-bold text-blue-500 uppercase">Total Selecionado</p>
-                             <h4 className="text-2xl font-black text-blue-600">R$ {selectedTotal.toFixed(2)}</h4>
+                        <div className="bg-white p-4 rounded-xl border shadow-sm space-y-1">
+                             <p className="text-xs font-bold text-gray-500 uppercase">Total Selecionado</p>
+                             <h4 className="text-2xl font-black text-primary-600">R$ {selectedTotal.toFixed(2)}</h4>
                         </div>
                         {selectedFinanceIds.size > 0 && (
                             <div className="space-y-3">
-                                <button onClick={() => initiatePixPayment()} disabled={pixLoading} className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-black shadow-lg shadow-blue-200 transition-all flex items-center justify-center gap-3">
+                                <button onClick={() => initiatePixPayment()} disabled={pixLoading} className="w-full py-4 bg-primary-600 hover:bg-primary-700 text-white rounded-xl font-black shadow-lg shadow-primary-200 transition-all flex items-center justify-center gap-3">
                                     {pixLoading ? <Loader2 className="animate-spin w-5 h-5" /> : <QrCode className="w-6 h-6" />} PAGAR COM PIX
                                 </button>
                                 {!isGuardian && (
-                                    <button onClick={(e) => sendBatchSelectedCharges(e)} className="w-full py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-xl font-black shadow-lg shadow-blue-200 transition-all flex items-center justify-center gap-2">
+                                    <button onClick={(e) => sendBatchSelectedCharges(e)} className="w-full py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl font-black shadow-lg shadow-green-200 transition-all flex items-center justify-center gap-2">
                                         <MessageCircle className="w-5 h-5" /> ENVIAR COBRANÇA (WA)
                                     </button>
                                 )}
                             </div>
                         )}
                         {!isGuardian && (
-                            <button onClick={() => { setEditingChargeId(null); setManualCharge({ description: '', amount: 0, date: new Date().toISOString().split('T')[0], type: TransactionType.INCOME }); setShowChargeModal(true); }} className="w-full py-3 bg-white text-blue-700 border border-blue-300 rounded-xl font-bold hover:bg-blue-50 transition-all flex items-center justify-center gap-2">
+                            <button onClick={() => { setEditingChargeId(null); setManualCharge({ description: '', amount: 0, date: new Date().toISOString().split('T')[0], type: TransactionType.INCOME }); setShowChargeModal(true); }} className="w-full py-3 bg-white text-gray-700 border border-gray-300 rounded-xl font-bold hover:bg-gray-50 transition-all flex items-center justify-center gap-2">
                                 <PlusCircle className="w-5 h-5" /> Lançar Taxa / Avulso
                             </button>
                         )}
@@ -1334,39 +1346,39 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                                  const isCancelled = tx.status === PaymentStatus.CANCELLED;
                                  const isSelected = selectedFinanceIds.has(tx.id);
                                  return (
-                                     <div key={tx.id} onClick={() => tx.status === PaymentStatus.PENDING && toggleFinanceSelection(tx.id)} className={`group relative flex items-center justify-between p-4 rounded-xl border transition-all cursor-pointer ${tx.status === PaymentStatus.PAID || isCancelled ? 'bg-blue-50/50 opacity-70' : isSelected ? 'bg-blue-50 border-blue-500 ring-2 ring-blue-500/20' : isOverdue ? 'bg-red-50 border-red-200' : 'bg-white hover:border-blue-300'}`}>
+                                     <div key={tx.id} onClick={() => tx.status === PaymentStatus.PENDING && toggleFinanceSelection(tx.id)} className={`group relative flex items-center justify-between p-4 rounded-xl border transition-all cursor-pointer ${tx.status === PaymentStatus.PAID || isCancelled ? 'bg-gray-50 opacity-70' : isSelected ? 'bg-primary-50 border-primary-500 ring-2 ring-primary-500/20' : isOverdue ? 'bg-red-50 border-red-200' : 'bg-white hover:border-primary-300'}`}>
                                          <div className="flex items-center gap-4">
-                                             <div className={`p-2 rounded-lg ${tx.status === PaymentStatus.PAID ? 'bg-blue-100 text-blue-600' : isCancelled ? 'bg-gray-200 text-gray-400' : 'bg-blue-100/80 text-blue-400'}`}>
-                                                 {isSelected ? <CheckSquare className="w-6 h-6 text-blue-600" /> : tx.status === PaymentStatus.PAID ? <CheckCircle className="w-6 h-6" /> : isCancelled ? <XCircle className="w-6 h-6" /> : <Square className="w-6 h-6" />}
+                                             <div className={`p-2 rounded-lg ${tx.status === PaymentStatus.PAID ? 'bg-green-100 text-green-600' : isCancelled ? 'bg-gray-200 text-gray-400' : 'bg-gray-100 text-gray-400'}`}>
+                                                 {isSelected ? <CheckSquare className="w-6 h-6 text-primary-600" /> : tx.status === PaymentStatus.PAID ? <CheckCircle className="w-6 h-6" /> : isCancelled ? <XCircle className="w-6 h-6" /> : <Square className="w-6 h-6" />}
                                              </div>
                                              <div>
-                                                 <p className="font-bold text-blue-900">{tx.description}</p>
-                                                 <div className="flex items-center gap-3 text-xs text-blue-500 mt-1">
+                                                 <p className="font-bold text-gray-900">{tx.description}</p>
+                                                 <div className="flex items-center gap-3 text-xs text-gray-500 mt-1">
                                                      <span className="flex items-center gap-1 font-bold"><Calendar className="w-3 h-3" /> Venc.: {formatDate(tx.date)}</span>
-                                                     {tx.status === PaymentStatus.PAID && <span className="bg-blue-100 text-blue-700 px-2 py-0.5 rounded font-black uppercase text-[9px]">Pago</span>}
+                                                     {tx.status === PaymentStatus.PAID && <span className="bg-green-100 text-green-700 px-2 py-0.5 rounded font-black uppercase text-[9px]">Pago</span>}
                                                      {isCancelled && <span className="bg-gray-200 text-gray-600 px-2 py-0.5 rounded font-black uppercase text-[9px]">Cancelado</span>}
                                                      {isOverdue && <span className="bg-red-100 text-red-700 px-2 py-0.5 rounded font-black uppercase text-[9px]">Atrasado</span>}
                                                  </div>
                                              </div>
                                          </div>
                                          <div className="text-right flex items-center gap-4">
-                                              <div className={`font-black text-lg ${isCancelled ? 'text-gray-400 line-through' : 'text-blue-800'}`}>R$ {tx.amount.toFixed(2)}</div>
+                                              <div className={`font-black text-lg ${isCancelled ? 'text-gray-400 line-through' : 'text-gray-800'}`}>R$ {tx.amount.toFixed(2)}</div>
                                               {!isGuardian && tx.status === PaymentStatus.PENDING && (
                                                   <div className="flex items-center gap-1 items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                                      <button onClick={(e) => { e.stopPropagation(); handlePayTransaction(tx.id, PaymentMethod.CASH); }} className="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow-sm" title="Dar Baixa (Dinheiro)"><CashIcon className="w-4 h-4" /></button>
-                                                      <button onClick={(e) => { e.stopPropagation(); sendChargeMessage(tx); }} className="p-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 border border-blue-200" title="Enviar cobrança via WhatsApp"><Send className="w-4 h-4" /></button>
+                                                      <button onClick={(e) => { e.stopPropagation(); handlePayTransaction(tx.id, PaymentMethod.CASH); }} className="p-2 bg-green-600 text-white rounded-lg hover:bg-green-700 shadow-sm" title="Dar Baixa (Dinheiro)"><CashIcon className="w-4 h-4" /></button>
+                                                      <button onClick={(e) => { e.stopPropagation(); sendChargeMessage(tx); }} className="p-2 bg-green-50 text-green-600 rounded-lg hover:bg-green-100 border border-green-200" title="Enviar cobrança via WhatsApp"><Send className="w-4 h-4" /></button>
                                                       <button onClick={(e) => { e.stopPropagation(); handleOpenEditCharge(e, tx); }} className="p-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 border border-blue-200" title="Editar Cobrança"><Edit className="w-4 h-4" /></button>
                                                       <button onClick={(e) => { e.stopPropagation(); handleCancelTransaction(tx); }} className="p-2 bg-gray-200 text-gray-600 rounded-lg hover:bg-gray-300" title="Cancelar Cobrança"><Ban className="w-4 h-4" /></button>
                                                   </div>
                                               )}
                                               {tx.status === PaymentStatus.PENDING && isGuardian && tx.paymentLink && (
-                                                  <button onClick={(e) => { e.stopPropagation(); copyPixCode(); }} className="p-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 border border-blue-200" title="Pagar agora"><QrCode className="w-4 h-4" /></button>
+                                                  <button onClick={(e) => { e.stopPropagation(); copyPixCode(); }} className="p-2 bg-primary-50 text-primary-600 rounded-lg hover:bg-primary-100 border border-primary-200" title="Pagar agora"><QrCode className="w-4 h-4" /></button>
                                               )}
                                          </div>
                                      </div>
                                  );
                              })}
-                             {studentTransactions.length === 0 && <div className="p-12 text-center text-blue-400 bg-blue-50/30 rounded-2xl border-2 border-dashed border-blue-200"><Calculator className="w-12 h-12 mx-auto mb-2 opacity-20" /><p>Nenhuma transação financeira registrada.</p></div>}
+                             {studentTransactions.length === 0 && <div className="p-12 text-center text-gray-400 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200"><Calculator className="w-12 h-12 mx-auto mb-2 opacity-20" /><p>Nenhuma transação financeira registrada.</p></div>}
                          </div>
                     </div>
                 </div>
@@ -1374,10 +1386,10 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                 <div className="flex-1 overflow-y-auto p-4 md:p-6 bg-gray-50/30">
                     <div className="max-w-4xl mx-auto space-y-6">
                         {/* Filtros de Frequência */}
-                        <div className="bg-white p-4 rounded-xl border border-blue-200 shadow-sm flex flex-wrap items-center gap-4">
+                        <div className="bg-white p-4 rounded-xl border shadow-sm flex flex-wrap items-center gap-4">
                           <div className="flex items-center gap-2">
-                            <Filter className="w-4 h-4 text-blue-400" />
-                            <span className="text-sm font-bold text-blue-700 uppercase">Filtrar Período:</span>
+                            <Filter className="w-4 h-4 text-gray-400" />
+                            <span className="text-sm font-bold text-gray-700 uppercase">Filtrar Período:</span>
                           </div>
                           <select 
                             className="border rounded-lg p-2 text-sm bg-white focus:ring-2 focus:ring-primary-500 outline-none"
@@ -1397,20 +1409,20 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                             <div className="bg-white p-5 rounded-2xl border border-blue-200 shadow-sm flex items-center justify-between"><div><p className="text-xs font-bold text-blue-400 uppercase mb-1">Presenças</p><h4 className="text-3xl font-black text-blue-600">{filteredStudentActivities.filter(a => (a.attendance || []).includes(editingId!)).length}</h4></div><div className="bg-blue-50 p-3 rounded-xl"><CheckCircle className="w-6 h-6 text-blue-600" /></div></div>
-                             <div className="bg-white p-5 rounded-2xl border border-blue-200 shadow-sm flex items-center justify-between"><div><p className="text-xs font-bold text-blue-400 uppercase mb-1">Faltas</p><h4 className="text-3xl font-black text-red-600">{filteredStudentActivities.filter(a => !(a.attendance || []).includes(editingId!) && a.date <= todayStr).length}</h4></div><div className="bg-red-50 p-3 rounded-xl"><XCircle className="w-6 h-6 text-red-600" /></div></div>
-                             <div className="bg-white p-5 rounded-2xl border border-blue-200 shadow-sm flex items-center justify-between"><div><p className="text-xs font-bold text-blue-400 uppercase mb-1">Gols Marcados</p><h4 className="text-3xl font-black text-yellow-500">{filteredStudentActivities.reduce((acc, a) => acc + (a.scorers?.filter(s => s === editingId).length || 0), 0)}</h4></div><div className="bg-yellow-50 p-3 rounded-xl"><Medal className="w-6 h-6 text-yellow-600" /></div></div>
+                             <div className="bg-white p-5 rounded-2xl border shadow-sm flex items-center justify-between"><div><p className="text-xs font-bold text-gray-400 uppercase mb-1">Presenças</p><h4 className="text-3xl font-black text-green-600">{filteredStudentActivities.filter(a => (a.attendance || []).includes(editingId!)).length}</h4></div><div className="bg-green-50 p-3 rounded-xl"><CheckCircle className="w-6 h-6 text-green-600" /></div></div>
+                             <div className="bg-white p-5 rounded-2xl border shadow-sm flex items-center justify-between"><div><p className="text-xs font-bold text-gray-400 uppercase mb-1">Faltas</p><h4 className="text-3xl font-black text-red-600">{filteredStudentActivities.filter(a => !(a.attendance || []).includes(editingId!) && a.date <= todayStr).length}</h4></div><div className="bg-red-50 p-3 rounded-xl"><XCircle className="w-6 h-6 text-red-600" /></div></div>
+                             <div className="bg-white p-5 rounded-2xl border shadow-sm flex items-center justify-between"><div><p className="text-xs font-bold text-gray-400 uppercase mb-1">Gols Marcados</p><h4 className="text-3xl font-black text-yellow-500">{filteredStudentActivities.reduce((acc, a) => acc + (a.scorers?.filter(s => s === editingId).length || 0), 0)}</h4></div><div className="bg-yellow-50 p-3 rounded-xl"><Medal className="w-6 h-6 text-yellow-600" /></div></div>
                         </div>
 
-                        <div className="bg-white rounded-2xl border border-blue-200 shadow-sm overflow-hidden">
-                            <div className="p-4 border-b border-blue-200 bg-blue-50/60 flex items-center justify-between font-bold text-blue-700">
+                        <div className="bg-white rounded-2xl border shadow-sm overflow-hidden">
+                            <div className="p-4 border-b bg-gray-50 flex items-center justify-between font-bold text-gray-700">
                                 <div className="flex items-center gap-2">
-                                    <History className="w-4 h-4 text-blue-600" /> Histórico de Atividades
+                                    <History className="w-4 h-4 text-primary-600" /> Histórico de Atividades
                                 </div>
                                 {!isGuardian && (
                                     <button 
                                         onClick={handleSendAttendanceReport}
-                                        className="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-xs font-black transition-colors shadow-sm"
+                                        className="flex items-center gap-1.5 bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-lg text-xs font-black transition-colors shadow-sm"
                                     >
                                         <MessageCircle className="w-3.5 h-3.5" /> ENVIAR P/ RESPONSÁVEL
                                     </button>
@@ -1421,7 +1433,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                             <div className="px-4 py-2 bg-yellow-50 text-yellow-800 text-[10px] font-black uppercase border-b border-yellow-100 flex items-center gap-2">
                                 <Trophy className="w-3 h-3" /> Jogos
                             </div>
-                            <div className="divide-y divide-blue-100 border-b">
+                            <div className="divide-y divide-gray-100 border-b">
                                 {filteredStudentActivities.filter(a => a.type === 'GAME').map(act => {
                                     const isPresent = (act.attendance || []).includes(editingId!);
                                     const goals = act.scorers?.filter(s => s === editingId).length || 0;
@@ -1439,7 +1451,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                                     );
                                 })}
                                 {filteredStudentActivities.filter(a => a.type === 'GAME').length === 0 && (
-                                    <div className="p-8 text-center text-blue-400 text-xs italic">Nenhum jogo registrado neste período.</div>
+                                    <div className="p-8 text-center text-gray-400 text-xs italic">Nenhum jogo registrado neste período.</div>
                                 )}
                             </div>
 
@@ -1447,7 +1459,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                             <div className="px-4 py-2 bg-blue-50 text-blue-800 text-[10px] font-black uppercase border-b border-blue-100 flex items-center gap-2">
                                 <Zap className="w-3 h-3" /> Treinos
                             </div>
-                            <div className="divide-y divide-blue-100">
+                            <div className="divide-y divide-gray-100">
                                 {filteredStudentActivities.filter(a => a.type !== 'GAME').map(act => {
                                     const isPresent = (act.attendance || []).includes(editingId!);
                                     return (
@@ -1463,7 +1475,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                                     );
                                 })}
                                 {filteredStudentActivities.filter(a => a.type !== 'GAME').length === 0 && (
-                                    <div className="p-8 text-center text-blue-400 text-xs italic">Nenhum treino registrado neste período.</div>
+                                    <div className="p-8 text-center text-gray-400 text-xs italic">Nenhum treino registrado neste período.</div>
                                 )}
                             </div>
                         </div>
@@ -1472,8 +1484,8 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
             ) : (
                 <div className="flex-1 overflow-y-auto p-4 md:p-6 bg-gray-50/30">
                     <div className="max-w-4xl mx-auto space-y-6">
-                        <div className="flex justify-between items-center bg-white p-4 rounded-xl border border-blue-200 shadow-sm">
-                            <h4 className="font-bold text-blue-700 flex items-center gap-2">
+                        <div className="flex justify-between items-center bg-white p-4 rounded-xl border shadow-sm">
+                            <h4 className="font-bold text-gray-700 flex items-center gap-2">
                                 <MessageSquareWarning className="w-5 h-5 text-blue-600" /> Histórico de Comunicados
                             </h4>
                             {!isGuardian && (
@@ -1485,20 +1497,20 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                         
                         <div className="space-y-4">
                             {studentOccurrences.map(occ => (
-                                <div key={occ.id} className="bg-white p-4 rounded-xl border border-blue-100 shadow-sm">
+                                <div key={occ.id} className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
                                     <div className="flex justify-between items-start mb-2">
                                         <span className="bg-blue-50 text-blue-700 text-[10px] font-black px-2 py-0.5 rounded uppercase border border-blue-100">Comunicado WA</span>
-                                        <span className="text-xs text-blue-400 font-bold flex items-center gap-1"><Calendar className="w-3 h-3" /> {formatDate(occ.date)}</span>
+                                        <span className="text-xs text-gray-400 font-bold flex items-center gap-1"><Calendar className="w-3 h-3" /> {formatDate(occ.date)}</span>
                                     </div>
-                                    <p className="text-sm text-blue-700 leading-relaxed italic">"{occ.description}"</p>
-                                    <div className="mt-3 pt-3 border-t border-blue-100 flex items-center justify-between text-[10px] text-blue-400 font-medium">
+                                    <p className="text-sm text-gray-700 leading-relaxed italic">"{occ.description}"</p>
+                                    <div className="mt-3 pt-3 border-t border-gray-50 flex items-center justify-between text-[10px] text-gray-400 font-medium">
                                         <span>Registrado em: {new Date(occ.createdAt).toLocaleString('pt-BR')}</span>
                                         <span className="text-green-600 flex items-center gap-1"><CheckCircle className="w-3 h-3" /> Enviado com sucesso</span>
                                     </div>
                                 </div>
                             ))}
                             {studentOccurrences.length === 0 && (
-                                <div className="p-12 text-center text-blue-400 bg-white rounded-2xl border-2 border-dashed border-blue-100">
+                                <div className="p-12 text-center text-gray-400 bg-white rounded-2xl border-2 border-dashed border-gray-100">
                                     <MessageSquareWarning className="w-12 h-12 mx-auto mb-2 opacity-20" />
                                     <p>Nenhuma ocorrência registrada para este atleta.</p>
                                 </div>
@@ -1508,9 +1520,9 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                 </div>
             )}
             
-            <div className="p-4 md:p-6 border-t border-blue-100 bg-blue-50/30 rounded-b-2xl flex justify-end gap-3">
-              <button type="button" onClick={() => { setIsModalOpen(false); stopCamera(); }} className="px-6 py-2.5 text-blue-500 font-bold hover:bg-blue-100 rounded-xl transition-colors">Fechar</button>
-              {!isGuardian && activeTab === 'DETAILS' && (<button type="submit" form="student-form" className="px-10 py-2.5 bg-blue-600 text-white rounded-xl font-black shadow-lg shadow-blue-200 hover:bg-blue-700 transition-all">SALVAR ALTERAÇÕES</button>)}
+            <div className="p-4 md:p-6 border-t bg-gray-50 rounded-b-2xl flex justify-end gap-3">
+              <button type="button" onClick={() => { setIsModalOpen(false); stopCamera(); }} className="px-6 py-2.5 text-gray-500 font-bold hover:bg-gray-200 rounded-xl transition-colors">Fechar</button>
+              {!isGuardian && activeTab === 'DETAILS' && (<button type="submit" form="student-form" className="px-10 py-2.5 bg-primary-600 text-white rounded-xl font-black shadow-lg shadow-primary-200 hover:bg-primary-700 transition-all">SALVAR ALTERAÇÕES</button>)}
             </div>
           </div>
         </div>
@@ -1520,23 +1532,23 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
       {showPixModal && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
              <div className="bg-white rounded-3xl shadow-2xl w-full max-sm overflow-hidden animate-in zoom-in duration-300">
-                <div className="bg-blue-600 p-6 text-white text-center">
+                <div className="bg-primary-600 p-6 text-white text-center">
                     <QrCode className="w-12 h-12 mx-auto mb-3 opacity-80" />
                     <h3 className="text-xl font-black uppercase tracking-tighter">Pagamento Instantâneo</h3>
-                    <p className="text-blue-100 text-sm opacity-80">Aponte a câmera para o QR Code</p>
+                    <p className="text-primary-100 text-sm opacity-80">Aponte a câmera para o QR Code</p>
                 </div>
                 
                 <div className="p-8 text-center space-y-6">
                     {pixLoading ? (
-                        <div className="py-12 flex flex-col items-center gap-4"><Loader2 className="w-12 h-12 text-blue-600 animate-spin" /><p className="text-blue-500 font-bold animate-pulse">Gerando seu QR Code...</p></div>
+                        <div className="py-12 flex flex-col items-center gap-4"><Loader2 className="w-12 h-12 text-primary-600 animate-spin" /><p className="text-gray-500 font-bold animate-pulse">Gerando seu QR Code...</p></div>
                     ) : pixData ? (
                         <>
-                           <div className="relative group mx-auto w-fit p-3 bg-gray-50 rounded-2xl border-2 border-blue-100">
+                           <div className="relative group mx-auto w-fit p-3 bg-gray-50 rounded-2xl border-2 border-primary-100">
                                <img src={`data:image/jpeg;base64,${pixData.qrCodeBase64}`} alt="QR Code" className="w-56 h-56 mx-auto rounded-lg shadow-sm" />
-                               <div className="absolute inset-0 group-hover:bg-blue-600/5 transition-colors pointer-events-none rounded-lg" />
+                               <div className="absolute inset-0 group-hover:bg-primary-600/5 transition-colors pointer-events-none rounded-lg" />
                            </div>
                            <div className="space-y-3">
-                               <button onClick={copyPixCode} className="w-full flex items-center justify-center gap-2 bg-blue-900 text-white py-3 rounded-xl font-bold hover:bg-blue-800 transition-all active:scale-95"><Copy className="w-4 h-4" /> Copiar Código PIX</button>
+                               <button onClick={copyPixCode} className="w-full flex items-center justify-center gap-2 bg-gray-900 text-white py-3 rounded-xl font-bold hover:bg-gray-800 transition-all active:scale-95"><Copy className="w-4 h-4" /> Copiar Código PIX</button>
                                <p className="text-[10px] text-gray-400 font-medium px-4">Após o pagamento, o sistema identificará automaticamente e dará baixa em sua mensalidade em alguns instantes.</p>
                            </div>
                         </>
@@ -1545,8 +1557,8 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                     )}
                 </div>
                 
-                <div className="p-4 bg-blue-50/20 border-t border-blue-100 flex justify-center">
-                    <button onClick={() => setShowPixModal(false)} className="text-blue-500 font-black text-xs hover:text-blue-700 transition-colors uppercase tracking-widest">Cancelar e Fechar</button>
+                <div className="p-4 bg-gray-50 border-t flex justify-center">
+                    <button onClick={() => setShowPixModal(false)} className="text-gray-500 font-black text-xs hover:text-gray-700 transition-colors uppercase tracking-widest">Cancelar e Fechar</button>
                 </div>
              </div>
         </div>
@@ -1557,22 +1569,22 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
         <div className="fixed inset-0 z-[110] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
           <div className="bg-white rounded-2xl shadow-xl w-full max-sm p-6 animate-in slide-in-from-bottom-4 duration-200">
             <div className="flex justify-between items-center mb-6">
-                <h3 className="text-lg font-black text-blue-800 uppercase tracking-tighter">{editingChargeId ? 'Editar Cobrança' : 'Lançar Cobrança'}</h3>
-                <button onClick={resetChargeModal} className="text-blue-400 hover:text-blue-600 transition-colors">✕</button>
+                <h3 className="text-lg font-black text-gray-800 uppercase tracking-tighter">{editingChargeId ? 'Editar Cobrança' : 'Lançar Cobrança'}</h3>
+                <button onClick={resetChargeModal} className="text-gray-400 hover:text-gray-600 transition-colors">✕</button>
             </div>
             <form onSubmit={handleSaveManualCharge} className="space-y-4">
-                  <div className="flex gap-2 p-1 bg-blue-100 rounded-xl">
-                      <button type="button" onClick={() => setManualCharge({...manualCharge, type: TransactionType.INCOME})} className={`flex-1 py-2 text-xs font-black rounded-lg transition-all flex items-center justify-center gap-2 uppercase ${manualCharge.type === TransactionType.INCOME ? 'bg-white text-blue-700 shadow-sm' : 'text-blue-500'}`}>Receita</button>
-                      <button type="button" onClick={() => setManualCharge({...manualCharge, type: TransactionType.EXPENSE})} className={`flex-1 py-2 text-xs font-black rounded-lg transition-all flex items-center justify-center gap-2 uppercase ${manualCharge.type === TransactionType.EXPENSE ? 'bg-white text-red-700 shadow-sm' : 'text-blue-500'}`}>Despesa</button>
+                  <div className="flex gap-2 p-1 bg-gray-100 rounded-xl">
+                      <button type="button" onClick={() => setManualCharge({...manualCharge, type: TransactionType.INCOME})} className={`flex-1 py-2 text-xs font-black rounded-lg transition-all flex items-center justify-center gap-2 uppercase ${manualCharge.type === TransactionType.INCOME ? 'bg-white text-green-700 shadow-sm' : 'text-gray-500'}`}>Receita</button>
+                      <button type="button" onClick={() => setManualCharge({...manualCharge, type: TransactionType.EXPENSE})} className={`flex-1 py-2 text-xs font-black rounded-lg transition-all flex items-center justify-center gap-2 uppercase ${manualCharge.type === TransactionType.EXPENSE ? 'bg-white text-red-700 shadow-sm' : 'text-gray-500'}`}>Despesa</button>
                   </div>
-                  <div><label className="block text-xs font-bold text-blue-500 uppercase mb-1">Descrição</label><input required className="w-full border border-blue-200 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Ex: Uniforme, Taxa de Torneio..." value={manualCharge.description} onChange={e => setManualCharge({...manualCharge, description: e.target.value})} /></div>
+                  <div><label className="block text-xs font-bold text-gray-500 uppercase mb-1">Descrição</label><input required className="w-full border rounded-xl p-3 focus:ring-2 focus:ring-primary-500 outline-none" placeholder="Ex: Uniforme, Taxa de Torneio..." value={manualCharge.description} onChange={e => setManualCharge({...manualCharge, description: e.target.value})} /></div>
                   <div className="grid grid-cols-2 gap-4">
-                      <div><label className="block text-xs font-bold text-blue-500 uppercase mb-1">Valor (R$)</label><input required type="number" step="0.01" className="w-full border border-blue-200 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none font-bold" placeholder="0,00" value={manualCharge.amount || ''} onChange={e => setManualCharge({...manualCharge, amount: parseFloat(e.target.value) || 0})} /></div>
-                      <div><label className="block text-xs font-bold text-blue-500 uppercase mb-1">Vencimento</label><input required type="date" className="w-full border border-blue-200 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none" value={manualCharge.date} onChange={e => setManualCharge({...manualCharge, date: e.target.value})} /></div>
+                      <div><label className="block text-xs font-bold text-gray-500 uppercase mb-1">Valor (R$)</label><input required type="number" step="0.01" className="w-full border rounded-xl p-3 focus:ring-2 focus:ring-primary-500 outline-none font-bold" placeholder="0,00" value={manualCharge.amount || ''} onChange={e => setManualCharge({...manualCharge, amount: parseFloat(e.target.value) || 0})} /></div>
+                      <div><label className="block text-xs font-bold text-gray-500 uppercase mb-1">Vencimento</label><input required type="date" className="w-full border rounded-xl p-3 focus:ring-2 focus:ring-primary-500 outline-none" value={manualCharge.date} onChange={e => setManualCharge({...manualCharge, date: e.target.value})} /></div>
                   </div>
                   <div className="pt-4 flex gap-3">
-                    <button type="button" onClick={resetChargeModal} className="flex-1 py-3 text-blue-500 font-bold hover:bg-blue-100 rounded-xl transition-colors">Cancelar</button>
-                    <button type="submit" className="flex-1 py-3 bg-blue-600 text-white rounded-xl font-black hover:bg-blue-700 transition-all uppercase tracking-tight">{editingChargeId ? 'SALVAR' : 'LANÇAR'}</button>
+                    <button type="button" onClick={resetChargeModal} className="flex-1 py-3 text-gray-500 font-bold hover:bg-gray-100 rounded-xl transition-colors">Cancelar</button>
+                    <button type="submit" className="flex-1 py-3 bg-gray-900 text-white rounded-xl font-black hover:bg-black transition-all uppercase tracking-tight">{editingChargeId ? 'SALVAR' : 'LANÇAR'}</button>
                   </div>
             </form>
           </div>
@@ -1582,29 +1594,29 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
       {/* MODAL NOVA OCORRÊNCIA */}
       {showOccurrenceModal && (
         <div className="fixed inset-0 z-120 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-          <div className="bg-white rounded-2xl shadow-xl w-full max-sm p-6 animate-in slide-in-from-bottom-4 duration-200">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 animate-in slide-in-from-bottom-4 duration-200">
             <div className="flex justify-between items-center mb-6">
-                <h3 className="text-lg font-black text-blue-800 uppercase tracking-tighter flex items-center gap-2">
+                <h3 className="text-lg font-black text-gray-800 uppercase tracking-tighter flex items-center gap-2">
                     <MessageSquareWarning className="text-blue-600 w-5 h-5" /> Registrar Ocorrência
                 </h3>
-                <button onClick={() => setShowOccurrenceModal(false)} className="text-blue-400 hover:text-blue-600 transition-colors">✕</button>
+                <button onClick={() => setShowOccurrenceModal(false)} className="text-gray-400 hover:text-gray-600 transition-colors">✕</button>
             </div>
             <form onSubmit={handleSaveOccurrence} className="space-y-4">
                 <div>
-                    <label className="block text-xs font-bold text-blue-500 uppercase mb-1">Descrição do Ocorrido</label>
-                    <textarea required rows={4} className="w-full border border-blue-200 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none text-sm" 
+                    <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Descrição do Ocorrido</label>
+                    <textarea required rows={4} className="w-full border rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none text-sm" 
                         placeholder="Descreva o comportamento, atraso ou aviso para o responsável..."
                         value={newOccurrence.description} onChange={e => setNewOccurrence({...newOccurrence, description: e.target.value})} />
                 </div>
                 <div>
-                    <label className="block text-xs font-bold text-blue-500 uppercase mb-1">Data da Ocorrência</label>
-                    <input required type="date" className="w-full border border-blue-200 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none" 
+                    <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Data da Ocorrência</label>
+                    <input required type="date" className="w-full border rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none" 
                         value={newOccurrence.date} onChange={e => setNewOccurrence({...newOccurrence, date: e.target.value})} />
                 </div>
-                <p className="text-[10px] text-blue-400 italic">Ao salvar, uma mensagem será enviada automaticamente para o WhatsApp do responsável cadastrado.</p>
+                <p className="text-[10px] text-gray-400 italic">Ao salvar, uma mensagem será enviada automaticamente para o WhatsApp do responsável cadastrado.</p>
                 <div className="pt-4 flex gap-3">
-                    <button type="button" onClick={() => setShowOccurrenceModal(false)} className="flex-1 py-3 text-blue-500 font-bold hover:bg-blue-100 rounded-xl transition-colors">Cancelar</button>
-                    <button type="submit" className="flex-1 py-3 bg-blue-600 text-white rounded-xl font-black hover:bg-blue-700 transition-all shadow-lg shadow-blue-200">SALVAR E ENVIAR</button>
+                    <button type="button" onClick={() => setShowOccurrenceModal(false)} className="flex-1 py-3 text-gray-500 font-bold hover:bg-gray-100 rounded-xl transition-colors">Cancelar</button>
+                    <button type="submit" className="flex-1 py-3 bg-blue-600 text-white rounded-xl font-black hover:bg-blue-700 transition-all shadow-lg shadow-blue-100">SALVAR E ENVIAR</button>
                 </div>
             </form>
           </div>
