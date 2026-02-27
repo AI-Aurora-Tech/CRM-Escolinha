@@ -256,10 +256,44 @@ function App() {
           active: studentData.active ?? true,
           documents: studentData.documents || {}
         };
-        const { error } = await supabase.from('students').insert([payload]);
+        const { data: newStudentData, error } = await supabase.from('students').insert([payload]).select().single();
         if (error) throw error;
+
+        if (newStudentData && studentData.planId) {
+          const plan = plans.find(p => p.id === studentData.planId);
+          if (plan) {
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            const startMonth = now.getMonth() + 1;
+            const newTransactions = [];
+
+            for (let month = startMonth; month <= 12; month++) {
+              const monthStr = month.toString().padStart(2, '0');
+              const yearStr = currentYear.toString();
+              const dueDay = plan.dueDay || 10;
+              const dueDate = `${yearStr}-${monthStr}-${dueDay.toString().padStart(2, '0')}`;
+
+              newTransactions.push({ 
+                description: `Mensalidade ${monthStr}/${yearStr}`,
+                category: 'Mensalidade',
+                amount: plan.price,
+                type: TransactionType.INCOME,
+                date: dueDate,
+                status: PaymentStatus.PENDING,
+                student_id: newStudentData.id,
+                plan_id: studentData.planId,
+                payment_method: PaymentMethod.CASH,
+                recurrence: 'NONE'
+              });
+            }
+            if (newTransactions.length > 0) {
+              await supabase.from('transactions').insert(newTransactions);
+            }
+          }
+        }
+
         await fetchData(true);
-        alert("Atleta cadastrado!");
+        alert("Atleta cadastrado e mensalidades geradas!");
     } catch (err: any) { alert(`Erro: ${err.message}`); } finally { setIsLoading(false); }
   };
 
@@ -396,44 +430,58 @@ function App() {
     try {
       const activeStudents = students.filter(s => s.active);
       const now = new Date();
-      const currentMonth = now.getMonth() + 1;
       const currentYear = now.getFullYear();
-      const monthStr = currentMonth.toString().padStart(2, '0');
-      const yearStr = currentYear.toString();
-      
+      const currentMonth = now.getMonth() + 1; // 1-12
+
+      const newTransactions = [];
+
       for (const student of activeStudents) {
         if (!student.planId) continue;
         const plan = plans.find(p => p.id === student.planId);
         if (!plan) continue;
 
-        const existing = transactions.find(t => 
-          t.studentId === student.id && 
-          t.category === 'Mensalidade' &&
-          t.date.startsWith(`${yearStr}-${monthStr}`)
-        );
+        for (let month = currentMonth; month <= 12; month++) {
+          const monthStr = month.toString().padStart(2, '0');
+          const yearStr = currentYear.toString();
 
-        if (!existing) {
-          const dueDay = plan.dueDay || 10;
-          const dueDate = `${yearStr}-${monthStr}-${dueDay.toString().padStart(2, '0')}`;
-          
-          const payload = { 
-            description: `Mensalidade ${monthStr}/${yearStr}`, 
-            category: 'Mensalidade', 
-            amount: plan.price, 
-            type: TransactionType.INCOME, 
-            date: dueDate, 
-            status: PaymentStatus.PENDING, 
-            student_id: safeId(student.id), 
-            plan_id: safeId(student.planId), 
-            payment_method: PaymentMethod.CASH, 
-            recurrence: 'NONE' 
-          };
-          await supabase.from('transactions').insert([payload]);
+          const existing = transactions.find(t => 
+            t.studentId === student.id && 
+            t.category === 'Mensalidade' &&
+            t.date.startsWith(`${yearStr}-${monthStr}`)
+          );
+
+          if (!existing) {
+            const dueDay = plan.dueDay || 10;
+            const dueDate = `${yearStr}-${monthStr}-${dueDay.toString().padStart(2, '0')}`;
+            
+            newTransactions.push({ 
+              description: `Mensalidade ${monthStr}/${yearStr}`,
+              category: 'Mensalidade',
+              amount: plan.price,
+              type: TransactionType.INCOME,
+              date: dueDate,
+              status: PaymentStatus.PENDING,
+              student_id: safeId(student.id),
+              plan_id: safeId(student.planId),
+              payment_method: PaymentMethod.CASH,
+              recurrence: 'NONE'
+            });
+          }
         }
       }
+
+      if (newTransactions.length > 0) {
+        const { error } = await supabase.from('transactions').insert(newTransactions);
+        if (error) throw error;
+        alert(`${newTransactions.length} mensalidades foram geradas com sucesso!`)
+      } else {
+        alert('Todas as mensalidades para o ano corrente já foram geradas.');
+      }
+
       await fetchData(true);
-    } catch (err) {
+    } catch (err: any) {
       console.error("Error generating tuitions", err);
+      alert(`Erro ao gerar mensalidades: ${err.message}`);
     } finally {
       setIsLoading(false);
     }
