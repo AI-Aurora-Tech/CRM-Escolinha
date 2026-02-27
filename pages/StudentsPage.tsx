@@ -151,14 +151,14 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
     doc.setFont("helvetica", "bold");
     doc.text("CONTRATO DE PRESTAÇÃO DE SERVIÇOS ESPORTIVOS", 105, 20, { align: 'center' });
     doc.setFontSize(12);
-    doc.text("Garotos do Martinica", 105, 28, { align: 'center' });
+    doc.text("Pintagueiras", 105, 28, { align: 'center' });
     
     // Dados da Escola
     doc.setFontSize(10);
     doc.text("DADOS DA UNIDADE:", 14, 40);
     doc.setFont("helvetica", "normal");
-    doc.text("Escola: Garotos do Martinica", 14, 45);
-    doc.text("Endereço: Unidade Martinica - São Paulo/SP", 14, 50);
+    doc.text("Escola: Pintagueiras", 14, 45);
+    doc.text("Endereço: Unidade Pintagueiras - São Paulo/SP", 14, 50);
 
     // Dados do Responsável
     doc.setFont("helvetica", "bold");
@@ -199,7 +199,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
       "2 - Apresentar o ATESTADO MÉDICO em tempo hábil (30 dias), além de declarar que o aluno goza de perfeita saúde, não havendo qualquer impedimento ao se estado de saúde para a prática esportiva;",
       "3 - O Aluno não treinara sem que esteja DEVIDAMENTE UNIFORMIZADO. Portanto, é obrigatório o uso do kit completo, além de chuteiras Society (obs.: É proibido o uso de chuteiras com travas em nosso campo);",
       "4 - Os eventuais problemas de ordem DISCIPLINAR serão resolvidos pela direção da escola e posteriormente comunicados ao responsável pelo aluno.;",
-      "5 - Autorizo a utilização da imagem do referido aluno nas mídias sociais do Garotos do Martinica / Martinica Oficial, site e demais ações publicitárias com o intuito de promover o trabalho desenvolvido pela entidade.",
+      "5 - Autorizo a utilização da imagem do referido aluno nas mídias sociais da Pintagueiras / Pintagueiras Oficial, site e demais ações publicitárias com o intuito de promover o trabalho desenvolvido pela entidade.",
       "6 - Caso o atleta acumule duas ou mais mensalidades em atraso, o mesmo terá o acesso aos treinamentos automaticamente suspenso, permanecendo o bloqueio até a regularização dos débitos pendentes."
     ];
 
@@ -229,7 +229,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
     currentY += 5;
     doc.text("Assinatura do Responsável", 14, currentY);
 
-    doc.save(`Contrato_Martinica_${student.name.replace(/\s+/g, '_')}.pdf`);
+    doc.save(`Contrato_Pintagueiras_${student.name.replace(/\s+/g, '_')}.pdf`);
   };
 
   const handleManualTuitionGen = async () => {
@@ -273,7 +273,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
           const phone = student.guardian.phone.replace(/\D/g, '');
 
           if (phone) {
-              let message = `Olá *${student.guardian.name}*! ⚽ Aqui é da escolinha *Garotos do Martinica*.\n\nIdentificamos as seguintes pendências para o atleta *${student.name}*:\n\n`;
+              let message = `Olá *${student.guardian.name}*! ⚽ Aqui é da escolinha *Pintagueiras*.\n\nIdentificamos as seguintes pendências para o atleta *${student.name}*:\n\n`;
               
               overdueTxs.forEach(t => {
                   message += `• *${t.description}* - R$ ${t.amount.toFixed(2)} (Venc: ${formatDate(t.date)})\n`;
@@ -337,13 +337,13 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
       const ws = XLSX.utils.json_to_sheet(data);
       const wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, "Alunos Completo");
-      XLSX.writeFile(wb, `Alunos_Martinica_Completo_${new Date().toISOString().split('T')[0]}.xlsx`);
+      XLSX.writeFile(wb, `Alunos_Pintagueiras_Completo_${new Date().toISOString().split('T')[0]}.xlsx`);
   };
 
   const handleExportPDF = () => {
       const doc = new jsPDF({ orientation: 'landscape' });
       doc.setFontSize(18);
-      doc.text("Relatório Geral de Alunos - Garotos do Martinica", 14, 20);
+      doc.text("Relatório Geral de Alunos - Pintagueiras", 14, 20);
       doc.setFontSize(10);
       doc.text(`Gerado em: ${new Date().toLocaleDateString('pt-BR')}`, 14, 28);
       
@@ -372,7 +372,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
           headStyles: { fillColor: [249, 115, 22] },
           styles: { fontSize: 7, cellPadding: 2 }
       });
-      doc.save("Relatorio_Completo_Alunos_Martinica.pdf");
+      doc.save("Relatorio_Completo_Alunos_Pintagueiras.pdf");
   };
 
   const handleDownloadTemplate = () => {
@@ -400,7 +400,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
   const sendDocReminder = async (student: Student) => {
     const phone = student.guardian.phone.replace(/\D/g, '');
     if (!phone) return alert("Responsável sem telefone cadastrado.");
-    const msg = `Olá *${student.guardian.name}*, aqui é da escolinha *Garotos do Martinica*! ⚽\n\nNotamos que o(a) atleta *${student.name}* está com pendências na entrega da documentação obrigatória (RG, CPF, Comprovante de Endereço ou Escolar).\n\nPor favor, entregue o quanto antes na secretaria para regularizar a inscrição. Obrigado!`;
+    const msg = `Olá *${student.guardian.name}*, aqui é da escolinha *Pintagueiras*! ⚽\n\nNotamos que o(a) atleta *${student.name}* está com pendências na entrega da documentação obrigatória (RG, CPF, Comprovante de Endereço ou Escolar).\n\nPor favor, entregue o quanto antes na secretaria para regularizar a inscrição. Obrigado!`;
     const sent = await sendEvolutionMessage(phone, msg);
     if (sent) alert(`Lembrete de documentos enviado para ${student.guardian.name}!`);
     else alert("Erro ao enviar mensagem via Z-API. Verifique as configurações no menu Financeiro.");
@@ -410,7 +410,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
     const phone = student.guardian.phone.replace(/\D/g, '');
     if (!phone) return alert("Responsável sem telefone cadastrado.");
     const date = formatDate(student.medicalCertificateExpiry);
-    const msg = `Olá *${student.guardian.name}*, tudo bem? Aqui é da *Garotos do Martinica*! ⚽\n\nIdentificamos que o atestado médico do(a) atleta *${student.name}* venceu em *${date}*. \n\nA renovação do exame médico é fundamental para a segurança e continuidade do aluno nos treinos. Por favor, providencie um novo atestado.\n\nQualquer dúvida, estamos à disposição!`;
+    const msg = `Olá *${student.guardian.name}*, tudo bem? Aqui é da *Pintagueiras*! ⚽\n\nIdentificamos que o atestado médico do(a) atleta *${student.name}* venceu em *${date}*. \n\nA renovação do exame médico é fundamental para a segurança e continuidade do aluno nos treinos. Por favor, providencie um novo atestado.\n\nQualquer dúvida, estamos à disposição!`;
     const sent = await sendEvolutionMessage(phone, msg);
     if (sent) alert(`Aviso de atestado enviado para ${student.guardian.name}!`);
     else alert("Erro ao enviar via Z-API. Verifique as configurações no menu Financeiro.");
@@ -481,7 +481,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
           }
       }
 
-      let message = `Olá *${studentForm.guardian.name}*, somos da *Garotos do Martinica*. ⚽\n\nConstatamos a pendência: *${tx.description}*\nVencimento: ${formatDate(tx.date)}\nValor: *R$ ${tx.amount.toFixed(2)}*`;
+      let message = `Olá *${studentForm.guardian.name}*, somos da *Pintagueiras*. ⚽\n\nConstatamos a pendência: *${tx.description}*\nVencimento: ${formatDate(tx.date)}\nValor: *R$ ${tx.amount.toFixed(2)}*`;
       
       message += `\n\n*Pagamento via PIX (Chave Celular):* 11987019721\nNome: CLUBE DESPORTIVO MUNICIPAL JARDIM MARTINICA`;
 
@@ -507,7 +507,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
       const selectedTxs = studentTransactions.filter(t => selectedFinanceIds.has(t.id));
       const totalAmount = selectedTxs.reduce((acc, t) => acc + t.amount, 0);
       
-      let message = `Olá *${studentForm.guardian.name}*! ⚽ Aqui é da *Garotos do Martinica*.\n\nIdentificamos pendências para o atleta *${studentForm.name}*:\n\n`;
+      let message = `Olá *${studentForm.guardian.name}*! ⚽ Aqui é da *Pintagueiras*.\n\nIdentificamos pendências para o atleta *${studentForm.name}*:\n\n`;
       
       selectedTxs.forEach(t => {
           message += `• *${t.description}* - R$ ${t.amount.toFixed(2)} (Venc: ${formatDate(t.date)})\n`;
@@ -806,7 +806,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
       const absences = filteredStudentActivities.filter(a => !(a.attendance || []).includes(editingId!) && a.date <= todayStr).length;
       const goals = filteredStudentActivities.reduce((acc, a) => acc + (a.scorers?.filter(s => s === editingId).length || 0), 0);
 
-      let message = `⚽ *Relatório de Presença - Garotos do Martinica*\n\n`;
+      let message = `⚽ *Relatório de Presença - Pintagueiras*\n\n`;
       message += `Atleta: *${student.name}*\n`;
       message += `Período: ${monthName} / ${attendanceYear}\n\n`;
       message += `✅ Presenças: *${presences}*\n`;

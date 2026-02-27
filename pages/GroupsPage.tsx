@@ -169,7 +169,7 @@ export const GroupsPage: React.FC<GroupsPageProps> = ({ groups, students, transa
     
     const fileName = idsToExport.length === 1 
       ? `Grupo_${groups.find(g => g.id === idsToExport[0])?.name.replace(/\s+/g, '_')}.xlsx`
-      : `Exportacao_Grupos_Martinica_${new Date().toISOString().split('T')[0]}.xlsx`;
+      : `Exportacao_Grupos_Pintagueiras_${new Date().toISOString().split('T')[0]}.xlsx`;
 
     XLSX.writeFile(wb, fileName);
   };

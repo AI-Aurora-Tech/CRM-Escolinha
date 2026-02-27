@@ -46,7 +46,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentUser, currentPage, onNa
                 <img src="/logo.svg" alt="Logo" className="w-8 h-8" />
             </div>
             <div>
-                <h1 className="font-bold text-lg leading-tight">Garotos do<br/>Martinica</h1>
+                <h1 className="font-bold text-lg leading-tight">Pintagueiras</h1>
             </div>
           </div>
           <button onClick={onClose} className="md:hidden text-gray-400 hover:text-white">

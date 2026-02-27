@@ -260,7 +260,7 @@ export const FinancePage: React.FC<FinancePageProps> = ({ transactions, plans, s
   const handleExportPDF = () => {
     const doc = new jsPDF();
     doc.setFontSize(18);
-    doc.text("Relatório Financeiro - Garotos do Martinica", 14, 20);
+    doc.text("Relatório Financeiro - Pintagueiras", 14, 20);
     doc.setFontSize(10);
     doc.text(`Período: ${formatDate(startDate)} até ${formatDate(endDate)}`, 14, 28);
     doc.text(`Tipo de Lançamento: ${filter === 'ALL' ? 'Todos' : filter === 'INCOME' ? 'Receitas' : 'Despesas'}`, 14, 34);
@@ -288,7 +288,7 @@ export const FinancePage: React.FC<FinancePageProps> = ({ transactions, plans, s
       headStyles: { fillColor: [249, 115, 22] }
     });
 
-    doc.save(`Relatorio_Financeiro_Martinica_${startDate}_${endDate}.pdf`);
+    doc.save(`Relatorio_Financeiro_Pintagueiras_${startDate}_${endDate}.pdf`);
   };
 
   const handleExportExcel = () => {
@@ -303,7 +303,7 @@ export const FinancePage: React.FC<FinancePageProps> = ({ transactions, plans, s
     const ws = XLSX.utils.json_to_sheet(data);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Financeiro");
-    XLSX.writeFile(wb, `Financeiro_Martinica_${startDate}_${endDate}.xlsx`);
+    XLSX.writeFile(wb, `Financeiro_Pintagueiras_${startDate}_${endDate}.xlsx`);
   };
 
   return (

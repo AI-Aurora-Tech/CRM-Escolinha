@@ -404,7 +404,7 @@ function App() {
             if (student && student.guardian.phone && fullTx) {
                 const amount = t.amount || fullTx.amount;
                 const description = t.description || fullTx.description;
-                const msg = `✅ *PAGAMENTO RECEBIDO* ⚽\n\nOlá *${student.guardian.name}*!\nConfirmamos o recebimento do pagamento do atleta *${student.name}*:\n\n📌 *${description}*\n💰 Valor: *R$ ${amount.toFixed(2)}*\n\nObrigado! Garotos do Martinica.`;
+                const msg = `✅ *PAGAMENTO RECEBIDO* ⚽\n\nOlá *${student.guardian.name}*!\nConfirmamos o recebimento do pagamento do atleta *${student.name}*:\n\n📌 *${description}*\n💰 Valor: *R$ ${amount.toFixed(2)}*\n\nObrigado! Pintagueiras.`;
                 sendEvolutionMessage(student.guardian.phone, msg);
             }
         }
@@ -676,7 +676,7 @@ function App() {
         }
 
         if (student.guardian.phone) {
-            const msg = `✅ *PAGAMENTO DE TAXA RECEBIDO* ⚽\n\nOlá *${student.guardian.name}*!\n\nConfirmamos o recebimento da taxa de *R$ ${Number(activity.fee).toFixed(2)}* referente à atividade: *${activity.title}* do atleta *${student.name}*.\n\nObrigado! Garotos do Martinica.`;
+            const msg = `✅ *PAGAMENTO DE TAXA RECEBIDO* ⚽\n\nOlá *${student.guardian.name}*!\n\nConfirmamos o recebimento da taxa de *R$ ${Number(activity.fee).toFixed(2)}* referente à atividade: *${activity.title}* do atleta *${student.name}*.\n\nObrigado! Pintagueiras.`;
             sendEvolutionMessage(student.guardian.phone, msg);
         }
     } else {
@@ -696,7 +696,7 @@ function App() {
       if (error) return false;
       const student = students.find(s => s.id === studentId);
       if (student?.guardian.phone) {
-          const msg = `⚽ *COMUNICADO DE OCORRÊNCIA* ⚽\n\nOlá *${student.guardian.name}*!\n\nRegistramos a seguinte ocorrência para o atleta *${student.name}* em ${date.split('-').reverse().join('/')}:\n\n"${description}"\n\nQualquer dúvida, procure a coordenação. Garotos do Martinica.`;
+          const msg = `⚽ *COMUNICADO DE OCORRÊNCIA* ⚽\n\nOlá *${student.guardian.name}*!\n\nRegistramos a seguinte ocorrência para o atleta *${student.name}* em ${date.split('-').reverse().join('/')}:\n\n"${description}"\n\nQualquer dúvida, procure a coordenação. Pintagueiras.`;
           sendEvolutionMessage(student.guardian.phone, msg);
       }
       await fetchData(true);
@@ -710,7 +710,7 @@ function App() {
         <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
             <div className="bg-white rounded-2xl shadow-xl w-full max-md overflow-hidden">
                 <div className="bg-primary-600 p-8 text-center">
-                    <h1 className="text-2xl font-bold text-white mb-1">Garotos do Martinica</h1>
+                    <h1 className="text-2xl font-bold text-white mb-1">Pintagueiras</h1>
                     <p className="text-primary-100">Gestão de Escolinha</p>
                 </div>
                 <div className="flex border-b">

@@ -440,9 +440,9 @@ export const SchedulePage: React.FC<SchedulePageProps> = ({ activities, students
           let msg = '';
           
           if (notifyIsFeeCharging) {
-              msg = `⚽ *COBRANÇA DE TAXA - Garotos do Martinica*\n\nOlá *${student.guardian.name}*! Notamos que a taxa referente ao jogo *${notifyActivity.title}* do atleta *${student.name}* (presente na partida) ainda não foi regularizada.\n\n💰 Valor: *R$ ${notifyActivity.fee?.toFixed(2)}*\n\n*Pagamento via PIX (Celular):* 11987019721\nNome: CLUBE DESPORTIVO MUNICIPAL JARDIM MARTINICA\n\nPor favor, realize o pagamento para mantermos o histórico financeiro em dia. Caso já tenha pago, favor desconsiderar.`;
+              msg = `⚽ *COBRANÇA DE TAXA - Pintagueiras*\n\nOlá *${student.guardian.name}*! Notamos que a taxa referente ao jogo *${notifyActivity.title}* do atleta *${student.name}* (presente na partida) ainda não foi regularizada.\n\n💰 Valor: *R$ ${notifyActivity.fee?.toFixed(2)}*\n\n*Pagamento via PIX (Celular):* 11987019721\nNome: CLUBE DESPORTIVO MUNICIPAL JARDIM PINTAGUEIRAS\n\nPor favor, realize o pagamento para mantermos o histórico financeiro em dia. Caso já tenha pago, favor desconsiderar.`;
           } else if (notifyLogs.some(l => l.includes('resultados'))) {
-              msg = `⚽ *RESULTADO DE JOGO - Garotos do Martinica*\n\nOlá ${student.guardian.name}, o jogo de hoje terminou! 🏆\nAtleta: *${student.name}*\n\n📌 *${notifyActivity.title}*\n⚔️ Adversário: *${notifyActivity.opponent || 'Não informado'}*\n\n📊 *PLACAR FINAL:* \n*GAROTOS ${notifyActivity.homeScore} X ${notifyActivity.awayScore} ${notifyActivity.opponent || 'ADVERSÁRIO'}*\n`;
+              msg = `⚽ *RESULTADO DE JOGO - Pintagueiras*\n\nOlá ${student.guardian.name}, o jogo de hoje terminou! 🏆\nAtleta: *${student.name}*\n\n📌 *${notifyActivity.title}*\n⚔️ Adversário: *${notifyActivity.opponent || 'Não informado'}*\n\n📊 *PLACAR FINAL:* \n*PINTAGUEIRAS ${notifyActivity.homeScore} X ${notifyActivity.awayScore} ${notifyActivity.opponent || 'ADVERSÁRIOS'}*\n`;
               if ((notifyActivity.homeScore || 0) > 0 && notifyActivity.scorers && notifyActivity.scorers.length > 0) {
                   msg += `\n⚽ *NOSSOS GOLS:*`;
                   const goalCounts = notifyActivity.scorers.reduce((acc, sid) => { acc[sid] = (acc[sid] || 0) + 1; return acc; }, {} as Record<string, number>);
@@ -455,7 +455,7 @@ export const SchedulePage: React.FC<SchedulePageProps> = ({ activities, students
           } else {
               const type = notifyActivity.type === 'GAME' ? 'JOGO' : 'TREINO';
               const emoji = notifyActivity.type === 'GAME' ? '🏆' : '⚽';
-              msg = `Olá ${student.guardian.name}, aqui é da Garotos do Martinica! ${emoji}\n\n*COMUNICADO: ${type}*\nAtleta: *${student.name}*\n\n📌 *${notifyActivity.title}*\n📅 Data: ${formatDate(notifyActivity.date)}\n`;
+              msg = `Olá ${student.guardian.name}, aqui é da Pintagueiras! ${emoji}\n\n*COMUNICADO: ${type}*\nAtleta: *${student.name}*\n\n📌 *${notifyActivity.title}*\n📅 Data: ${formatDate(notifyActivity.date)}\n`;
               if (notifyActivity.type === 'GAME') msg += `⏰ Horário do Jogo: ${notifyActivity.startTime}\n`; else msg += `⏰ Horário: ${notifyActivity.startTime} às ${notifyActivity.endTime}\n`;
               if (notifyActivity.type === 'GAME') {
                   if (notifyActivity.opponent) msg += `⚔️ Adversário: ${notifyActivity.opponent}\n`;
