@@ -53,7 +53,7 @@ const sanitizePayer = (payerData: CreatePreferenceData['payer']) => {
     const fullName = payerData.name ? payerData.name.trim() : 'Responsável Atleta';
     const nameParts = fullName.split(' ');
     const firstName = nameParts[0] || 'Responsável';
-    const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : 'Pintagueiras';
+    const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : 'Pitangueiras';
 
     const rawPhone = payerData.phone ? payerData.phone.replace(/\D/g, '') : '';
     let phoneObject = {
