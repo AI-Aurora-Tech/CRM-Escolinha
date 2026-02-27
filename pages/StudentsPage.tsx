@@ -258,6 +258,35 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
       }
   };
 
+  const handleBatchSendDocReminders = async () => {
+      const studentsWithMissingDocs = students.filter(s => s.active && hasMissingDocs(s));
+
+      if (studentsWithMissingDocs.length === 0) {
+          alert("Não há atletas ativos com documentos pendentes para notificar.");
+          return;
+      }
+
+      const confirmMsg = `Deseja enviar lembretes de documentos via WhatsApp para ${studentsWithMissingDocs.length} responsáveis?\n\nREGRA DE SEGURANÇA: O sistema enviará 1 mensagem a cada 10 segundos para evitar que seu número seja bloqueado por SPAM.`;
+      
+      if (!confirm(confirmMsg)) return;
+
+      setIsGenerating(true);
+      let successCount = 0;
+
+      for (let i = 0; i < studentsWithMissingDocs.length; i++) {
+          const student = studentsWithMissingDocs[i];
+          await sendDocReminder(student);
+          successCount++; // Assume success if sendDocReminder doesn't throw
+
+          if (i < studentsWithMissingDocs.length - 1) {
+              await new Promise(resolve => setTimeout(resolve, 10000));
+          }
+      }
+
+      setIsGenerating(false);
+      alert(`Processo concluído!\nLembretes enviados: ${successCount}`);
+  };
+
   const handleBatchSendCharges = async () => {
       const debtors = students.filter(s => {
           if (!s.active) return false;
@@ -861,6 +890,10 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                 <button onClick={handleManualTuitionGen} disabled={isGenerating} className="justify-center flex items-center gap-2 bg-gray-700 text-white px-3 py-2 rounded-lg hover:bg-gray-800 transition-colors shadow-sm text-xs sm:text-sm disabled:opacity-50">
                     {isGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Settings2 className="w-4 h-4" />}
                     <span>Mensalidades</span>
+                </button>
+                <button onClick={handleBatchSendDocReminders} disabled={isGenerating} className="justify-center flex items-center gap-2 bg-yellow-500 text-white px-3 py-2 rounded-lg hover:bg-yellow-600 transition-colors shadow-sm text-xs sm:text-sm disabled:opacity-50">
+                    {isGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : <FileWarning className="w-4 h-4" />}
+                    <span>Doc</span>
                 </button>
                 <button onClick={handleBatchSendCharges} disabled={isGenerating} className="justify-center flex items-center gap-2 bg-purple-600 text-white px-3 py-2 rounded-lg hover:bg-purple-700 transition-colors shadow-sm text-xs sm:text-sm disabled:opacity-50">
                     {isGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}
