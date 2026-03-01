@@ -109,6 +109,11 @@ export interface Activity {
   recurrence?: 'weekly' | 'none';
   attendance: string[]; 
   feePayments?: string[]; 
+  lineup?: {
+    formation: string;
+    starters: { [key: string]: string }; // position -> studentId
+    reserves: string[]; // studentIds
+  };
 }
 
 export interface Transaction {

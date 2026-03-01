@@ -113,6 +113,7 @@ CREATE TABLE IF NOT EXISTS public.activities (
     recurrence text DEFAULT 'none' CHECK (recurrence IN ('none', 'daily', 'weekly', 'monthly')),
     attendance uuid[],
     fee_payments jsonb, -- {studentId: transactionId}
+    lineup jsonb, -- { formation: string, starters: { [pos]: studentId }, reserves: studentId[] }
     created_at timestamp with time zone DEFAULT now()
 );
 ALTER TABLE public.activities DISABLE ROW LEVEL SECURITY;

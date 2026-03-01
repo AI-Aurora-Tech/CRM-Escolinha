@@ -7,6 +7,8 @@ import autoTable from 'jspdf-autotable';
 import { sendEvolutionMessage } from '../services/evolutionService';
 import { createMPPreference } from '../services/mercadoPago';
 
+import { LineupBuilder } from '../components/LineupBuilder';
+
 interface SchedulePageProps {
   activities: Activity[];
   students: Student[];
@@ -33,6 +35,9 @@ export const SchedulePage: React.FC<SchedulePageProps> = ({ activities, students
   const [selectedStudentIds, setSelectedStudentIds] = useState<Set<string>>(new Set());
   const [studentSearch, setStudentSearch] = useState('');
   const [hasFee, setHasFee] = useState(false);
+
+  const [showLineupBuilder, setShowLineupBuilder] = useState(false);
+  const [currentLineupActivity, setCurrentLineupActivity] = useState<Activity | null>(null);
 
   const todayStr = useMemo(() => new Date().toISOString().split('T')[0], []);
 
@@ -114,6 +119,18 @@ export const SchedulePage: React.FC<SchedulePageProps> = ({ activities, students
       scorers: activity.scorers || [] 
     });
     setShowFinishModal(true);
+  };
+
+  const handleOpenLineup = (e: React.MouseEvent, activity: Activity) => {
+      e.stopPropagation();
+      setCurrentLineupActivity(activity);
+      setShowLineupBuilder(true);
+  };
+
+  const handleSaveLineup = (lineup: any) => {
+      if (currentLineupActivity) {
+          onUpdateActivity({ ...currentLineupActivity, lineup });
+      }
   };
 
   const handleDelete = (id: string) => { if (confirm('Excluir atividade?')) { onDeleteActivity?.(id); if (selectedActivityId === id) setSelectedActivityId(null); } };
@@ -548,13 +565,22 @@ export const SchedulePage: React.FC<SchedulePageProps> = ({ activities, students
                                     {a.location && <span className="flex items-center gap-1 truncate max-w-[150px]"><MapPin className="w-3 h-3" />{a.location}</span>}
                                 </div>
                             </div>
-                            {!isGuardian && (
-                                <div className="flex gap-2">
-                                    {a.type === 'GAME' && (
-                                      <button onClick={(e) => handleOpenFinishMatch(e, a)} className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" title="Encerrar Partida (Lançar Placar)">
-                                        <Flag className="w-4 h-4" />
-                                      </button>
-                                    )}
+                                    {!isGuardian && (
+                                        <div className="flex gap-2">
+                                            {a.type === 'GAME' && (
+                                              <>
+                                                <button 
+                                                    onClick={(e) => handleOpenLineup(e, a)}
+                                                    className="p-1.5 text-green-600 hover:bg-green-50 rounded-lg transition-colors"
+                                                    title="Escalação"
+                                                >
+                                                    <Users className="w-4 h-4" />
+                                                </button>
+                                                <button onClick={(e) => handleOpenFinishMatch(e, a)} className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" title="Encerrar Partida (Lançar Placar)">
+                                                  <Flag className="w-4 h-4" />
+                                                </button>
+                                              </>
+                                            )}
                                     <button onClick={(e) => handleOpenNotify(e, a)} className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" title="Convocar via WhatsApp">
                                         <Megaphone className="w-4 h-4" />
                                     </button>
@@ -668,12 +694,12 @@ export const SchedulePage: React.FC<SchedulePageProps> = ({ activities, students
                     <div className="p-4 bg-blue-50 rounded-xl border border-blue-100">
                       <p className="text-xs font-bold text-blue-400 uppercase mb-3 text-center tracking-widest">Placar Final</p>
                       <div className="flex items-center gap-4">
-                          <div className="flex-1 text-center"><label className="block text-[10px] font-black text-primary-600 mb-1 uppercase">Garotos</label><input type="number" min="0" className="w-20 mx-auto border-2 border-blue-200 rounded-xl p-3 text-center text-3xl font-black focus:border-primary-500 outline-none transition-all" value={newActivity.homeScore} onChange={e => setNewActivity({...newActivity, homeScore: parseInt(e.target.value) || 0})} /></div>
+                          <div className="flex-1 text-center"><label className="block text-[10px] font-black text-primary-600 mb-1 uppercase">Pitangueiras</label><input type="number" min="0" className="w-20 mx-auto border-2 border-blue-200 rounded-xl p-3 text-center text-3xl font-black focus:border-primary-500 outline-none transition-all" value={newActivity.homeScore} onChange={e => setNewActivity({...newActivity, homeScore: parseInt(e.target.value) || 0})} /></div>
                           <div className="text-2xl font-light text-blue-300 pt-4">X</div>
                           <div className="flex-1 text-center"><label className="block text-[10px] font-black text-blue-400 mb-1 uppercase truncate">{newActivity.opponent || 'Visitante'}</label><input type="number" min="0" className="w-20 mx-auto border-2 border-blue-200 rounded-xl p-3 text-center text-3xl font-black focus:border-blue-400 outline-none transition-all" value={newActivity.awayScore} onChange={e => setNewActivity({...newActivity, awayScore: parseInt(e.target.value) || 0})} /></div>
                       </div>
                     </div>
-                    {(newActivity.homeScore || 0) > 0 && (<div className="space-y-3"><label className="block text-xs font-black text-blue-500 uppercase tracking-wider">Artilheiros (Garotos)</label><div className="max-h-48 overflow-y-auto pr-2 space-y-2">{Array.from({ length: Math.min(newActivity.homeScore || 0, 20) }).map((_, idx) => (<div key={idx} className="flex items-center gap-2 bg-blue-50 p-2 rounded-lg border border-blue-100"><span className="text-[10px] font-black text-primary-600 w-8">GOL {idx + 1}</span><select className="flex-1 border rounded-lg p-2 bg-white text-xs outline-none focus:ring-2 focus:ring-primary-500" value={newActivity.scorers?.[idx] || ''} onChange={e => updateScorer(idx, e.target.value)} required><option value="">Quem marcou?</option>{getAttendeesList(newActivity).map(s => <option key={s.id} value={s.id}>{s.name}</option>)}</select></div>))}</div></div>)}
+                    {(newActivity.homeScore || 0) > 0 && (<div className="space-y-3"><label className="block text-xs font-black text-blue-500 uppercase tracking-wider">Artilheiros (Pitangueiras)</label><div className="max-h-48 overflow-y-auto pr-2 space-y-2">{Array.from({ length: Math.min(newActivity.homeScore || 0, 20) }).map((_, idx) => (<div key={idx} className="flex items-center gap-2 bg-blue-50 p-2 rounded-lg border border-blue-100"><span className="text-[10px] font-black text-primary-600 w-8">GOL {idx + 1}</span><select className="flex-1 border rounded-lg p-2 bg-white text-xs outline-none focus:ring-2 focus:ring-primary-500" value={newActivity.scorers?.[idx] || ''} onChange={e => updateScorer(idx, e.target.value)} required><option value="">Quem marcou?</option>{getAttendeesList(newActivity).map(s => <option key={s.id} value={s.id}>{s.name}</option>)}</select></div>))}</div></div>)}
                     <div className="flex flex-col gap-3 pt-4 border-t"><button type="submit" className="w-full py-4 bg-primary-600 text-white rounded-xl font-black shadow-lg shadow-primary-200 hover:bg-primary-700 transition-all uppercase tracking-tighter">SALVAR RESULTADO</button><button type="button" onClick={() => setShowFinishModal(false)} className="w-full py-3 text-blue-500 font-bold hover:bg-blue-100 rounded-xl transition-colors">Voltar</button></div>
                 </form>
              </div>
@@ -747,6 +773,16 @@ export const SchedulePage: React.FC<SchedulePageProps> = ({ activities, students
             <div className="flex justify-end gap-2">{notifyIsRunning ? (<button onClick={() => setNotifyIsRunning(false)} className="flex-1 px-4 py-2 bg-blue-100 text-blue-700 rounded-xl text-sm font-bold hover:bg-blue-200 transition-colors"><Pause className="w-4 h-4 inline mr-1" /> PAUSAR</button>) : (<button onClick={() => setNotifyIsRunning(true)} className="flex-1 px-4 py-2 bg-blue-100 text-blue-700 rounded-xl text-sm font-bold hover:bg-blue-200 transition-colors" disabled={notifyCurrentIndex >= notifyQueue.length}><Play className="w-4 h-4 inline mr-1" /> CONTINUAR</button>)}<button onClick={() => setNotifyModalOpen(false)} className="flex-1 px-4 py-2 bg-blue-100 text-blue-600 rounded-xl text-sm font-bold hover:bg-blue-200 transition-colors">FECHAR</button></div>
           </div>
         </div>
+      )}
+      {showLineupBuilder && currentLineupActivity && (
+          <LineupBuilder 
+              isOpen={showLineupBuilder}
+              onClose={() => setShowLineupBuilder(false)}
+              onSave={handleSaveLineup}
+              initialLineup={currentLineupActivity.lineup}
+              students={students}
+              group={groups.find(g => g.id === currentLineupActivity.groupId)}
+          />
       )}
     </div>
   );
