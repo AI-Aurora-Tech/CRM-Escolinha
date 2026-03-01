@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Student, Group } from '../types';
+import { Student, Group, Activity } from '../types';
 import { X, Printer, User, AlertTriangle, ChevronDown } from 'lucide-react';
 
 interface LineupBuilderProps {
@@ -9,6 +9,7 @@ interface LineupBuilderProps {
     initialLineup?: any;
     students: Student[];
     group?: Group;
+    activity?: Activity;
 }
 
 const FORMATIONS = {
@@ -74,7 +75,7 @@ const FORMATIONS = {
     }
 };
 
-export const LineupBuilder: React.FC<LineupBuilderProps> = ({ isOpen, onClose, onSave, initialLineup, students, group }) => {
+export const LineupBuilder: React.FC<LineupBuilderProps> = ({ isOpen, onClose, onSave, initialLineup, students, group, activity }) => {
     const [formation, setFormation] = useState(initialLineup?.formation || '4-4-2');
     const [starters, setStarters] = useState<{ [key: string]: string }>(initialLineup?.starters || {});
     const [reserves, setReserves] = useState<string[]>(initialLineup?.reserves || []);
@@ -147,6 +148,12 @@ export const LineupBuilder: React.FC<LineupBuilderProps> = ({ isOpen, onClose, o
         window.print();
     };
 
+    const formatDate = (dateString?: string) => {
+        if (!dateString) return '';
+        const parts = dateString.split('-');
+        return parts.length === 3 ? `${parts[2]}/${parts[1]}/${parts[0]}` : dateString;
+    };
+
     if (!isOpen) return null;
 
     const currentFormation = FORMATIONS[formation as keyof typeof FORMATIONS] || FORMATIONS['4-4-2'];
@@ -156,8 +163,8 @@ export const LineupBuilder: React.FC<LineupBuilderProps> = ({ isOpen, onClose, o
         .filter(s => s.name.toLowerCase().includes(searchTerm.toLowerCase()));
 
     return (
-        <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 overflow-y-auto print:bg-white print:p-0 print:static">
-            <div className="bg-white w-full max-w-6xl rounded-2xl shadow-2xl flex flex-col max-h-[90vh] print:shadow-none print:max-h-none print:w-full print:max-w-none">
+        <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 overflow-y-auto print:bg-white print:p-0 print:static print:block">
+            <div className="bg-white w-full max-w-6xl rounded-2xl shadow-2xl flex flex-col max-h-[90vh] print:shadow-none print:max-h-none print:w-full print:max-w-none print:h-auto print:block">
                 
                 {/* Header */}
                 <div className="p-6 border-b flex justify-between items-center print:hidden">
@@ -190,13 +197,19 @@ export const LineupBuilder: React.FC<LineupBuilderProps> = ({ isOpen, onClose, o
                     </div>
                 </div>
 
+                {/* Print Header (Visible only on print) */}
+                <div className="hidden print:block p-8 text-center border-b-2 border-black mb-4">
+                    <h1 className="text-4xl font-black uppercase tracking-tighter mb-2">Pitangueiras F.C.</h1>
+                    <p className="text-xl font-bold uppercase">{group?.name || 'Escalação Oficial'}</p>
+                </div>
+
                 {/* Content */}
-                <div className="flex-1 flex flex-col lg:flex-row overflow-hidden print:overflow-visible">
+                <div className="flex-1 flex flex-col lg:flex-row overflow-hidden print:overflow-visible print:flex-row print:gap-8 print:items-start">
                     
                     {/* Field Area */}
-                    <div className="flex-1 bg-green-600 relative p-8 flex items-center justify-center min-h-[600px] print:min-h-[800px] print:w-full print:p-0">
+                    <div className="flex-1 bg-green-600 relative p-8 flex items-center justify-center min-h-[600px] print:min-h-[800px] print:w-[70%] print:p-0 print:bg-transparent print:border-2 print:border-black print:rounded-xl print:m-4">
                         {/* Field Markings */}
-                        <div className="absolute inset-4 border-4 border-white/50 rounded-lg pointer-events-none print:border-black">
+                        <div className="absolute inset-4 border-4 border-white/50 rounded-lg pointer-events-none print:border-black/20 print:inset-2">
                             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-16 border-b-4 border-x-4 border-white/50 rounded-b-lg print:border-black"></div>
                             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-32 h-16 border-t-4 border-x-4 border-white/50 rounded-t-lg print:border-black"></div>
                             <div className="absolute top-1/2 left-0 w-full h-0.5 bg-white/50 -translate-y-1/2 print:bg-black"></div>
@@ -204,7 +217,7 @@ export const LineupBuilder: React.FC<LineupBuilderProps> = ({ isOpen, onClose, o
                         </div>
 
                         {/* Players */}
-                        <div className="relative w-full h-full max-w-2xl aspect-[2/3]">
+                        <div className="relative w-full h-full max-w-2xl aspect-[2/3] print:w-full print:h-full print:max-w-none">
                             {currentFormation.positions.map((pos) => {
                                 const studentId = starters[pos.id];
                                 const student = students.find(s => s.id === studentId);
@@ -212,11 +225,11 @@ export const LineupBuilder: React.FC<LineupBuilderProps> = ({ isOpen, onClose, o
                                 return (
                                     <div 
                                         key={pos.id}
-                                        className="absolute transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center cursor-pointer group transition-all hover:scale-110"
+                                        className="absolute transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center cursor-pointer group transition-all hover:scale-110 print:scale-100"
                                         style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
                                         onClick={() => handlePositionClick(pos.id)}
                                     >
-                                        <div className={`w-14 h-14 md:w-16 md:h-16 rounded-full border-2 ${student ? 'border-white bg-white' : 'border-white/50 bg-white/20 hover:bg-white/40'} flex items-center justify-center shadow-lg overflow-hidden relative print:border-black`}>
+                                        <div className={`w-14 h-14 md:w-16 md:h-16 rounded-full border-2 ${student ? 'border-white bg-white' : 'border-white/50 bg-white/20 hover:bg-white/40'} flex items-center justify-center shadow-lg overflow-hidden relative print:border-black print:w-20 print:h-20 print:shadow-none`}>
                                             {student ? (
                                                 <img src={student.photoUrl} alt={student.name} className="w-full h-full object-cover" />
                                             ) : (
@@ -232,11 +245,11 @@ export const LineupBuilder: React.FC<LineupBuilderProps> = ({ isOpen, onClose, o
                                             )}
                                         </div>
                                         <div className="mt-1 flex flex-col items-center">
-                                            <span className="bg-black/70 text-white text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider mb-0.5 print:bg-white print:text-black print:border print:border-black">
+                                            <span className="bg-black/70 text-white text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider mb-0.5 print:bg-black print:text-white print:text-xs print:px-3 print:py-1 print:mb-1">
                                                 {pos.name}
                                             </span>
                                             {student && (
-                                                <span className="bg-white text-gray-900 text-xs px-2 py-1 rounded shadow font-bold whitespace-nowrap max-w-[120px] truncate print:border print:border-black">
+                                                <span className="bg-white text-gray-900 text-xs px-2 py-1 rounded shadow font-bold whitespace-nowrap max-w-[120px] truncate print:border print:border-black print:text-sm print:bg-white print:shadow-none">
                                                     {student.name.split(' ')[0]}
                                                 </span>
                                             )}
@@ -253,23 +266,23 @@ export const LineupBuilder: React.FC<LineupBuilderProps> = ({ isOpen, onClose, o
                     </div>
 
                     {/* Sidebar / Bench */}
-                    <div className="w-full lg:w-80 bg-gray-50 border-l flex flex-col print:w-full print:border-t print:border-l-0">
-                        <div className="p-4 border-b bg-white">
-                            <h3 className="font-bold text-gray-900">Banco de Reservas</h3>
-                            <p className="text-xs text-gray-500">{reserves.length} jogadores relacionados</p>
+                    <div className="w-full lg:w-80 bg-gray-50 border-l flex flex-col print:w-[30%] print:border-l-2 print:border-black print:bg-transparent print:h-[800px] print:m-4">
+                        <div className="p-4 border-b bg-white print:bg-transparent print:border-black">
+                            <h3 className="font-bold text-gray-900 print:text-xl print:uppercase print:text-center">Banco de Reservas</h3>
+                            <p className="text-xs text-gray-500 print:hidden">{reserves.length} jogadores relacionados</p>
                         </div>
                         
-                        <div className="flex-1 overflow-y-auto p-4 space-y-2 print:grid print:grid-cols-4 print:gap-4 print:space-y-0">
+                        <div className="flex-1 overflow-y-auto p-4 space-y-2 print:space-y-4 print:overflow-visible">
                             {reserves.map(id => {
                                 const s = students.find(st => st.id === id);
                                 if (!s) return null;
                                 return (
-                                    <div key={id} className="bg-white p-2 rounded-lg border shadow-sm flex items-center justify-between group">
+                                    <div key={id} className="bg-white p-2 rounded-lg border shadow-sm flex items-center justify-between group print:border-black print:shadow-none print:bg-transparent">
                                         <div className="flex items-center gap-3">
-                                            <img src={s.photoUrl} alt={s.name} className="w-10 h-10 rounded-full object-cover border" />
+                                            <img src={s.photoUrl} alt={s.name} className="w-10 h-10 rounded-full object-cover border print:w-12 print:h-12 print:border-black" />
                                             <div>
-                                                <p className="font-bold text-sm text-gray-900">{s.name}</p>
-                                                <p className="text-xs text-gray-500">{(s.positions || []).join(', ')}</p>
+                                                <p className="font-bold text-sm text-gray-900 print:text-base">{s.name}</p>
+                                                <p className="text-xs text-gray-500 print:text-black/60">{(s.positions || []).join(', ')}</p>
                                             </div>
                                         </div>
                                         <button onClick={() => handleRemoveReserve(id)} className="text-gray-400 hover:text-red-500 print:hidden">
@@ -291,6 +304,18 @@ export const LineupBuilder: React.FC<LineupBuilderProps> = ({ isOpen, onClose, o
                                 <PlusIcon /> Adicionar ao Banco
                             </button>
                         </div>
+                    </div>
+                </div>
+
+                {/* Print Footer */}
+                <div className="hidden print:flex justify-between items-end p-8 border-t-2 border-black mt-auto">
+                    <div>
+                        <p className="text-sm font-bold uppercase text-gray-500">Adversário</p>
+                        <p className="text-3xl font-black uppercase">{activity?.opponent || 'A definir'}</p>
+                    </div>
+                    <div className="text-right">
+                        <p className="text-sm font-bold uppercase text-gray-500">Data do Jogo</p>
+                        <p className="text-3xl font-black uppercase">{formatDate(activity?.date)}</p>
                     </div>
                 </div>
             </div>

@@ -552,7 +552,7 @@ export const SchedulePage: React.FC<SchedulePageProps> = ({ activities, students
                                 </h4>
                                 {a.type === 'GAME' && isFinished && (<div className="mt-3 p-3 bg-blue-50 rounded-lg border border-blue-100">
                                     <div className="font-bold text-sm mb-2 text-blue-600 uppercase tracking-tight">{a.opponent || 'Adversário não informado'}</div>
-                                    <div className="flex items-center gap-4"><div className="text-center"><span className="text-[10px] text-blue-400 block font-bold">GAROTOS</span><span className="text-2xl font-black text-primary-600">{a.homeScore}</span></div><span className="text-blue-300 font-bold text-lg">X</span><div className="text-center"><span className="text-[10px] text-blue-400 block font-bold">VISITANTE</span><span className="text-2xl font-black text-blue-700">{a.awayScore}</span></div></div>
+                                    <div className="flex items-center gap-4"><div className="text-center"><span className="text-[10px] text-blue-400 block font-bold">PITANGUEIRAS</span><span className="text-2xl font-black text-primary-600">{a.homeScore}</span></div><span className="text-blue-300 font-bold text-lg">X</span><div className="text-center"><span className="text-[10px] text-blue-400 block font-bold">VISITANTE</span><span className="text-2xl font-black text-blue-700">{a.awayScore}</span></div></div>
                                 </div>)}
                                 <div className="flex flex-wrap gap-3 mt-3 text-sm text-blue-500">
                                     <span className="flex items-center gap-1"><Clock className="w-4 h-4" />{a.startTime}</span>
@@ -782,6 +782,7 @@ export const SchedulePage: React.FC<SchedulePageProps> = ({ activities, students
               initialLineup={currentLineupActivity.lineup}
               students={students}
               group={groups.find(g => g.id === currentLineupActivity.groupId)}
+              activity={currentLineupActivity}
           />
       )}
     </div>
