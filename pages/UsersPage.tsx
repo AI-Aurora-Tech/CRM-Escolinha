@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { User, UserRole } from '../types';
 import { Plus, Edit, Trash2, Shield, X, User as UserIcon, Mail, Key, Shirt } from 'lucide-react';
 import { supabase } from '../lib/supabaseClient';
+import { Logo } from '../components/Logo';
 
 interface UsersPageProps {
   users: User[];
@@ -104,7 +105,7 @@ export const UsersPage: React.FC<UsersPageProps> = ({ users, onAddUser, onUpdate
                     <div className="flex items-center gap-3">
                         {user.role === UserRole.ADMIN ? (
                             <div className="w-12 h-12 rounded-full border border-gray-200 bg-white flex items-center justify-center overflow-hidden p-1 shadow-sm">
-                                <img src="/logo.png" alt="Admin" className="w-full h-full object-contain" />
+                                <Logo alt="Admin" className="w-full h-full object-contain" />
                             </div>
                         ) : (
                             <img src={user.avatar} alt={user.name} className="w-12 h-12 rounded-full border border-gray-200" />

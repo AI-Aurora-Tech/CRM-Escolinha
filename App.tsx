@@ -13,6 +13,7 @@ import { Student, Group, Plan, Transaction, Activity, User, UserRole, PaymentSta
 import { supabase } from './lib/supabaseClient';
 import { Menu, Loader2, Shirt } from 'lucide-react';
 import { sendEvolutionMessage } from './services/evolutionService';
+import { Logo } from './components/Logo';
 
 const TX_SELECT_FIELDS = 'id, description, category, amount, type, date, payment_date, status, student_id, plan_id, payment_method, payment_link, external_reference, preference_id, recurrence';
 
@@ -714,7 +715,7 @@ function App() {
             <div className="bg-white rounded-2xl shadow-xl w-full max-md overflow-hidden">
                 <div className="bg-blue-600 p-8 text-center">
                     <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-2xl overflow-hidden p-2">
-                        <img src="/logo.png" alt="Logo" className="w-full h-full object-contain" />
+                        <Logo className="w-full h-full object-contain" />
                     </div>
                     <h1 className="text-2xl font-bold text-white mb-1 tracking-tight">Pitangueiras</h1>
                     <p className="text-blue-100 text-sm font-medium uppercase tracking-widest">Futebol Clube</p>

@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS public.app_users (
     cpf text UNIQUE,
     password text NOT NULL,
     role text NOT NULL CHECK (role IN ('ADMIN', 'COMUM', 'RESPONSAVEL')),
+    avatar text,
     created_at timestamp with time zone DEFAULT now()
 );
 ALTER TABLE public.app_users DISABLE ROW LEVEL SECURITY;
