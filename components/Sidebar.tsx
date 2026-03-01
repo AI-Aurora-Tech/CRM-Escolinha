@@ -43,7 +43,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentUser, currentPage, onNa
         <div className="p-6 border-b border-gray-800 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="bg-white p-1 rounded-lg shadow-lg">
-                <img src="/Logo.png" alt="Pitangueiras FC" className="w-10 h-10 object-contain" />
+                <img src="/logo.png" alt="Pitangueiras FC" className="w-10 h-10 object-contain" />
             </div>
             <div>
                 <h1 className="font-bold text-lg leading-tight tracking-tight">Pitangueiras</h1>
@@ -84,7 +84,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentUser, currentPage, onNa
             <div className="relative">
               {currentUser.role === UserRole.ADMIN ? (
                 <div className="w-10 h-10 rounded-full border-2 border-blue-500 bg-white flex items-center justify-center shadow-lg overflow-hidden">
-                  <img src="/Logo.png" alt="Admin" className="w-full h-full object-contain" />
+                  <img src="/logo.png" alt="Admin" className="w-full h-full object-contain" />
                 </div>
               ) : (
                 <img src={currentUser.avatar} alt="User" className="w-10 h-10 rounded-full border-2 border-blue-500 bg-white" />

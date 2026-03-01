@@ -366,15 +366,18 @@ function App() {
   };
 
   const handleAddUser = async (u: Omit<User, 'id'>) => {
-      await supabase.from('app_users').insert([u]);
+      const { error } = await supabase.from('app_users').insert([u]);
+      if (error) throw error;
       await fetchData(true);
   };
   const handleUpdateUser = async (u: User) => {
-      await supabase.from('app_users').update(u).eq('id', u.id);
+      const { error } = await supabase.from('app_users').update(u).eq('id', u.id);
+      if (error) throw error;
       await fetchData(true);
   };
   const handleDeleteUser = async (id: string) => {
-      await supabase.from('app_users').delete().eq('id', id);
+      const { error } = await supabase.from('app_users').delete().eq('id', id);
+      if (error) throw error;
       await fetchData(true);
   };
 
@@ -711,7 +714,7 @@ function App() {
             <div className="bg-white rounded-2xl shadow-xl w-full max-md overflow-hidden">
                 <div className="bg-blue-600 p-8 text-center">
                     <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-2xl overflow-hidden p-2">
-                        <img src="/Logo.png" alt="Logo" className="w-full h-full object-contain" />
+                        <img src="/logo.png" alt="Logo" className="w-full h-full object-contain" />
                     </div>
                     <h1 className="text-2xl font-bold text-white mb-1 tracking-tight">Pitangueiras</h1>
                     <p className="text-blue-100 text-sm font-medium uppercase tracking-widest">Futebol Clube</p>
