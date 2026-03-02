@@ -163,11 +163,48 @@ export const LineupBuilder: React.FC<LineupBuilderProps> = ({ isOpen, onClose, o
         .filter(s => s.name.toLowerCase().includes(searchTerm.toLowerCase()));
 
     return (
-        <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 overflow-y-auto print:bg-white print:p-0 print:static print:block">
-            <div className="bg-white w-full max-w-6xl rounded-2xl shadow-2xl flex flex-col max-h-[90vh] print:shadow-none print:max-h-none print:w-full print:max-w-none print:h-auto print:block">
+        <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 overflow-y-auto printable-lineup">
+            <style>{`
+                @media print {
+                    body * {
+                        visibility: hidden;
+                    }
+                    .printable-lineup, .printable-lineup * {
+                        visibility: visible;
+                    }
+                    .printable-lineup {
+                        position: fixed !important;
+                        left: 0 !important;
+                        top: 0 !important;
+                        width: 100% !important;
+                        height: 100% !important;
+                        margin: 0 !important;
+                        padding: 0 !important;
+                        background: white !important;
+                        z-index: 9999 !important;
+                        display: flex !important;
+                        align-items: flex-start !important;
+                        justify-content: center !important;
+                        overflow: visible !important;
+                    }
+                    .printable-content {
+                        width: 100% !important;
+                        height: 100% !important;
+                        max-width: none !important;
+                        max-height: none !important;
+                        box-shadow: none !important;
+                        display: flex !important;
+                        flex-direction: column !important;
+                    }
+                    .no-print {
+                        display: none !important;
+                    }
+                }
+            `}</style>
+            <div className="bg-white w-full max-w-6xl rounded-2xl shadow-2xl flex flex-col max-h-[90vh] printable-content">
                 
                 {/* Header */}
-                <div className="p-6 border-b flex justify-between items-center print:hidden">
+                <div className="p-6 border-b flex justify-between items-center no-print">
                     <div>
                         <h2 className="text-2xl font-bold text-gray-900">Escalação do Time</h2>
                         <p className="text-gray-500">{group?.name || 'Sem categoria definida'}</p>
@@ -198,22 +235,28 @@ export const LineupBuilder: React.FC<LineupBuilderProps> = ({ isOpen, onClose, o
                 </div>
 
                 {/* Print Header (Visible only on print) */}
-                <div className="hidden print:block p-8 text-center border-b-2 border-black mb-4">
-                    <h1 className="text-4xl font-black uppercase tracking-tighter mb-2">Pitangueiras F.C.</h1>
-                    <p className="text-xl font-bold uppercase">{group?.name || 'Escalação Oficial'}</p>
+                <div className="hidden print:block p-4 text-center border-b-2 border-black mb-4">
+                    <h1 className="text-3xl font-black uppercase tracking-tighter mb-1">Pitangueiras F.C.</h1>
+                    <p className="text-lg font-bold uppercase">{group?.name || 'Escalação Oficial'}</p>
                 </div>
 
                 {/* Content */}
-                <div className="flex-1 flex flex-col lg:flex-row overflow-hidden print:overflow-visible print:flex-row print:gap-8 print:items-start">
+                <div className="flex-1 flex flex-col lg:flex-row overflow-hidden print:overflow-visible print:flex-row print:gap-4 print:items-start print:h-auto">
                     
                     {/* Field Area */}
-                    <div className="flex-1 bg-green-600 relative p-8 flex items-center justify-center min-h-[600px] print:min-h-[800px] print:w-[70%] print:p-0 print:bg-transparent print:border-2 print:border-black print:rounded-xl print:m-4">
-                        {/* Field Markings */}
-                        <div className="absolute inset-4 border-4 border-white/50 rounded-lg pointer-events-none print:border-black/20 print:inset-2">
-                            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-16 border-b-4 border-x-4 border-white/50 rounded-b-lg print:border-black"></div>
-                            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-32 h-16 border-t-4 border-x-4 border-white/50 rounded-t-lg print:border-black"></div>
-                            <div className="absolute top-1/2 left-0 w-full h-0.5 bg-white/50 -translate-y-1/2 print:bg-black"></div>
-                            <div className="absolute top-1/2 left-1/2 w-32 h-32 border-4 border-white/50 rounded-full -translate-x-1/2 -translate-y-1/2 print:border-black"></div>
+                    <div className="flex-1 bg-green-600 relative p-8 flex items-center justify-center min-h-[600px] print:min-h-[600px] print:w-[70%] print:p-0 print:bg-white print:border-2 print:border-black print:rounded-xl print:m-0">
+                        {/* Field Markings - CSS Only for Screen, SVG for Print/Better Quality */}
+                        <div className="absolute inset-0 w-full h-full pointer-events-none">
+                             {/* Background for print to save ink but keep field look */}
+                             <div className="absolute inset-0 bg-green-600 print:hidden"></div>
+                             
+                             {/* Field Lines */}
+                             <div className="absolute inset-4 border-4 border-white/50 rounded-lg print:border-black print:inset-2">
+                                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-16 border-b-4 border-x-4 border-white/50 rounded-b-lg print:border-black"></div>
+                                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-32 h-16 border-t-4 border-x-4 border-white/50 rounded-t-lg print:border-black"></div>
+                                <div className="absolute top-1/2 left-0 w-full h-0.5 bg-white/50 -translate-y-1/2 print:bg-black"></div>
+                                <div className="absolute top-1/2 left-1/2 w-32 h-32 border-4 border-white/50 rounded-full -translate-x-1/2 -translate-y-1/2 print:border-black"></div>
+                            </div>
                         </div>
 
                         {/* Players */}
@@ -229,27 +272,27 @@ export const LineupBuilder: React.FC<LineupBuilderProps> = ({ isOpen, onClose, o
                                         style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
                                         onClick={() => handlePositionClick(pos.id)}
                                     >
-                                        <div className={`w-14 h-14 md:w-16 md:h-16 rounded-full border-2 ${student ? 'border-white bg-white' : 'border-white/50 bg-white/20 hover:bg-white/40'} flex items-center justify-center shadow-lg overflow-hidden relative print:border-black print:w-20 print:h-20 print:shadow-none`}>
+                                        <div className={`w-14 h-14 md:w-16 md:h-16 rounded-full border-2 ${student ? 'border-white bg-white' : 'border-white/50 bg-white/20 hover:bg-white/40'} flex items-center justify-center shadow-lg overflow-hidden relative print:border-black print:w-16 print:h-16 print:shadow-none`}>
                                             {student ? (
                                                 <img src={student.photoUrl} alt={student.name} className="w-full h-full object-cover" />
                                             ) : (
-                                                <User className="w-8 h-8 text-white/70" />
+                                                <User className="w-8 h-8 text-white/70 print:text-black/20" />
                                             )}
                                             {student && (
                                                 <button 
                                                     onClick={(e) => handleRemoveStarter(pos.id, e)}
-                                                    className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity print:hidden"
+                                                    className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity no-print"
                                                 >
                                                     <X className="w-6 h-6 text-white" />
                                                 </button>
                                             )}
                                         </div>
                                         <div className="mt-1 flex flex-col items-center">
-                                            <span className="bg-black/70 text-white text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider mb-0.5 print:bg-black print:text-white print:text-xs print:px-3 print:py-1 print:mb-1">
+                                            <span className="bg-black/70 text-white text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider mb-0.5 print:bg-black print:text-white print:text-[10px] print:px-2 print:py-0.5 print:mb-0.5">
                                                 {pos.name}
                                             </span>
                                             {student && (
-                                                <span className="bg-white text-gray-900 text-xs px-2 py-1 rounded shadow font-bold whitespace-nowrap max-w-[120px] truncate print:border print:border-black print:text-sm print:bg-white print:shadow-none">
+                                                <span className="bg-white text-gray-900 text-xs px-2 py-1 rounded shadow font-bold whitespace-nowrap max-w-[120px] truncate print:border print:border-black print:text-xs print:bg-white print:shadow-none">
                                                     {student.name.split(' ')[0]}
                                                 </span>
                                             )}
@@ -266,26 +309,26 @@ export const LineupBuilder: React.FC<LineupBuilderProps> = ({ isOpen, onClose, o
                     </div>
 
                     {/* Sidebar / Bench */}
-                    <div className="w-full lg:w-80 bg-gray-50 border-l flex flex-col print:w-[30%] print:border-l-2 print:border-black print:bg-transparent print:h-[800px] print:m-4">
+                    <div className="w-full lg:w-80 bg-gray-50 border-l flex flex-col print:w-[30%] print:border-l-2 print:border-black print:bg-transparent print:h-[600px] print:m-0">
                         <div className="p-4 border-b bg-white print:bg-transparent print:border-black">
-                            <h3 className="font-bold text-gray-900 print:text-xl print:uppercase print:text-center">Banco de Reservas</h3>
-                            <p className="text-xs text-gray-500 print:hidden">{reserves.length} jogadores relacionados</p>
+                            <h3 className="font-bold text-gray-900 print:text-lg print:uppercase print:text-center">Banco de Reservas</h3>
+                            <p className="text-xs text-gray-500 no-print">{reserves.length} jogadores relacionados</p>
                         </div>
                         
-                        <div className="flex-1 overflow-y-auto p-4 space-y-2 print:space-y-4 print:overflow-visible">
+                        <div className="flex-1 overflow-y-auto p-4 space-y-2 print:space-y-2 print:overflow-visible">
                             {reserves.map(id => {
                                 const s = students.find(st => st.id === id);
                                 if (!s) return null;
                                 return (
-                                    <div key={id} className="bg-white p-2 rounded-lg border shadow-sm flex items-center justify-between group print:border-black print:shadow-none print:bg-transparent">
+                                    <div key={id} className="bg-white p-2 rounded-lg border shadow-sm flex items-center justify-between group print:border-black print:shadow-none print:bg-transparent print:p-1">
                                         <div className="flex items-center gap-3">
-                                            <img src={s.photoUrl} alt={s.name} className="w-10 h-10 rounded-full object-cover border print:w-12 print:h-12 print:border-black" />
+                                            <img src={s.photoUrl} alt={s.name} className="w-10 h-10 rounded-full object-cover border print:w-8 print:h-8 print:border-black" />
                                             <div>
-                                                <p className="font-bold text-sm text-gray-900 print:text-base">{s.name}</p>
-                                                <p className="text-xs text-gray-500 print:text-black/60">{(s.positions || []).join(', ')}</p>
+                                                <p className="font-bold text-sm text-gray-900 print:text-sm">{s.name}</p>
+                                                <p className="text-xs text-gray-500 print:text-black/60 print:text-[10px]">{(s.positions || []).join(', ')}</p>
                                             </div>
                                         </div>
-                                        <button onClick={() => handleRemoveReserve(id)} className="text-gray-400 hover:text-red-500 print:hidden">
+                                        <button onClick={() => handleRemoveReserve(id)} className="text-gray-400 hover:text-red-500 no-print">
                                             <X className="w-4 h-4" />
                                         </button>
                                     </div>
@@ -296,7 +339,7 @@ export const LineupBuilder: React.FC<LineupBuilderProps> = ({ isOpen, onClose, o
                             )}
                         </div>
 
-                        <div className="p-4 border-t bg-white print:hidden">
+                        <div className="p-4 border-t bg-white no-print">
                             <button 
                                 onClick={() => { setSelectedPos(null); setShowPlayerSelect(true); }}
                                 className="w-full py-2 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 font-medium hover:border-blue-500 hover:text-blue-600 transition-colors flex items-center justify-center gap-2"
@@ -308,14 +351,14 @@ export const LineupBuilder: React.FC<LineupBuilderProps> = ({ isOpen, onClose, o
                 </div>
 
                 {/* Print Footer */}
-                <div className="hidden print:flex justify-between items-end p-8 border-t-2 border-black mt-auto">
+                <div className="hidden print:flex justify-between items-end p-4 border-t-2 border-black mt-auto">
                     <div>
-                        <p className="text-sm font-bold uppercase text-gray-500">Adversário</p>
-                        <p className="text-3xl font-black uppercase">{activity?.opponent || 'A definir'}</p>
+                        <p className="text-xs font-bold uppercase text-gray-500">Adversário</p>
+                        <p className="text-xl font-black uppercase">{activity?.opponent || 'A definir'}</p>
                     </div>
                     <div className="text-right">
-                        <p className="text-sm font-bold uppercase text-gray-500">Data do Jogo</p>
-                        <p className="text-3xl font-black uppercase">{formatDate(activity?.date)}</p>
+                        <p className="text-xs font-bold uppercase text-gray-500">Data do Jogo</p>
+                        <p className="text-xl font-black uppercase">{formatDate(activity?.date)}</p>
                     </div>
                 </div>
             </div>

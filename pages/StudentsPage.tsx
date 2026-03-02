@@ -73,6 +73,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
   const [newOccurrence, setNewOccurrence] = useState({ description: '', date: new Date().toISOString().split('T')[0], studentId: '' });
 
   const isGuardian = currentUser?.role === UserRole.RESPONSAVEL;
+  const isProfessor = currentUser?.role === UserRole.PROFESSOR;
 
   const positionsList = ['Goleiro', 'Lateral Direito', 'Zagueiro', 'Lateral Esquerdo', 'Volante', 'Meia', 'Atacante'];
 
@@ -697,7 +698,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
   };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault(); if(isGuardian) return; 
+    e.preventDefault(); if(isGuardian || isProfessor) return; 
     const studentData = { ...studentForm, photoUrl: capturedImage || `https://ui-avatars.com/api/?name=${encodeURIComponent(studentForm.name)}&background=random&color=fff&size=200` };
     if (editingId) onUpdateStudent({ ...studentData, id: editingId } as Student);
     else onAddStudent(studentData);
@@ -893,7 +894,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <h2 className="text-xl md:text-2xl font-bold text-gray-800">{isGuardian ? 'Meus Filhos' : 'Alunos e Responsáveis'}</h2>
-        {!isGuardian && (
+        {!isGuardian && !isProfessor && (
             <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2 w-full md:w-auto">
                 <button onClick={handleManualTuitionGen} disabled={isGenerating} className="justify-center flex items-center gap-2 bg-gray-700 text-white px-3 py-2 rounded-lg hover:bg-gray-800 transition-colors shadow-sm text-xs sm:text-sm disabled:opacity-50">
                     {isGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Settings2 className="w-4 h-4" />}
@@ -1022,7 +1023,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
               const overdueBadgeClass = overdueCount >= 3
                   ? 'bg-red-600 text-white'
                   : overdueCount === 2
-                  ? 'bg-orange-500 text-white'
+                  ? 'bg-blue-500 text-white'
                   : 'bg-red-100 text-red-700';
               
               return (
@@ -1066,12 +1067,12 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                                   <AlertTriangle className="w-3 h-3" /> {overdueCount} MENSALIDADES ATRASADAS
                               </span>
                           )}
-                          {hasMissingDocs(student) && !isGuardian && (
+                          {hasMissingDocs(student) && !isGuardian && !isProfessor && (
                               <button onClick={() => sendDocReminder(student)} className="bg-blue-100 text-blue-700 text-[10px] px-2 py-1 rounded-lg font-black border border-blue-200 flex items-center gap-1">
                                   <FileWarning className="w-3 h-3" /> DOCS PENDENTES
                               </button>
                           )}
-                          {isMedicalExpired(student.medicalCertificateExpiry) && !isGuardian && (
+                          {isMedicalExpired(student.medicalCertificateExpiry) && !isGuardian && !isProfessor && (
                               <button onClick={() => sendMedicalReminder(student)} className="bg-blue-100 text-blue-700 text-[10px] px-2 py-1 rounded-lg font-black border border-blue-200 flex items-center gap-1">
                                   <HeartPulse className="w-3 h-3" /> ATESTADO VENCIDO
                               </button>
@@ -1126,7 +1127,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                 const overdueBadgeClass = overdueCount >= 3
                     ? 'bg-red-600 text-white'
                     : overdueCount === 2
-                    ? 'bg-orange-500 text-white'
+                    ? 'bg-blue-500 text-white'
                     : 'bg-red-100 text-red-600 border-red-200';
 
                 return (
@@ -1138,7 +1139,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                           <div className="font-medium text-gray-900 flex items-center gap-2">
                               {student.name}
                               {overdueCount > 0 && (<span className={`${overdueBadgeClass} text-[10px] px-1.5 py-0.5 rounded-full font-bold border flex items-center gap-1 shadow-sm`}><AlertTriangle className="w-3 h-3" /> {overdueCount} Pend.</span>)}
-                              {hasMissingDocs(student) && !isGuardian && (
+                              {hasMissingDocs(student) && !isGuardian && !isProfessor && (
                                 <button 
                                   onClick={() => sendDocReminder(student)}
                                   className="bg-blue-100 text-blue-600 text-[10px] px-1.5 py-0.5 rounded-full font-bold border border-blue-200 hover:bg-blue-200 transition-colors flex items-center gap-1"
@@ -1189,7 +1190,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                     <td className="px-6 py-4">
                       <div className="flex flex-col gap-1">
                           <span className={`w-fit px-3 py-1 rounded-full text-xs font-medium border ${student.active ? 'bg-green-50 text-green-700 border-green-200' : 'bg-red-50 text-red-700 border-red-200'}`}>{student.active ? 'Ativo' : 'Inativo'}</span>
-                          {isMedicalExpired(student.medicalCertificateExpiry) && !isGuardian && (
+                          {isMedicalExpired(student.medicalCertificateExpiry) && !isGuardian && !isProfessor && (
                             <button 
                               onClick={() => sendMedicalReminder(student)}
                               className="px-2 py-0.5 bg-blue-100 text-blue-600 rounded-md text-[10px] font-bold flex items-center gap-1 hover:bg-blue-200 transition-colors"
@@ -1201,9 +1202,9 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex justify-end gap-2">
-                        <button onClick={() => handleGenerateContract(student)} className="text-gray-600 hover:text-gray-800 p-2 bg-gray-50 rounded-lg" title="Imprimir Contrato"><Printer className="w-4 h-4" /></button>
+                        {!isProfessor && <button onClick={() => handleGenerateContract(student)} className="text-gray-600 hover:text-gray-800 p-2 bg-gray-50 rounded-lg" title="Imprimir Contrato"><Printer className="w-4 h-4" /></button>}
                         <button onClick={() => handleOpenAttendance(student)} className="text-purple-600 hover:text-purple-800 transition-colors p-2 bg-purple-50 rounded-lg" title="Frequência"><CalendarCheck className="w-4 h-4" /></button>
-                        <button onClick={() => handleOpenHistory(student)} className={`p-2 rounded-lg transition-colors ${overdueCount > 0 ? 'bg-gray-800 text-white shadow-md' : 'bg-blue-50 text-blue-600'}`} title="Financeiro"><History className="w-4 h-4" /></button>
+                        {!isProfessor && <button onClick={() => handleOpenHistory(student)} className={`p-2 rounded-lg transition-colors ${overdueCount > 0 ? 'bg-gray-800 text-white shadow-md' : 'bg-blue-50 text-blue-600'}`} title="Financeiro"><History className="w-4 h-4" /></button>}
                         {!isGuardian && <button onClick={(e) => handleOpenAddOccurrence(e, student)} className="text-blue-600 hover:text-blue-800 p-2 bg-blue-50 rounded-lg transition-colors" title="Enviar Ocorrência"><MessageSquareWarning className="w-4 h-4" /></button>}
                         <button onClick={() => handleOpenEdit(student)} className="text-primary-600 hover:text-primary-800 p-2 bg-primary-50 rounded-lg" title="Editar"><Edit className="w-4 h-4" /></button>
                       </div>
@@ -1225,7 +1226,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                   {editingId && (
                       <div className="flex gap-4 mt-4 overflow-x-auto pb-1">
                           <button onClick={() => setActiveTab('DETAILS')} className={`pb-2 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${activeTab === 'DETAILS' ? 'border-primary-600 text-primary-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>Dados</button>
-                          <button onClick={() => setActiveTab('FINANCE')} className={`pb-2 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${activeTab === 'FINANCE' ? 'border-primary-600 text-primary-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>Financeiro</button>
+                          {!isProfessor && <button onClick={() => setActiveTab('FINANCE')} className={`pb-2 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${activeTab === 'FINANCE' ? 'border-primary-600 text-primary-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>Financeiro</button>}
                           <button onClick={() => setActiveTab('ATTENDANCE')} className={`pb-2 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${activeTab === 'ATTENDANCE' ? 'border-primary-600 text-primary-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>Frequência</button>
                           <button onClick={() => setActiveTab('OCCURRENCES')} className={`pb-2 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${activeTab === 'OCCURRENCES' ? 'border-primary-600 text-primary-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>Ocorrências</button>
                       </div>
@@ -1274,7 +1275,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                                 ) : (
                                     <div className="w-32 h-32 md:w-40 md:h-40 bg-gray-100 rounded-xl flex flex-col items-center justify-center border-2 border-dashed border-gray-300 text-gray-400 gap-2"><UserIcon className="w-10 h-10" /><span>Sem foto</span></div>
                                 )}
-                                {!isGuardian && !isCameraOpen && (
+                                {!isGuardian && !isCameraOpen && !isProfessor && (
                                   <div className="flex flex-wrap justify-center gap-2">
                                     <button type="button" onClick={startCamera} className="flex items-center gap-2 text-xs text-primary-600 font-bold hover:bg-primary-50 px-3 py-1.5 rounded-lg border border-primary-200 transition-colors"><Camera className="w-4 h-4" /> Tirar Foto</button>
                                     <button type="button" onClick={() => photoUploadRef.current?.click()} className="flex items-center gap-2 text-xs text-gray-600 font-bold hover:bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-200 transition-colors"><Upload className="w-4 h-4" /> Escolher Foto</button>
@@ -1285,9 +1286,9 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
 
                             <div className="space-y-3 pt-4">
                                 <h4 className="text-sm font-bold border-b pb-2 flex items-center gap-2"><Lock className="w-4 h-4" /> Acesso e Plano</h4>
-                                <div><label className="block text-xs font-medium text-gray-500 mb-1">Status do Aluno</label><select className="w-full border rounded-lg p-2.5 bg-white focus:ring-2 focus:ring-primary-500 outline-none" value={studentForm.active ? 'true' : 'false'} onChange={e => setStudentForm({...studentForm, active: e.target.value === 'true'})} disabled={isGuardian}><option value="true">Ativo</option><option value="false">Inativo / Trancado</option></select></div>
-                                <div><label className="block text-xs font-medium text-gray-500 mb-1">Plano de Mensalidade</label><select className="w-full border rounded-lg p-2.5 bg-white focus:ring-2 focus:ring-primary-500 outline-none" required value={studentForm.planId} onChange={e => setStudentForm({...studentForm, planId: e.target.value})} disabled={isGuardian}><option value="">Selecione um plano...</option>{plans.map(p => <option key={p.id} value={p.id}>{p.name} - R$ {p.price.toFixed(2)}</option>)}</select></div>
-                                <div><label className="block text-xs font-medium text-gray-500 mb-1">Grupos / Categorias</label><div className="border rounded-lg p-2 max-h-32 overflow-y-auto bg-white">{groups.map(g => (<label key={g.id} className="flex items-center gap-2 p-1.5 hover:bg-gray-50 rounded cursor-pointer"><input type="checkbox" checked={(studentForm.groupIds || []).includes(g.id)} onChange={() => toggleGroupSelection(g.id)} className="rounded text-primary-600" disabled={isGuardian} /><span className="text-sm">{g.name}</span></label>))}</div></div>
+                                <div><label className="block text-xs font-medium text-gray-500 mb-1">Status do Aluno</label><select className="w-full border rounded-lg p-2.5 bg-white focus:ring-2 focus:ring-primary-500 outline-none" value={studentForm.active ? 'true' : 'false'} onChange={e => setStudentForm({...studentForm, active: e.target.value === 'true'})} disabled={isGuardian || isProfessor}><option value="true">Ativo</option><option value="false">Inativo / Trancado</option></select></div>
+                                <div><label className="block text-xs font-medium text-gray-500 mb-1">Plano de Mensalidade</label><select className="w-full border rounded-lg p-2.5 bg-white focus:ring-2 focus:ring-primary-500 outline-none" required value={studentForm.planId} onChange={e => setStudentForm({...studentForm, planId: e.target.value})} disabled={isGuardian || isProfessor}><option value="">Selecione um plano...</option>{plans.map(p => <option key={p.id} value={p.id}>{p.name} - R$ {p.price.toFixed(2)}</option>)}</select></div>
+                                <div><label className="block text-xs font-medium text-gray-500 mb-1">Grupos / Categorias</label><div className="border rounded-lg p-2 max-h-32 overflow-y-auto bg-white">{groups.map(g => (<label key={g.id} className="flex items-center gap-2 p-1.5 hover:bg-gray-50 rounded cursor-pointer"><input type="checkbox" checked={(studentForm.groupIds || []).includes(g.id)} onChange={() => toggleGroupSelection(g.id)} className="rounded text-primary-600" disabled={isGuardian || isProfessor} /><span className="text-sm">{g.name}</span></label>))}</div></div>
                             </div>
                         </div>
 
@@ -1296,16 +1297,16 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                                 <div className="space-y-4">
                                     <h4 className="text-sm font-bold border-b pb-2 flex items-center gap-2"><UserIcon className="w-4 h-4 text-blue-500" /> Dados do Atleta</h4>
                                     <div className="grid grid-cols-1 gap-4">
-                                        <div><label className="block text-xs font-medium text-gray-500 mb-1">Nome Completo</label><input className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" required value={studentForm.name} onChange={e => setStudentForm({...studentForm, name: e.target.value})} disabled={isGuardian} /></div>
+                                        <div><label className="block text-xs font-medium text-gray-500 mb-1">Nome Completo</label><input className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" required value={studentForm.name} onChange={e => setStudentForm({...studentForm, name: e.target.value})} disabled={isGuardian || isProfessor} /></div>
                                         <div className="grid grid-cols-2 gap-4">
-                                            <div><label className="block text-xs font-medium text-gray-500 mb-1">Nascimento</label><input type="date" className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" required value={studentForm.birthDate} onChange={e => setStudentForm({...studentForm, birthDate: e.target.value})} disabled={isGuardian} /></div>
-                                            <div><label className="block text-xs font-medium text-gray-500 mb-1">Telefone Aluno</label><input type="text" className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" placeholder="(00) 00000-0000" value={studentForm.phone} onChange={e => setStudentForm({...studentForm, phone: e.target.value})} disabled={isGuardian} /></div>
+                                            <div><label className="block text-xs font-medium text-gray-500 mb-1">Nascimento</label><input type="date" className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" required value={studentForm.birthDate} onChange={e => setStudentForm({...studentForm, birthDate: e.target.value})} disabled={isGuardian || isProfessor} /></div>
+                                            <div><label className="block text-xs font-medium text-gray-500 mb-1">Telefone Aluno</label><input type="text" className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" placeholder="(00) 00000-0000" value={studentForm.phone} onChange={e => setStudentForm({...studentForm, phone: e.target.value})} disabled={isGuardian || isProfessor} /></div>
                                         </div>
                                         <div className="grid grid-cols-2 gap-4">
-                                            <div><label className="block text-xs font-medium text-gray-500 mb-1">RG</label><input className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" value={studentForm.rg} onChange={e => setStudentForm({...studentForm, rg: e.target.value})} disabled={isGuardian} /></div>
-                                            <div><label className="block text-xs font-medium text-gray-500 mb-1">CPF</label><input className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" value={studentForm.cpf} onChange={e => setStudentForm({...studentForm, cpf: e.target.value})} disabled={isGuardian} /></div>
+                                            <div><label className="block text-xs font-medium text-gray-500 mb-1">RG</label><input className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" value={studentForm.rg} onChange={e => setStudentForm({...studentForm, rg: e.target.value})} disabled={isGuardian || isProfessor} /></div>
+                                            <div><label className="block text-xs font-medium text-gray-500 mb-1">CPF</label><input className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" value={studentForm.cpf} onChange={e => setStudentForm({...studentForm, cpf: e.target.value})} disabled={isGuardian || isProfessor} /></div>
                                         </div>
-                                        <div><label className="block text-xs font-medium text-gray-500 mb-1">Vencimento Atestado Médico</label><input type="date" className={`w-full border rounded-lg p-2.5 focus:ring-2 outline-none ${isMedicalExpired(studentForm.medicalCertificateExpiry) ? 'border-red-300 bg-red-50 focus:ring-red-500' : 'focus:ring-primary-500'}`} value={studentForm.medicalCertificateExpiry} onChange={e => setStudentForm({...studentForm, medicalCertificateExpiry: e.target.value})} disabled={isGuardian} /></div>
+                                        <div><label className="block text-xs font-medium text-gray-500 mb-1">Vencimento Atestado Médico</label><input type="date" className={`w-full border rounded-lg p-2.5 focus:ring-2 outline-none ${isMedicalExpired(studentForm.medicalCertificateExpiry) ? 'border-red-300 bg-red-50 focus:ring-red-500' : 'focus:ring-primary-500'}`} value={studentForm.medicalCertificateExpiry} onChange={e => setStudentForm({...studentForm, medicalCertificateExpiry: e.target.value})} disabled={isGuardian || isProfessor} /></div>
                                         
                                         {/* NOVO CAMPO: POSIÇÕES DE JOGO */}
                                         <div className="pt-2">
@@ -1318,7 +1319,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                                                             className="rounded text-primary-600 w-4 h-4" 
                                                             checked={studentForm.positions?.includes(pos)} 
                                                             onChange={() => togglePositionSelection(pos)}
-                                                            disabled={isGuardian}
+                                                            disabled={isGuardian || isProfessor}
                                                         />
                                                         <span className={`text-[10px] font-bold ${studentForm.positions?.includes(pos) ? 'text-primary-700' : 'text-gray-500'}`}>{pos}</span>
                                                     </label>
@@ -1331,11 +1332,11 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                                 <div className="space-y-4">
                                     <h4 className="text-sm font-bold border-b pb-2 flex items-center gap-2"><HeartPulse className="w-4 h-4 text-red-500" /> Responsável</h4>
                                     <div className="grid grid-cols-1 gap-4">
-                                        <div><label className="block text-sm font-medium text-gray-700 mb-1">Nome do Responsável</label><input className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" required value={studentForm.guardian.name} onChange={e => setStudentForm({...studentForm, guardian: {...studentForm.guardian, name: e.target.value}})} disabled={isGuardian} /></div>
-                                        <div><label className="block text-sm font-medium text-gray-700 mb-1">CPF do Responsável (Para PIX e Login)</label><input className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" required value={studentForm.guardian.cpf} onChange={e => setStudentForm({...studentForm, guardian: {...studentForm.guardian, cpf: e.target.value}})} disabled={isGuardian} /></div>
+                                        <div><label className="block text-sm font-medium text-gray-700 mb-1">Nome do Responsável</label><input className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" required value={studentForm.guardian.name} onChange={e => setStudentForm({...studentForm, guardian: {...studentForm.guardian, name: e.target.value}})} disabled={isGuardian || isProfessor} /></div>
+                                        <div><label className="block text-sm font-medium text-gray-700 mb-1">CPF do Responsável (Para PIX e Login)</label><input className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" required value={studentForm.guardian.cpf} onChange={e => setStudentForm({...studentForm, guardian: {...studentForm.guardian, cpf: e.target.value}})} disabled={isGuardian || isProfessor} /></div>
                                         <div className="grid grid-cols-2 gap-4">
-                                            <div><label className="block text-xs font-medium text-gray-500 mb-1">Telefone (WhatsApp)</label><input className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" required value={studentForm.guardian.phone} onChange={e => setStudentForm({...studentForm, guardian: {...studentForm.guardian, phone: e.target.value}})} disabled={isGuardian} /></div>
-                                            <div><label className="block text-xs font-medium text-gray-500 mb-1">Email</label><input type="email" className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" value={studentForm.guardian.email} onChange={e => setStudentForm({...studentForm, guardian: {...studentForm.guardian, email: e.target.value}})} disabled={isGuardian} /></div>
+                                            <div><label className="block text-xs font-medium text-gray-500 mb-1">Telefone (WhatsApp)</label><input className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" required value={studentForm.guardian.phone} onChange={e => setStudentForm({...studentForm, guardian: {...studentForm.guardian, phone: e.target.value}})} disabled={isGuardian || isProfessor} /></div>
+                                            <div><label className="block text-xs font-medium text-gray-500 mb-1">Email</label><input type="email" className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" value={studentForm.guardian.email} onChange={e => setStudentForm({...studentForm, guardian: {...studentForm.guardian, email: e.target.value}})} disabled={isGuardian || isProfessor} /></div>
                                         </div>
                                     </div>
                                 </div>
@@ -1344,11 +1345,11 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                             <div className="space-y-4">
                                 <h4 className="text-sm font-bold border-b pb-2 flex items-center gap-2"><MapPin className="w-4 h-4 text-green-500" /> Endereço</h4>
                                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                                    <div className="relative"><label className="block text-xs font-medium text-gray-500 mb-1">CEP</label><input className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" value={studentForm.address.cep} onChange={e => { const val = e.target.value; setStudentForm({...studentForm, address: {...studentForm.address, cep: val}}); if(val.length >= 8) fetchAddressByCep(val); }} disabled={isGuardian} />{isLoadingCep && <Loader2 className="w-4 h-4 animate-spin absolute right-3 top-9 text-primary-500" />}</div>
-                                    <div className="md:col-span-2"><label className="block text-xs font-medium text-gray-500 mb-1">Rua / Avenida</label><input className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" value={studentForm.address.street} onChange={e => setStudentForm({...studentForm, address: {...studentForm.address, street: e.target.value}})} disabled={isGuardian} /></div>
-                                    <div><label className="block text-xs font-medium text-gray-500 mb-1">Número</label><input className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" value={studentForm.address.number} onChange={e => setStudentForm({...studentForm, address: {...studentForm.address, number: e.target.value}})} disabled={isGuardian} /></div>
-                                    <div className="md:col-span-2"><label className="block text-xs font-medium text-gray-500 mb-1">Bairro</label><input className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" value={studentForm.address.district} onChange={e => setStudentForm({...studentForm, address: {...studentForm.address, district: e.target.value}})} disabled={isGuardian} /></div>
-                                    <div className="md:col-span-2"><label className="block text-xs font-medium text-gray-500 mb-1">Cidade</label><input className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" value={studentForm.address.city} onChange={e => setStudentForm({...studentForm, address: {...studentForm.address, city: e.target.value}})} disabled={isGuardian} /></div>
+                                    <div className="relative"><label className="block text-xs font-medium text-gray-500 mb-1">CEP</label><input className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" value={studentForm.address.cep} onChange={e => { const val = e.target.value; setStudentForm({...studentForm, address: {...studentForm.address, cep: val}}); if(val.length >= 8) fetchAddressByCep(val); }} disabled={isGuardian || isProfessor} />{isLoadingCep && <Loader2 className="w-4 h-4 animate-spin absolute right-3 top-9 text-primary-500" />}</div>
+                                    <div className="md:col-span-2"><label className="block text-xs font-medium text-gray-500 mb-1">Rua / Avenida</label><input className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" value={studentForm.address.street} onChange={e => setStudentForm({...studentForm, address: {...studentForm.address, street: e.target.value}})} disabled={isGuardian || isProfessor} /></div>
+                                    <div><label className="block text-xs font-medium text-gray-500 mb-1">Número</label><input className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" value={studentForm.address.number} onChange={e => setStudentForm({...studentForm, address: {...studentForm.address, number: e.target.value}})} disabled={isGuardian || isProfessor} /></div>
+                                    <div className="md:col-span-2"><label className="block text-xs font-medium text-gray-500 mb-1">Bairro</label><input className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" value={studentForm.address.district} onChange={e => setStudentForm({...studentForm, address: {...studentForm.address, district: e.target.value}})} disabled={isGuardian || isProfessor} /></div>
+                                    <div className="md:col-span-2"><label className="block text-xs font-medium text-gray-500 mb-1">Cidade</label><input className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" value={studentForm.address.city} onChange={e => setStudentForm({...studentForm, address: {...studentForm.address, city: e.target.value}})} disabled={isGuardian || isProfessor} /></div>
                                 </div>
                             </div>
 
@@ -1361,8 +1362,8 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                                             <div key={doc.id} className={`p-3 rounded-xl border transition-all ${val.delivered ? 'bg-green-50 border-green-200 shadow-inner' : 'bg-blue-50 border-blue-200'}`}>
                                                 <p className="text-[10px] font-black uppercase text-gray-500 mb-2 truncate">{doc.label}</p>
                                                 <div className="space-y-2">
-                                                    <label className="flex items-center gap-2 cursor-pointer"><input type="checkbox" checked={val.delivered} onChange={e => updateDoc(doc.id, 'delivered', e.target.checked)} className="rounded text-green-600" disabled={isGuardian} /><span className="text-xs font-bold text-gray-700">Entregue</span></label>
-                                                    {val.delivered && (<label className="flex items-center gap-2 cursor-pointer"><input type="checkbox" checked={val.isDigital} onChange={e => updateDoc(doc.id, 'isDigital', e.target.checked)} className="rounded text-blue-600" disabled={isGuardian} /><span className="text-[10px] text-gray-500">Formato Digital</span></label>)}
+                                                    <label className="flex items-center gap-2 cursor-pointer"><input type="checkbox" checked={val.delivered} onChange={e => updateDoc(doc.id, 'delivered', e.target.checked)} className="rounded text-green-600" disabled={isGuardian || isProfessor} /><span className="text-xs font-bold text-gray-700">Entregue</span></label>
+                                                    {val.delivered && (<label className="flex items-center gap-2 cursor-pointer"><input type="checkbox" checked={val.isDigital} onChange={e => updateDoc(doc.id, 'isDigital', e.target.checked)} className="rounded text-blue-600" disabled={isGuardian || isProfessor} /><span className="text-[10px] text-gray-500">Formato Digital</span></label>)}
                                                 </div>
                                             </div>
                                         );
@@ -1584,7 +1585,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
             
             <div className="p-4 md:p-6 border-t bg-gray-50 rounded-b-2xl flex justify-end gap-3">
               <button type="button" onClick={() => { setIsModalOpen(false); stopCamera(); }} className="px-6 py-2.5 text-gray-500 font-bold hover:bg-gray-200 rounded-xl transition-colors">Fechar</button>
-              {!isGuardian && activeTab === 'DETAILS' && (<button type="submit" form="student-form" className="px-10 py-2.5 bg-primary-600 text-white rounded-xl font-black shadow-lg shadow-primary-200 hover:bg-primary-700 transition-all">SALVAR ALTERAÇÕES</button>)}
+              {!isGuardian && !isProfessor && activeTab === 'DETAILS' && (<button type="submit" form="student-form" className="px-10 py-2.5 bg-primary-600 text-white rounded-xl font-black shadow-lg shadow-primary-200 hover:bg-primary-700 transition-all">SALVAR ALTERAÇÕES</button>)}
             </div>
           </div>
         </div>
