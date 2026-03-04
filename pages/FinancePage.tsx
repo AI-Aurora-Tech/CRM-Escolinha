@@ -616,7 +616,7 @@ export const FinancePage: React.FC<FinancePageProps> = ({ transactions, plans, s
                                 {(newTx.type === TransactionType.INCOME ? INCOME_CATEGORIES : EXPENSE_CATEGORIES).map(cat => <option key={cat} value={cat}>{cat}</option>)}
                             </select>
                         </div>
-                        <div><label className="block text-[10px] font-black text-gray-500 uppercase mb-1">Valor (R$)</label><input className="w-full border rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary-500 font-bold" type="number" step="0.01" min="0" required value={newTx.amount || ''} onChange={e => setNewTx({...newTx, amount: parseFloat(e.target.value)})} /></div>
+                        <div><label className="block text-[10px] font-black text-gray-500 uppercase mb-1">Valor (R$)</label><input className="w-full border rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary-500 font-bold" type="number" step="0.01" min="0" required value={isNaN(newTx.amount!) ? '' : newTx.amount} onChange={e => setNewTx({...newTx, amount: e.target.value === '' ? 0 : parseFloat(e.target.value)})} /></div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
@@ -644,8 +644,8 @@ export const FinancePage: React.FC<FinancePageProps> = ({ transactions, plans, s
                                                 min="1" 
                                                 max="60" 
                                                 className="w-20 border-2 border-indigo-200 rounded-lg p-2 text-sm font-bold outline-none focus:ring-2 focus:ring-indigo-500" 
-                                                value={newTx.recurrenceMonths} 
-                                                onChange={e => setNewTx({...newTx, recurrenceMonths: parseInt(e.target.value) || 1})} 
+                                                value={isNaN(newTx.recurrenceMonths!) ? '' : newTx.recurrenceMonths} 
+                                                onChange={e => setNewTx({...newTx, recurrenceMonths: e.target.value === '' ? 1 : parseInt(e.target.value)})} 
                                              />
                                              <span className="text-[10px] font-black text-indigo-600 uppercase">meses</span>
                                          </div>

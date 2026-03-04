@@ -90,6 +90,22 @@ export const GroupsPage: React.FC<GroupsPageProps> = ({ groups, students, transa
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validação final de idade para todos os selecionados se houver categoria no nome
+    const category = getCategoryFromGroupName(form.name);
+    if (category) {
+        for (const sId of Array.from(selectedStudentIds)) {
+            const student = students.find(s => s.id === sId);
+            if (student) {
+                const validation = validateStudentAgeForGroup(student.birthDate, form.name);
+                if (!validation.valid) {
+                    alert(`Erro no atleta ${student.name}: ${validation.message}`);
+                    return;
+                }
+            }
+        }
+    }
+
     let targetGroupId = editingId;
     
     if (editingId) {
@@ -205,9 +221,61 @@ export const GroupsPage: React.FC<GroupsPageProps> = ({ groups, students, transa
     doc.save(`Grupo_${group.name.replace(/\s+/g, '_')}.pdf`);
   };
 
+  const getCategoryFromGroupName = (name: string) => {
+    const match = name.match(/Sub[- ]*(\d+)/i);
+    return match ? parseInt(match[1]) : null;
+  };
+
+  const validateStudentAgeForGroup = (birthDate: string, groupName: string) => {
+    const category = getCategoryFromGroupName(groupName);
+    if (!category || !birthDate) return { valid: true };
+
+    const parts = birthDate.split('-');
+    const bDate = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+    const today = new Date();
+    
+    let months = (today.getFullYear() - bDate.getFullYear()) * 12;
+    months += today.getMonth() - bDate.getMonth();
+    if (today.getDate() < bDate.getDate()) {
+        months--;
+    }
+
+    const minMonths = (category - 1) * 12 + 6;
+    const maxMonths = category * 12 + 11;
+
+    if (months < minMonths) {
+        return { 
+            valid: false, 
+            message: `Atleta muito jovem para a categoria Sub-${category}. Mínimo: ${category - 1} anos e 6 meses.` 
+        };
+    }
+    if (months > maxMonths) {
+        return { 
+            valid: false, 
+            message: `Atleta com idade acima do limite para a categoria Sub-${category}. Máximo: ${category} anos e 11 meses.` 
+        };
+    }
+
+    return { valid: true };
+  };
+
   const toggleStudent = (studentId: string) => {
+      const student = students.find(s => s.id === studentId);
+      if (!student) return;
+
+      const isSelected = selectedStudentIds.has(studentId);
+      
+      // Se estiver selecionando (adicionando ao grupo)
+      if (!isSelected) {
+          const validation = validateStudentAgeForGroup(student.birthDate, form.name);
+          if (!validation.valid) {
+              alert(validation.message);
+              return;
+          }
+      }
+
       const next = new Set(selectedStudentIds);
-      if (next.has(studentId)) next.delete(studentId);
+      if (isSelected) next.delete(studentId);
       else next.add(studentId);
       setSelectedStudentIds(next);
   };

@@ -137,12 +137,12 @@ export const PlansPage: React.FC<PlansPageProps> = ({ plans, onAddPlan, onUpdate
                         <div>
                             <label className="block text-sm font-medium text-blue-700 mb-1">Valor Mensal (R$)</label>
                             <input required type="number" min="0" step="0.01" className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" 
-                                value={form.price} onChange={e => setForm({...form, price: parseFloat(e.target.value)})} />
+                                value={isNaN(form.price) ? '' : form.price} onChange={e => setForm({...form, price: e.target.value === '' ? 0 : parseFloat(e.target.value)})} />
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-blue-700 mb-1">Dia de Vencimento</label>
                             <input required type="number" min="1" max="31" className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-primary-500 outline-none" 
-                                value={form.dueDay} onChange={e => setForm({...form, dueDay: parseInt(e.target.value)})} />
+                                value={isNaN(form.dueDay) ? '' : form.dueDay} onChange={e => setForm({...form, dueDay: e.target.value === '' ? 10 : parseInt(e.target.value)})} />
                         </div>
                     </div>
                     <div>

@@ -326,30 +326,66 @@ function App() {
   };
 
   const handleAddPlan = async (p: Omit<Plan, 'id'>) => {
-      await supabase.from('plans').insert([{ name: p.name, price: p.price, due_day: p.dueDay, description: p.description }]);
+      const { error } = await supabase.from('plans').insert([{ name: p.name, price: p.price, due_day: p.dueDay, description: p.description }]);
+      if (error) {
+          console.error("Error adding plan:", error);
+          alert(`Erro ao salvar plano: ${error.message}`);
+          return;
+      }
       await fetchData(true);
+      alert("Plano criado com sucesso!");
   };
   const handleUpdatePlan = async (p: Plan) => {
-      await supabase.from('plans').update({ name: p.name, price: p.price, due_day: p.dueDay, description: p.description }).eq('id', p.id);
+      const { error } = await supabase.from('plans').update({ name: p.name, price: p.price, due_day: p.dueDay, description: p.description }).eq('id', p.id);
+      if (error) {
+          console.error("Error updating plan:", error);
+          alert(`Erro ao atualizar plano: ${error.message}`);
+          return;
+      }
       await fetchData(true);
+      alert("Plano atualizado com sucesso!");
   };
   const handleDeletePlan = async (id: string) => {
-      await supabase.from('plans').delete().eq('id', id);
+      const { error } = await supabase.from('plans').delete().eq('id', id);
+      if (error) {
+          console.error("Error deleting plan:", error);
+          alert(`Erro ao excluir plano: ${error.message}`);
+          return;
+      }
       await fetchData(true);
+      alert("Plano excluído!");
   };
 
   const handleAddGroup = async (g: Group) => {
       const { data, error } = await supabase.from('groups').insert([{ name: g.name }]).select();
+      if (error) {
+          console.error("Error adding group:", error);
+          alert(`Erro ao salvar grupo: ${error.message}`);
+          return null;
+      }
       await fetchData(true);
+      alert("Grupo criado com sucesso!");
       return data?.[0]?.id || null;
   };
   const handleUpdateGroup = async (g: Group) => {
-      await supabase.from('groups').update({ name: g.name }).eq('id', g.id);
+      const { error } = await supabase.from('groups').update({ name: g.name }).eq('id', g.id);
+      if (error) {
+          console.error("Error updating group:", error);
+          alert(`Erro ao atualizar grupo: ${error.message}`);
+          return;
+      }
       await fetchData(true);
+      alert("Grupo atualizado com sucesso!");
   };
   const handleDeleteGroup = async (id: string) => {
-      await supabase.from('groups').delete().eq('id', id);
+      const { error } = await supabase.from('groups').delete().eq('id', id);
+      if (error) {
+          console.error("Error deleting group:", error);
+          alert(`Erro ao excluir grupo: ${error.message}`);
+          return;
+      }
       await fetchData(true);
+      alert("Grupo excluído!");
   };
 
   const handleBatchAssignStudents = async (studentIds: string[], groupId: string) => {
