@@ -285,7 +285,7 @@ export const FinancePage: React.FC<FinancePageProps> = ({ transactions, plans, s
       startY: 50,
       head: [['Vencimento', 'Descrição', 'Categoria', 'Tipo', 'Status', 'Valor']],
       body: body,
-      headStyles: { fillColor: [249, 115, 22] }
+      headStyles: { fillColor: [37, 99, 235] }
     });
 
     doc.save(`Relatorio_Financeiro_Pitangueiras_${startDate}_${endDate}.pdf`);
@@ -461,7 +461,7 @@ export const FinancePage: React.FC<FinancePageProps> = ({ transactions, plans, s
                                             t.status === PaymentStatus.PAID ? 'bg-green-100 text-green-700' : 
                                             t.status === PaymentStatus.CANCELLED ? 'bg-gray-100 text-gray-500' :
                                             isLate ? 'bg-blue-100 text-blue-700 animate-pulse' :
-                                            'bg-yellow-50 text-yellow-600'
+                                            'bg-blue-50 text-blue-600'
                                         }`}>
                                             {t.status === PaymentStatus.PAID ? 'Pago' : (t.status === PaymentStatus.CANCELLED ? 'Cancelado' : (isLate ? 'Atrasada' : 'Pendente'))}
                                         </span>
@@ -507,7 +507,7 @@ export const FinancePage: React.FC<FinancePageProps> = ({ transactions, plans, s
                                     <span className={`text-[9px] font-black px-2 py-0.5 rounded uppercase block mt-1 ${
                                         t.status === PaymentStatus.PAID ? 'bg-green-100 text-green-700' : 
                                         t.status === PaymentStatus.CANCELLED ? 'bg-gray-100 text-gray-500' :
-                                        isLate ? 'bg-blue-100 text-blue-700' : 'bg-yellow-50 text-yellow-600'
+                                        isLate ? 'bg-blue-100 text-blue-700' : 'bg-blue-50 text-blue-600'
                                     }`}>
                                         {t.status === PaymentStatus.PAID ? 'Pago' : t.status === PaymentStatus.CANCELLED ? 'Cancelado' : (isLate ? 'Atrasada' : 'Pendente')}
                                     </span>

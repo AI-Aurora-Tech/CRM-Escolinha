@@ -267,7 +267,7 @@ export const SchedulePage: React.FC<SchedulePageProps> = ({ activities, students
           return [s.name, rel.length, pres, `${Math.round((pres/rel.length)*100)}%`];
       }).filter(Boolean);
 
-      autoTable(doc, { startY: 35, head: [['Atleta', 'Treinos', 'Presenças', '%']], body: rows as any[], headStyles: { fillColor: [249, 115, 22] } });
+      autoTable(doc, { startY: 35, head: [['Atleta', 'Treinos', 'Presenças', '%']], body: rows as any[], headStyles: { fillColor: [37, 99, 235] } });
       doc.save(`Frequencia_Treinos_${reportStartDate}.pdf`);
   };
 
@@ -340,7 +340,7 @@ export const SchedulePage: React.FC<SchedulePageProps> = ({ activities, students
       startY: finalY + 10, 
       head: [['Data', 'Jogo', 'Atleta', 'Grupo', 'Presença', 'Status Taxa']], 
       body: tableData,
-      headStyles: { fillColor: [249, 115, 22] },
+      headStyles: { fillColor: [37, 99, 235] },
       styles: { fontSize: 7, cellPadding: 2, valign: 'middle' },
       columnStyles: {
         0: { cellWidth: 20 },
@@ -364,7 +364,7 @@ export const SchedulePage: React.FC<SchedulePageProps> = ({ activities, students
         if (data.section === 'body' && data.column.index === 5) {
           const text = data.cell.text[0];
           if (text.includes('PENDENTE')) {
-            data.cell.styles.textColor = [217, 119, 6];
+            data.cell.styles.textColor = [37, 99, 235];
           } else if (text.includes('PAGO')) {
             data.cell.styles.textColor = [79, 70, 229];
           }
@@ -396,7 +396,7 @@ export const SchedulePage: React.FC<SchedulePageProps> = ({ activities, students
         return [formatDate(a.date), a.title, a.opponent || '-', `${h} x ${v}`];
     });
 
-    autoTable(doc, { startY: 35, head: [['Data', 'Atividade', 'Adversário', 'Placar']], body: tableData, headStyles: { fillColor: [249, 115, 22] } });
+    autoTable(doc, { startY: 35, head: [['Data', 'Atividade', 'Adversário', 'Placar']], body: tableData, headStyles: { fillColor: [37, 99, 235] } });
     
     const finalY = (doc as any).lastAutoTable.finalY + 10;
     doc.setFont("helvetica", "bold");
@@ -424,7 +424,7 @@ export const SchedulePage: React.FC<SchedulePageProps> = ({ activities, students
         return [s.name, matches, goals];
     }).filter(Boolean);
 
-    autoTable(doc, { startY: 35, head: [['Atleta', 'Jogos Disputados', 'Gols Marcados']], body: stats as any[], headStyles: { fillColor: [249, 115, 22] } });
+    autoTable(doc, { startY: 35, head: [['Atleta', 'Jogos Disputados', 'Gols Marcados']], body: stats as any[], headStyles: { fillColor: [37, 99, 235] } });
     doc.save(`Estatisticas_Alfabeticas_${reportStartDate}.pdf`);
   };
 
@@ -500,6 +500,32 @@ export const SchedulePage: React.FC<SchedulePageProps> = ({ activities, students
       setNotifyCountdown(10);
   };
 
+  const handlePayFee = async (activity: Activity, student: Student) => {
+      if (!activity.fee) return;
+      try {
+          const extRef = `game_fee_${activity.id}_${student.id}`;
+          const pref = await createMPPreference({
+              title: `Taxa Jogo: ${activity.title}`,
+              price: activity.fee,
+              externalReference: extRef,
+              payer: {
+                  name: student.guardian.name,
+                  email: student.guardian.email || currentUser?.email || 'financeiro@martinica.com',
+                  phone: student.guardian.phone,
+                  identification: { type: 'CPF', number: (student.guardian.cpf || '').replace(/\D/g, '') }
+              }
+          });
+          if (pref && pref.init_point) {
+              window.open(pref.init_point, '_blank');
+          } else {
+              alert('Erro ao gerar pagamento. Tente novamente.');
+          }
+      } catch (error) {
+          console.error('Payment error:', error);
+          alert('Erro ao conectar com o sistema de pagamento.');
+      }
+  };
+
   const gamesForSelect = activities.filter(a => 
     a.type === 'GAME' && 
     a.date >= reportStartDate && 
@@ -545,7 +571,7 @@ export const SchedulePage: React.FC<SchedulePageProps> = ({ activities, students
                         <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
                             <div className="flex-1">
                                 <h4 className="font-bold flex items-center gap-2 text-lg">
-                                  {a.type === 'GAME' ? <Trophy className="text-yellow-500 w-5 h-5" /> : <CalendarIcon className="text-primary-500 w-5 h-5" />}
+                                  {a.type === 'GAME' ? <Trophy className="text-blue-600 w-5 h-5" /> : <CalendarIcon className="text-primary-500 w-5 h-5" />}
                                   {a.title}
                                   {a.fee ? <span className="bg-blue-100 text-blue-700 text-[10px] px-1.5 py-0.5 rounded-full font-bold ml-2 uppercase">Taxa: R$ {a.fee}</span> : null}
                                   {isFinished && <span className="bg-blue-100 text-blue-700 text-[10px] px-1.5 py-0.5 rounded-full font-black ml-2 uppercase border border-blue-200">Finalizado</span>}
@@ -564,6 +590,32 @@ export const SchedulePage: React.FC<SchedulePageProps> = ({ activities, students
                                     )}
                                     {a.location && <span className="flex items-center gap-1 truncate max-w-[150px]"><MapPin className="w-3 h-3" />{a.location}</span>}
                                 </div>
+                                {isGuardian && a.fee && a.fee > 0 && (
+                                    <div className="mt-3 space-y-2">
+                                        {getAttendeesList(a)
+                                            .filter(s => s.guardian.email === currentUser?.email)
+                                            .map(kid => {
+                                                const isPaid = a.feePayments?.includes(kid.id);
+                                                return (
+                                                    <div key={kid.id} className="flex items-center justify-between bg-blue-50 p-2 rounded-lg border border-blue-100">
+                                                        <span className="text-sm font-bold text-blue-900">{kid.name}</span>
+                                                        {isPaid ? (
+                                                            <span className="text-xs font-bold text-green-600 bg-green-100 px-2 py-1 rounded-full flex items-center gap-1">
+                                                                <CheckCircle className="w-3 h-3" /> Pago
+                                                            </span>
+                                                        ) : (
+                                                            <button 
+                                                                onClick={(e) => { e.stopPropagation(); handlePayFee(a, kid); }}
+                                                                className="text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded-lg shadow-sm flex items-center gap-1 transition-colors"
+                                                            >
+                                                                <DollarSign className="w-3 h-3" /> Pagar R$ {a.fee?.toFixed(2)}
+                                                            </button>
+                                                        )}
+                                                    </div>
+                                                );
+                                            })}
+                                    </div>
+                                )}
                             </div>
                                     {!isGuardian && (
                                         <div className="flex gap-2">
@@ -716,7 +768,7 @@ export const SchedulePage: React.FC<SchedulePageProps> = ({ activities, students
                     {newActivity.type === 'GAME' && (<div className="bg-blue-50 p-4 rounded-xl border border-blue-100 space-y-4">
                              <div><label className="block text-[10px] font-black text-blue-800 uppercase mb-1">Equipe Adversária</label><input type="text" className="w-full border border-blue-200 rounded-lg p-2 bg-white outline-none focus:ring-2 focus:ring-blue-500" placeholder="Nome do time..." value={newActivity.opponent} onChange={e => setNewActivity({...newActivity, opponent: e.target.value})} /></div>
                              <div className="flex items-center gap-4 bg-white p-3 rounded-xl border border-blue-100 shadow-sm">
-                                 <div className="flex-1 text-center"><label className="block text-[10px] font-black text-primary-600 mb-1">GAROTOS</label><input type="number" min="0" className="w-16 mx-auto border rounded-lg p-2 text-center text-2xl font-black" value={newActivity.homeScore ?? ''} onChange={e => setNewActivity({...newActivity, homeScore: e.target.value === '' ? undefined : parseInt(e.target.value)})} /></div>
+                                 <div className="flex-1 text-center"><label className="block text-[10px] font-black text-primary-600 mb-1">Pitangueiras</label><input type="number" min="0" className="w-16 mx-auto border rounded-lg p-2 text-center text-2xl font-black" value={newActivity.homeScore ?? ''} onChange={e => setNewActivity({...newActivity, homeScore: e.target.value === '' ? undefined : parseInt(e.target.value)})} /></div>
                                  <div className="text-2xl font-light text-blue-300">X</div>
                                  <div className="flex-1 text-center"><label className="block text-[10px] font-black text-blue-400 mb-1">VISITANTE</label><input type="number" min="0" className="w-16 mx-auto border rounded-lg p-2 text-center text-2xl font-black" value={newActivity.awayScore ?? ''} onChange={e => setNewActivity({...newActivity, awayScore: e.target.value === '' ? undefined : parseInt(e.target.value)})} /></div>
                              </div>

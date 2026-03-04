@@ -900,7 +900,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                     {isGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Settings2 className="w-4 h-4" />}
                     <span>Mensalidades</span>
                 </button>
-                <button onClick={handleBatchSendDocReminders} disabled={isGenerating} className="justify-center flex items-center gap-2 bg-yellow-500 text-white px-3 py-2 rounded-lg hover:bg-yellow-600 transition-colors shadow-sm text-xs sm:text-sm disabled:opacity-50">
+                <button onClick={handleBatchSendDocReminders} disabled={isGenerating} className="justify-center flex items-center gap-2 bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 transition-colors shadow-sm text-xs sm:text-sm disabled:opacity-50">
                     {isGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : <FileWarning className="w-4 h-4" />}
                     <span>Doc</span>
                 </button>
@@ -1474,7 +1474,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                              <div className="bg-white p-5 rounded-2xl border shadow-sm flex items-center justify-between"><div><p className="text-xs font-bold text-gray-400 uppercase mb-1">Presenças</p><h4 className="text-3xl font-black text-green-600">{filteredStudentActivities.filter(a => (a.attendance || []).includes(editingId!)).length}</h4></div><div className="bg-green-50 p-3 rounded-xl"><CheckCircle className="w-6 h-6 text-green-600" /></div></div>
                              <div className="bg-white p-5 rounded-2xl border shadow-sm flex items-center justify-between"><div><p className="text-xs font-bold text-gray-400 uppercase mb-1">Faltas</p><h4 className="text-3xl font-black text-red-600">{filteredStudentActivities.filter(a => !(a.attendance || []).includes(editingId!) && a.date <= todayStr).length}</h4></div><div className="bg-red-50 p-3 rounded-xl"><XCircle className="w-6 h-6 text-red-600" /></div></div>
-                             <div className="bg-white p-5 rounded-2xl border shadow-sm flex items-center justify-between"><div><p className="text-xs font-bold text-gray-400 uppercase mb-1">Gols Marcados</p><h4 className="text-3xl font-black text-yellow-500">{filteredStudentActivities.reduce((acc, a) => acc + (a.scorers?.filter(s => s === editingId).length || 0), 0)}</h4></div><div className="bg-yellow-50 p-3 rounded-xl"><Medal className="w-6 h-6 text-yellow-600" /></div></div>
+                             <div className="bg-white p-5 rounded-2xl border shadow-sm flex items-center justify-between"><div><p className="text-xs font-bold text-gray-400 uppercase mb-1">Gols Marcados</p><h4 className="text-3xl font-black text-blue-500">{filteredStudentActivities.reduce((acc, a) => acc + (a.scorers?.filter(s => s === editingId).length || 0), 0)}</h4></div><div className="bg-blue-50 p-3 rounded-xl"><Medal className="w-6 h-6 text-blue-600" /></div></div>
                         </div>
 
                         <div className="bg-white rounded-2xl border shadow-sm overflow-hidden">
@@ -1493,7 +1493,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                             </div>
                             
                             {/* SEÇÃO DE JOGOS */}
-                            <div className="px-4 py-2 bg-yellow-50 text-yellow-800 text-[10px] font-black uppercase border-b border-yellow-100 flex items-center gap-2">
+                            <div className="px-4 py-2 bg-blue-50 text-blue-800 text-[10px] font-black uppercase border-b border-blue-100 flex items-center gap-2">
                                 <Trophy className="w-3 h-3" /> Jogos
                             </div>
                             <div className="divide-y divide-gray-100 border-b">
@@ -1503,11 +1503,11 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
                                     return (
                                         <div key={act.id} className="p-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
                                             <div className="flex items-center gap-4">
-                                                <div className="p-2 rounded-lg bg-yellow-100 text-yellow-600"><Trophy className="w-5 h-5" /></div>
+                                                <div className="p-2 rounded-lg bg-blue-100 text-blue-600"><Trophy className="w-5 h-5" /></div>
                                                 <div><p className="font-bold text-sm text-gray-800">{act.title}</p><p className="text-xs text-gray-400">{formatDate(act.date)} • {act.startTime}</p></div>
                                             </div>
                                             <div className="flex items-center gap-4">
-                                                {goals > 0 && <span className="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-[10px] font-black border border-yellow-200">⚽ {goals} GOLS</span>}
+                                                {goals > 0 && <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-[10px] font-black border border-blue-200">⚽ {goals} GOLS</span>}
                                                 <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter border ${isPresent ? 'bg-green-100 text-green-700 border-green-200' : 'bg-red-100 text-red-700 border-red-200'}`}>{isPresent ? 'Presença' : 'Falta'}</span>
                                             </div>
                                         </div>

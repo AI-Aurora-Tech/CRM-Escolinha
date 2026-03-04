@@ -297,7 +297,7 @@ export const LineupBuilder: React.FC<LineupBuilderProps> = ({ isOpen, onClose, o
                                                 </span>
                                             )}
                                             {student && !(student.positions || []).some(p => pos.name.toLowerCase().includes(p.toLowerCase())) && (
-                                                <span className="text-[10px] text-yellow-300 font-bold drop-shadow-md print:text-black flex items-center gap-0.5">
+                                                <span className="text-[10px] text-blue-400 font-bold drop-shadow-md print:text-black flex items-center gap-0.5">
                                                     <AlertTriangle className="w-3 h-3" /> Adaptado
                                                 </span>
                                             )}

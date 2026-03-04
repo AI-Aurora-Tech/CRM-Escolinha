@@ -14,6 +14,7 @@ import { supabase } from './lib/supabaseClient';
 import { Menu, Loader2, Shirt } from 'lucide-react';
 import { sendEvolutionMessage } from './services/evolutionService';
 import { Logo } from './components/Logo';
+import { InstallPrompt } from './components/InstallPrompt';
 
 const TX_SELECT_FIELDS = 'id, description, category, amount, type, date, payment_date, status, student_id, plan_id, payment_method, payment_link, external_reference, preference_id, recurrence';
 
@@ -763,6 +764,7 @@ function App() {
         {currentPage === 'users' && <UsersPage users={systemUsers} onAddUser={handleAddUser} onUpdateUser={handleUpdateUser} onDeleteUser={handleDeleteUser} />}
         {currentPage === 'aicoach' && <AICoachPage income={transactions.filter(t => t.type === TransactionType.INCOME && t.status === PaymentStatus.PAID).reduce((acc, curr) => acc + curr.amount, 0)} expense={transactions.filter(t => t.type === TransactionType.EXPENSE && t.status === PaymentStatus.PAID).reduce((acc, curr) => acc + curr.amount, 0)} />}
       </main>
+      <InstallPrompt />
     </div>
   );
 }

@@ -141,7 +141,7 @@ export const DashboardPage: React.FC<DashboardProps> = ({ students, transactions
         startY: 35,
         head: [['Dia', 'Nome do Aluno', 'Idade Atual', 'Telefone', 'Responsável']],
         body: tableData,
-        headStyles: { fillColor: [249, 115, 22] },
+        headStyles: { fillColor: [37, 99, 235] },
     });
 
     doc.save(`Aniversariantes_${months[birthdayMonth]}.pdf`);
@@ -185,7 +185,7 @@ export const DashboardPage: React.FC<DashboardProps> = ({ students, transactions
 
     return [
         { name: 'Vitórias', value: wins, color: '#22c55e' }, 
-        { name: 'Empates', value: draws, color: '#eab308' }, 
+        { name: 'Empates', value: draws, color: '#9ca3af' }, 
         { name: 'Derrotas', value: losses, color: '#ef4444' } 
     ];
   }, [finishedGames]);
@@ -266,7 +266,7 @@ export const DashboardPage: React.FC<DashboardProps> = ({ students, transactions
          <div className="lg:col-span-2 bg-white p-4 md:p-6 rounded-xl shadow-sm border border-gray-100 overflow-hidden flex flex-col">
             <div className="flex items-center justify-between mb-6">
                 <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
-                    <Trophy className="w-5 h-5 text-yellow-500" /> Resultados nos Jogos ({new Date().getFullYear()})
+                    <Trophy className="w-5 h-5 text-blue-600" /> Resultados nos Jogos ({new Date().getFullYear()})
                 </h3>
             </div>
             <div className="h-64 w-full">
@@ -304,7 +304,7 @@ export const DashboardPage: React.FC<DashboardProps> = ({ students, transactions
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {finishedGames.slice(0, 4).map(game => {
                     const result = game.homeScore! > game.awayScore! ? 'W' : game.homeScore! < game.awayScore! ? 'L' : 'D';
-                    const color = result === 'W' ? 'bg-green-100 text-green-700 border-green-200' : result === 'L' ? 'bg-red-100 text-red-700 border-red-200' : 'bg-yellow-100 text-yellow-700 border-yellow-200';
+                    const color = result === 'W' ? 'bg-green-100 text-green-700 border-green-200' : result === 'L' ? 'bg-red-100 text-red-700 border-red-200' : 'bg-gray-100 text-gray-700 border-gray-200';
                     const label = result === 'W' ? 'Vitória' : result === 'L' ? 'Derrota' : 'Empate';
 
                     return (
@@ -319,7 +319,7 @@ export const DashboardPage: React.FC<DashboardProps> = ({ students, transactions
                             <span className="text-gray-300 font-light">x</span>
                             <span className="text-lg font-black text-gray-700">{game.awayScore}</span>
                           </div>
-                          <span className={`w-2 h-8 rounded-full ${result === 'W' ? 'bg-green-500' : result === 'L' ? 'bg-red-500' : 'bg-yellow-500'}`} title={label} />
+                          <span className={`w-2 h-8 rounded-full ${result === 'W' ? 'bg-green-500' : result === 'L' ? 'bg-red-500' : 'bg-gray-400'}`} title={label} />
                         </div>
                       </div>
                     );
