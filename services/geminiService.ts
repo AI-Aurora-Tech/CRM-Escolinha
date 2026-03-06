@@ -12,7 +12,7 @@ export const generateTrainingDrill = async (ageGroup: string, focusSkill: string
     // Guideline: Use gemini-3-flash-preview for basic text tasks.
     const model = 'gemini-3-flash-preview';
     const prompt = `
-      Você é um técnico de futebol profissional da escolinha "Pitangueiras".
+      Você é um técnico de futebol profissional do clube "Pitangueiras FC".
       Crie um plano de treino detalhado.
       
       Público Alvo: ${ageGroup}
@@ -48,7 +48,7 @@ export const analyzeFinancials = async (income: number, expense: number, latePay
         // Fix: Use gemini-3-pro-preview for complex reasoning and math tasks like financial analysis.
         const model = 'gemini-3-pro-preview';
         const prompt = `
-          Analise a saúde financeira da escolinha de futebol "Pitangueiras".
+          Analise a saúde financeira do "Pitangueiras FC".
           Dados do mês atual:
           - Receitas (Mensalidades): R$ ${income.toFixed(2)}
           - Despesas (Contas): R$ ${expense.toFixed(2)}

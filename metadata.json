@@ -1,6 +1,6 @@
 {
   "name": "Pitangueiras Manager",
-  "description": "Sistema de gestão completo para escolinha de futebol com controle de alunos, financeiro, presença e IA integrada.",
+  "description": "Sistema de gestão completo para o Pitangueiras FC com controle de alunos, financeiro, presença e IA integrada.",
   "requestFramePermissions": [
     "camera"
   ]

@@ -21,6 +21,9 @@ export const FinancePage: React.FC<FinancePageProps> = ({ transactions, plans, s
   
   // Settings State
   const [mpToken, setMpToken] = useState('');
+  const [evoUrl, setEvoUrl] = useState(import.meta.env.VITE_EVOLUTION_API_URL || '');
+  const [evoKey, setEvoKey] = useState(import.meta.env.VITE_EVOLUTION_API_KEY || '');
+  const [evoInstance, setEvoInstance] = useState(import.meta.env.VITE_EVOLUTION_INSTANCE_NAME || '');
 
   const [loadingSettings, setLoadingSettings] = useState(false);
   
@@ -59,7 +62,9 @@ export const FinancePage: React.FC<FinancePageProps> = ({ transactions, plans, s
         if (data) {
             data.forEach(s => {
                 if (s.key === 'mp_access_token') setMpToken(s.value);
-
+                if (s.key === 'evolution_api_url') setEvoUrl(s.value);
+                if (s.key === 'evolution_api_key') setEvoKey(s.value);
+                if (s.key === 'evolution_instance_name') setEvoInstance(s.value);
             });
         }
     };
@@ -71,7 +76,9 @@ export const FinancePage: React.FC<FinancePageProps> = ({ transactions, plans, s
       try {
           const settings = [
               { key: 'mp_access_token', value: mpToken },
-
+              { key: 'evolution_api_url', value: evoUrl },
+              { key: 'evolution_api_key', value: evoKey },
+              { key: 'evolution_instance_name', value: evoInstance },
           ];
           const { error } = await supabase.from('app_settings').upsert(settings);
           if (error) throw error;
@@ -326,19 +333,61 @@ export const FinancePage: React.FC<FinancePageProps> = ({ transactions, plans, s
                       <p className="text-xs text-gray-500 mt-1">Configuração para links de pagamento PIX automáticos.</p>
                   </div>
                   <div className="space-y-4">
-                      <div><label className="block text-xs font-medium text-gray-700 mb-1">Access Token (Produção)</label><div className="relative"><Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" /><input type="password" value={mpToken} onChange={(e) => setMpToken(e.target.value)} className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm" placeholder="APP_USR-..." /></div></div>
+                      <div>
+                          <label className="block text-xs font-medium text-gray-700 mb-1">Access Token (Produção)</label>
+                          <div className="relative">
+                              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                              <input 
+                                type="password" 
+                                value={mpToken} 
+                                onChange={(e) => setMpToken(e.target.value)} 
+                                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm" 
+                                placeholder="APP_USR-..." 
+                              />
+                          </div>
+                      </div>
                   </div>
               </div>
 
               <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
                   <div className="mb-6 border-b border-gray-100 pb-4">
                       <h3 className="text-lg font-bold text-gray-800 flex items-center gap-2"><Smartphone className="w-5 h-5 text-green-600" /> Evolution (WhatsApp)</h3>
-                      <p className="text-xs text-gray-500 mt-1">As credenciais da Evolution API agora são gerenciadas através de variáveis de ambiente no arquivo .env.</p>
+                      <p className="text-xs text-gray-500 mt-1">Configure as credenciais da Evolution API para envio de mensagens automáticas.</p>
                   </div>
-                  <div className="space-y-2 text-sm text-gray-600 bg-gray-50 p-4 rounded-lg">
-                      <p><strong>URL da API:</strong> {import.meta.env.VITE_EVOLUTION_API_URL || 'Não definida'}</p>
-                      <p><strong>API Key:</strong> {import.meta.env.VITE_EVOLUTION_API_KEY ? '******' : 'Não definida'}</p>
-                      <p><strong>Instância:</strong> {import.meta.env.VITE_EVOLUTION_INSTANCE_NAME || 'Não definida'}</p>
+                  <div className="space-y-4">
+                      <div>
+                          <label className="block text-xs font-medium text-gray-700 mb-1">URL da API</label>
+                          <input 
+                            type="text" 
+                            value={evoUrl} 
+                            onChange={(e) => setEvoUrl(e.target.value)} 
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm" 
+                            placeholder="https://sua-api.com" 
+                          />
+                      </div>
+                      <div>
+                          <label className="block text-xs font-medium text-gray-700 mb-1">API Key</label>
+                          <div className="relative">
+                              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                              <input 
+                                type="password" 
+                                value={evoKey} 
+                                onChange={(e) => setEvoKey(e.target.value)} 
+                                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm" 
+                                placeholder="Sua API Key" 
+                              />
+                          </div>
+                      </div>
+                      <div>
+                          <label className="block text-xs font-medium text-gray-700 mb-1">Instância</label>
+                          <input 
+                            type="text" 
+                            value={evoInstance} 
+                            onChange={(e) => setEvoInstance(e.target.value)} 
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm" 
+                            placeholder="Nome da Instância" 
+                          />
+                      </div>
                   </div>
               </div>
 

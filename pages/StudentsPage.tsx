@@ -315,7 +315,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
           const phone = student.guardian.phone.replace(/\D/g, '');
 
           if (phone) {
-              let message = `Olá *${student.guardian.name}*! ⚽ Aqui é da escolinha *Pitangueiras*.\n\nIdentificamos as seguintes pendências para o atleta *${student.name}*:\n\n`;
+      let message = `Olá *${student.guardian.name}*! ⚽ Aqui é do *Pitangueiras FC*.\n\nIdentificamos as seguintes pendências para o atleta *${student.name}*:\n\n`;
               
               overdueTxs.forEach(t => {
                   message += `• *${t.description}* - R$ ${t.amount.toFixed(2)} (Venc: ${formatDate(t.date)})\n`;
@@ -454,7 +454,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
 
     const docListString = missingDocs.map(doc => `• ${doc}`).join('\n');
 
-    const msg = `Olá *${student.guardian.name}*, aqui é da escolinha *Pitangueiras*! ⚽\n\nNotamos que o(a) atleta *${student.name}* está com os seguintes documentos pendentes:\n\n${docListString}\n\nPor favor, entregue o quanto antes na secretaria para regularizar a inscrição. Obrigado!`;
+    const msg = `Olá *${student.guardian.name}*, aqui é do *Pitangueiras FC*! ⚽\n\nNotamos que o(a) atleta *${student.name}* está com os seguintes documentos pendentes:\n\n${docListString}\n\nPor favor, entregue o quanto antes na secretaria para regularizar a inscrição. Obrigado!`;
     const sent = await sendEvolutionMessage(phone, msg);
     
     if (showAlerts) {

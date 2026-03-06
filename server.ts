@@ -4,11 +4,18 @@ import { createServer as createViteServer } from 'vite';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
+import { createClient } from '@supabase/supabase-js';
 
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// Supabase client for server-side
+const supabase = createClient(
+  process.env.VITE_SUPABASE_URL || '',
+  process.env.VITE_SUPABASE_ANON_KEY || ''
+);
 
 async function startServer() {
   const app = express();
@@ -21,13 +28,37 @@ async function startServer() {
     pathRewrite: { '^/api/mp': '' },
   }));
 
+  // Middleware para carregar configurações da Evolution API
+  app.use('/api/evolution', async (req, res, next) => {
+    try {
+      const { data } = await supabase.from('app_settings').select('*');
+      const dbUrl = data?.find(s => s.key === 'evolution_api_url')?.value;
+      const dbKey = data?.find(s => s.key === 'evolution_api_key')?.value;
+      
+      // Armazena no objeto request para o proxy usar
+      (req as any).evolutionConfig = {
+        url: dbUrl || process.env.VITE_EVOLUTION_API_URL || 'https://evolution.iss.tec.br',
+        key: dbKey || process.env.VITE_EVOLUTION_API_KEY || ''
+      };
+      next();
+    } catch (err) {
+      console.error('Erro ao carregar configurações da Evolution:', err);
+      next();
+    }
+  });
+
   // Proxy para a API Evolution
   app.use('/api/evolution', createProxyMiddleware({
-    target: process.env.VITE_EVOLUTION_API_URL || 'https://evolution.iss.tec.br',
+    router: (req) => {
+      return (req as any).evolutionConfig?.url;
+    },
     changeOrigin: true,
     pathRewrite: { '^/api/evolution': '' },
-    onProxyReq: (proxyReq) => {
-      proxyReq.setHeader('apikey', process.env.VITE_EVOLUTION_API_KEY || '');
+    onProxyReq: (proxyReq, req) => {
+      const config = (req as any).evolutionConfig;
+      if (config && !req.headers['apikey']) {
+        proxyReq.setHeader('apikey', config.key);
+      }
     },
   }));
 
