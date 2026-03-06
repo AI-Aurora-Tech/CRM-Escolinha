@@ -17,8 +17,11 @@ export const sendEvolutionMessage = async (phone: string, message: string): Prom
     const url = `/api/evolution/message/sendText/${instanceName}`;
     console.log(`Sending to Evolution API: ${url}`);
 
+    const cleanPhone = phone.replace(/\D/g, '');
+    const formattedPhone = cleanPhone.startsWith('55') ? cleanPhone : `55${cleanPhone}`;
+
     const payload = {
-      number: `55${phone.replace(/\D/g, '')}`,
+      number: formattedPhone,
       text: message
     };
     console.log('Payload:', JSON.stringify(payload, null, 2));
@@ -32,14 +35,20 @@ export const sendEvolutionMessage = async (phone: string, message: string): Prom
       body: JSON.stringify(payload)
     });
 
-    console.log('Evolution API Response:', response.status, response.statusText);
+    console.log('Evolution API Response Status:', response.status, response.statusText);
 
     if (!response.ok) {
       const errorBody = await response.text();
-      console.error('Evolution API Error Body:', errorBody);
+      console.error('Evolution API Error Details:', {
+        status: response.status,
+        statusText: response.statusText,
+        body: errorBody,
+        url: url
+      });
+      return false;
     }
 
-    return response.ok;
+    return true;
   } catch (err) {
     console.error('Fetch Error to Evolution API:', err);
     return false;
@@ -60,6 +69,9 @@ export const sendEvolutionDocument = async (phone: string, base64: string, fileN
         return false;
     }
 
+    const cleanPhone = phone.replace(/\D/g, '');
+    const formattedPhone = cleanPhone.startsWith('55') ? cleanPhone : `55${cleanPhone}`;
+
     const url = `/api/evolution/message/sendMedia/${instanceName}`;
     const response = await fetch(url, {
       method: 'POST',
@@ -68,7 +80,7 @@ export const sendEvolutionDocument = async (phone: string, base64: string, fileN
         'apikey': apiKey
       },
       body: JSON.stringify({
-        number: `55${phone.replace(/\D/g, '')}`,
+        number: formattedPhone,
         mediaMessage: {
           mediaType: 'document',
           media: base64,
@@ -77,7 +89,20 @@ export const sendEvolutionDocument = async (phone: string, base64: string, fileN
       })
     });
 
-    return response.ok;
+    console.log('Evolution API Document Response Status:', response.status, response.statusText);
+
+    if (!response.ok) {
+      const errorBody = await response.text();
+      console.error('Evolution API Document Error Details:', {
+        status: response.status,
+        statusText: response.statusText,
+        body: errorBody,
+        url: url
+      });
+      return false;
+    }
+
+    return true;
   } catch (err) {
     console.error('Erro de conexão com a Evolution API ao enviar documento:', err);
     return false;
