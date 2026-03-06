@@ -6,6 +6,10 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   return {
     plugins: [react()],
+    build: {
+      target: 'es2020',
+      outDir: 'dist',
+    },
     define: {
       'process.env': {},
       'import.meta.env.VITE_EVOLUTION_API_URL': JSON.stringify(env.VITE_EVOLUTION_API_URL),
