@@ -49,7 +49,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentUser, currentPage, onNa
                 <Logo className="w-10 h-10 object-contain" />
             </div>
             <div>
-                <h1 className="font-bold text-lg leading-tight tracking-tight">Pitangueiras</h1>
+                <h1 className="font-bold text-lg leading-tight tracking-tight">Pitangueiras FC</h1>
                 <p className="text-[10px] text-blue-400 font-bold uppercase tracking-widest">Futebol Clube</p>
             </div>
           </div>

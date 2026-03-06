@@ -28,23 +28,84 @@ async function startServer() {
     pathRewrite: { '^/api/mp': '' },
   }));
 
+  // Middleware para parsear JSON
+  app.use(express.json());
+
   // Middleware para carregar configurações da Evolution API
   app.use('/api/evolution', async (req, res, next) => {
     try {
       const { data } = await supabase.from('app_settings').select('*');
       const dbUrl = data?.find(s => s.key === 'evolution_api_url')?.value;
       const dbKey = data?.find(s => s.key === 'evolution_api_key')?.value;
+      const dbInstance = data?.find(s => s.key === 'evolution_instance_name')?.value;
       
       // Armazena no objeto request para o proxy usar
       (req as any).evolutionConfig = {
         url: dbUrl || process.env.VITE_EVOLUTION_API_URL || 'https://evolution.iss.tec.br',
-        key: dbKey || process.env.VITE_EVOLUTION_API_KEY || ''
+        key: dbKey || process.env.VITE_EVOLUTION_API_KEY || '',
+        instance: dbInstance || process.env.VITE_EVOLUTION_INSTANCE_NAME || 'Pitangueiras'
       };
       next();
     } catch (err) {
       console.error('Erro ao carregar configurações da Evolution:', err);
       next();
     }
+  });
+
+  // Rota para envio em massa (Background Process)
+  app.post('/api/evolution/batch-send', async (req, res) => {
+    const { messages } = req.body; // Array of { phone, message }
+    const config = (req as any).evolutionConfig;
+
+    if (!config || !config.url || !config.key) {
+      return res.status(500).json({ error: 'Evolution API not configured' });
+    }
+
+    if (!Array.isArray(messages) || messages.length === 0) {
+      return res.status(400).json({ error: 'No messages provided' });
+    }
+
+    // Respond immediately
+    res.status(202).json({ message: 'Processamento em lote iniciado', count: messages.length });
+
+    // Process in background
+    console.log(`[Batch] Iniciando envio de ${messages.length} mensagens...`);
+    
+    // Função auto-executável para processamento assíncrono
+    (async () => {
+        for (let i = 0; i < messages.length; i++) {
+            const { phone, message } = messages[i];
+            
+            try {
+                const cleanPhone = phone.replace(/\D/g, '');
+                
+                // Delay de 5 segundos entre mensagens para evitar bloqueio
+                if (i > 0) await new Promise(resolve => setTimeout(resolve, 5000));
+
+                const response = await fetch(`${config.url}/message/sendText/${config.instance}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'apikey': config.key
+                    },
+                    body: JSON.stringify({
+                        number: cleanPhone,
+                        options: { delay: 1200, presence: "composing", linkPreview: true },
+                        textMessage: { text: message }
+                    })
+                });
+                
+                if (!response.ok) {
+                    console.error(`[Batch] Falha ao enviar para ${cleanPhone}: ${response.statusText}`);
+                } else {
+                    console.log(`[Batch] Enviado para ${cleanPhone} (${i+1}/${messages.length})`);
+                }
+            } catch (err) {
+                console.error(`[Batch] Erro ao enviar para ${phone}:`, err);
+            }
+        }
+        console.log('[Batch] Processamento finalizado.');
+    })();
   });
 
   // Proxy para a API Evolution

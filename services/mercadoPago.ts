@@ -1,7 +1,7 @@
 
 import { supabase } from '../lib/supabaseClient';
 
-// Helper to get token from database
+// Helper to get token from database with environment fallback
 export const getMPAccessToken = async (): Promise<string | null> => {
   try {
     const { data, error } = await supabase
@@ -10,11 +10,14 @@ export const getMPAccessToken = async (): Promise<string | null> => {
       .eq('key', 'mp_access_token')
       .single();
 
-    if (error || !data) return null;
+    if (error || !data) {
+        // Fallback para variável de ambiente se não houver no banco
+        return import.meta.env.VITE_MP_ACCESS_TOKEN || null;
+    }
     return data.value;
   } catch (err) {
     console.error("Error fetching MP Token", err);
-    return null;
+    return import.meta.env.VITE_MP_ACCESS_TOKEN || null;
   }
 };
 

@@ -446,7 +446,7 @@ function App() {
             if (student && student.guardian.phone && fullTx) {
                 const amount = t.amount || fullTx.amount;
                 const description = t.description || fullTx.description;
-                const msg = `✅ *PAGAMENTO RECEBIDO* ⚽\n\nOlá *${student.guardian.name}*!\nConfirmamos o recebimento do pagamento do atleta *${student.name}*:\n\n📌 *${description}*\n💰 Valor: *R$ ${amount.toFixed(2)}*\n\nObrigado! Pitangueiras.`;
+                const msg = `✅ *PAGAMENTO RECEBIDO* ⚽\n\nOlá *${student.guardian.name}*!\nConfirmamos o recebimento do pagamento do atleta *${student.name}*:\n\n📌 *${description}*\n💰 Valor: *R$ ${amount.toFixed(2)}*\n\nObrigado! Pitangueiras FC.`;
                 sendEvolutionMessage(student.guardian.phone, msg);
             }
         }
@@ -718,7 +718,7 @@ function App() {
         }
 
         if (student.guardian.phone) {
-            const msg = `✅ *PAGAMENTO DE TAXA RECEBIDO* ⚽\n\nOlá *${student.guardian.name}*!\n\nConfirmamos o recebimento da taxa de *R$ ${Number(activity.fee).toFixed(2)}* referente à atividade: *${activity.title}* do atleta *${student.name}*.\n\nObrigado! Pitangueiras.`;
+            const msg = `✅ *PAGAMENTO DE TAXA RECEBIDO* ⚽\n\nOlá *${student.guardian.name}*!\n\nConfirmamos o recebimento da taxa de *R$ ${Number(activity.fee).toFixed(2)}* referente à atividade: *${activity.title}* do atleta *${student.name}*.\n\nObrigado! Pitangueiras FC.`;
             sendEvolutionMessage(student.guardian.phone, msg);
         }
     } else {
@@ -738,7 +738,7 @@ function App() {
       if (error) return false;
       const student = students.find(s => s.id === studentId);
       if (student?.guardian.phone) {
-          const msg = `⚽ *COMUNICADO DE OCORRÊNCIA* ⚽\n\nOlá *${student.guardian.name}*!\n\nRegistramos a seguinte ocorrência para o atleta *${student.name}* em ${date.split('-').reverse().join('/')}:\n\n"${description}"\n\nQualquer dúvida, procure a coordenação. Pitangueiras.`;
+          const msg = `⚽ *COMUNICADO DE OCORRÊNCIA* ⚽\n\nOlá *${student.guardian.name}*!\n\nRegistramos a seguinte ocorrência para o atleta *${student.name}* em ${date.split('-').reverse().join('/')}:\n\n"${description}"\n\nQualquer dúvida, procure a coordenação. Pitangueiras FC.`;
           sendEvolutionMessage(student.guardian.phone, msg);
       }
       await fetchData(true);
@@ -755,7 +755,7 @@ function App() {
                     <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-2xl overflow-hidden p-2">
                         <Logo className="w-full h-full object-contain" />
                     </div>
-                    <h1 className="text-2xl font-bold text-white mb-1 tracking-tight">Pitangueiras</h1>
+                    <h1 className="text-2xl font-bold text-white mb-1 tracking-tight">Pitangueiras FC</h1>
                     <p className="text-blue-100 text-sm font-medium uppercase tracking-widest">Futebol Clube</p>
                 </div>
                 <div className="flex border-b">
@@ -794,7 +794,7 @@ function App() {
         </header>
         {currentPage === 'dashboard' && <DashboardPage students={students} transactions={transactions} activities={activities} role={currentUser!.role} onNavigate={handleNavigate} />}
         {currentPage === 'students' && <StudentsPage students={students} groups={groups} plans={plans} transactions={transactions} activities={activities} occurrences={occurrences} onAddStudent={handleAddStudent} onUpdateStudent={handleUpdateStudent} onUpdateTransaction={handleUpdateTransaction} onAddTransaction={handleAddTransaction} onAddOccurrence={handleAddOccurrence} onGenerateTuitions={handleGenerateGlobalTuitions} initialFilter={pageData?.filter} currentUser={currentUser} onBatchAddStudents={() => {}} />}
-        {currentPage === 'finance' && <FinancePage students={students} groups={groups} transactions={transactions} plans={plans} onAddTransaction={handleAddTransaction} onUpdateTransaction={handleUpdateTransaction} />}
+        {currentPage === 'finance' && <FinancePage students={students} groups={groups} transactions={transactions} plans={plans} currentUser={currentUser} onAddTransaction={handleAddTransaction} onUpdateTransaction={handleUpdateTransaction} />}
         {currentPage === 'schedule' && <SchedulePage activities={activities} students={students} groups={groups} onAddActivity={handleAddActivity} onUpdateActivity={handleUpdateActivity} onUpdateAttendance={handleUpdateAttendance} onUpdateFeePayment={handleUpdateFeePayment} onDeleteActivity={handleDeleteActivity} currentUser={currentUser} onAddTransaction={handleAddTransaction} onUpdateTransaction={handleUpdateTransaction} transactions={transactions} />}
         {currentPage === 'groups' && <GroupsPage groups={groups} students={students} transactions={transactions} onAddGroup={handleAddGroup} onUpdateGroup={handleUpdateGroup} onDeleteGroup={handleDeleteGroup} onBatchAssignStudents={handleBatchAssignStudents} />}
         {currentPage === 'plans' && <PlansPage plans={plans} onAddPlan={handleAddPlan} onUpdatePlan={handleUpdatePlan} onDeletePlan={handleDeletePlan} />}

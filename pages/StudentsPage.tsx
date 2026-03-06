@@ -6,7 +6,7 @@ import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { createPixPayment, createMPPreference } from '../services/mercadoPago';
-import { sendEvolutionMessage } from '../services/evolutionService';
+import { sendEvolutionMessage, sendEvolutionBatchMessages } from '../services/evolutionService';
 
 interface StudentsPageProps {
   students: Student[];
@@ -164,14 +164,14 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
     doc.setFont("helvetica", "bold");
     doc.text("CONTRATO DE PRESTAÇÃO DE SERVIÇOS ESPORTIVOS", 105, 20, { align: 'center' });
     doc.setFontSize(12);
-    doc.text("Pitangueiras", 105, 28, { align: 'center' });
+    doc.text("Pitangueiras FC", 105, 28, { align: 'center' });
     
     // Dados da Escola
     doc.setFontSize(10);
     doc.text("DADOS DA UNIDADE:", 14, 40);
     doc.setFont("helvetica", "normal");
-    doc.text("Escola: Pitangueiras", 14, 45);
-    doc.text("Endereço: Unidade Pitangueiras - São Paulo/SP", 14, 50);
+    doc.text("Escola: Pitangueiras FC", 14, 45);
+    doc.text("Endereço: Unidade Pitangueiras FC - São Paulo/SP", 14, 50);
 
     // Dados do Responsável
     doc.setFont("helvetica", "bold");
@@ -212,7 +212,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
       "2 - Apresentar o ATESTADO MÉDICO em tempo hábil (30 dias), além de declarar que o aluno goza de perfeita saúde, não havendo qualquer impedimento ao se estado de saúde para a prática esportiva;",
       "3 - O Aluno não treinara sem que esteja DEVIDAMENTE UNIFORMIZADO. Portanto, é obrigatório o uso do kit completo, além de chuteiras Society (obs.: É proibido o uso de chuteiras com travas em nosso campo);",
       "4 - Os eventuais problemas de ordem DISCIPLINAR serão resolvidos pela direção da escola e posteriormente comunicados ao responsável pelo aluno.;",
-      "5 - Autorizo a utilização da imagem do referido aluno nas mídias sociais da Pitangueiras / Pitangueiras Oficial, site e demais ações publicitárias com o intuito de promover o trabalho desenvolvido pela entidade.",
+      "5 - Autorizo a utilização da imagem do referido aluno nas mídias sociais do Pitangueiras FC / Pitangueiras Oficial, site e demais ações publicitárias com o intuito de promover o trabalho desenvolvido pela entidade.",
       "6 - Caso o atleta acumule duas ou mais mensalidades em atraso, o mesmo terá o acesso aos treinamentos automaticamente suspenso, permanecendo o bloqueio até a regularização dos débitos pendentes."
     ];
 
@@ -242,7 +242,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
     currentY += 5;
     doc.text("Assinatura do Responsável", 14, currentY);
 
-    doc.save(`Contrato_Pitangueiras_${student.name.replace(/\s+/g, '_')}.pdf`);
+    doc.save(`Contrato_PitangueirasFC_${student.name.replace(/\s+/g, '_')}.pdf`);
   };
 
   const handleManualTuitionGen = async () => {
@@ -267,25 +267,31 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
           return;
       }
 
-      const confirmMsg = `Deseja enviar lembretes de documentos via WhatsApp para ${studentsWithMissingDocs.length} responsáveis?\n\nREGRA DE SEGURANÇA: O sistema enviará 1 mensagem a cada 10 segundos para evitar que seu número seja bloqueado por SPAM.`;
+      const confirmMsg = `Deseja enviar lembretes de documentos via WhatsApp para ${studentsWithMissingDocs.length} responsáveis?\n\nO envio será feito em segundo plano pelo servidor. Você pode fechar o aplicativo durante o processo.`;
       
       if (!confirm(confirmMsg)) return;
 
       setIsGenerating(true);
-      let successCount = 0;
+      const messages: { phone: string, message: string }[] = [];
 
-      for (let i = 0; i < studentsWithMissingDocs.length; i++) {
-          const student = studentsWithMissingDocs[i];
-          const sent = await sendDocReminder(student, false); // Pass false to suppress alerts
-          if (sent) successCount++;
-
-          if (i < studentsWithMissingDocs.length - 1) {
-              await new Promise(resolve => setTimeout(resolve, 10000));
+      for (const student of studentsWithMissingDocs) {
+          const phone = student.guardian.phone.replace(/\D/g, '');
+          if (phone) {
+              const missingDocs = getMissingDocsList(student);
+              const docListString = missingDocs.map(doc => `• ${doc}`).join('\n');
+              const msg = `Olá *${student.guardian.name}*, aqui é do *Pitangueiras FC*! ⚽\n\nNotamos que o(a) atleta *${student.name}* está com os seguintes documentos pendentes:\n\n${docListString}\n\nPor favor, entregue o quanto antes na secretaria para regularizar a inscrição. Obrigado!`;
+              messages.push({ phone, message: msg });
           }
       }
 
+      if (messages.length > 0) {
+          const success = await sendEvolutionBatchMessages(messages);
+          if (success) alert(`Processo iniciado! ${messages.length} mensagens serão enviadas em segundo plano.`);
+          else alert("Erro ao iniciar envio em massa.");
+      } else {
+          alert("Nenhum telefone válido encontrado para envio.");
+      }
       setIsGenerating(false);
-      alert(`Processo concluído!\nEnviados com sucesso: ${successCount}\nFalhas/Sem Tel: ${studentsWithMissingDocs.length - successCount}`);
   };
 
   const handleBatchSendCharges = async () => {
@@ -300,22 +306,20 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
           return;
       }
 
-      const confirmMsg = `Deseja enviar lembretes de cobrança via WhatsApp para ${debtors.length} responsáveis?\n\nREGRA DE SEGURANÇA: O sistema enviará 1 mensagem a cada 10 segundos para evitar que seu número seja bloqueado por SPAM.`;
+      const confirmMsg = `Deseja enviar lembretes de cobrança via WhatsApp para ${debtors.length} responsáveis?\n\nO envio será feito em segundo plano pelo servidor. Você pode fechar o aplicativo durante o processo.`;
       
       if (!confirm(confirmMsg)) return;
 
       setIsGenerating(true);
-      let successCount = 0;
+      const messages: { phone: string, message: string }[] = [];
 
-      // Execução serial com delay de 10s entre cada aluno
-      for (let i = 0; i < debtors.length; i++) {
-          const student = debtors[i];
+      for (const student of debtors) {
           const overdueTxs = transactions.filter(t => t.studentId === student.id && t.type === TransactionType.INCOME && t.status === PaymentStatus.PENDING && t.date < todayStr);
           const totalDebt = overdueTxs.reduce((acc, t) => acc + t.amount, 0);
           const phone = student.guardian.phone.replace(/\D/g, '');
 
           if (phone) {
-      let message = `Olá *${student.guardian.name}*! ⚽ Aqui é do *Pitangueiras FC*.\n\nIdentificamos as seguintes pendências para o atleta *${student.name}*:\n\n`;
+              let message = `Olá *${student.guardian.name}*! ⚽ Aqui é do *Pitangueiras FC*.\n\nIdentificamos as seguintes pendências para o atleta *${student.name}*:\n\n`;
               
               overdueTxs.forEach(t => {
                   message += `• *${t.description}* - R$ ${t.amount.toFixed(2)} (Venc: ${formatDate(t.date)})\n`;
@@ -323,18 +327,18 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
               
               message += `\n*TOTAL: R$ ${totalDebt.toFixed(2)}*\n\n*Pagamento via PIX (Chave Celular):* 11987019721\nNome: CLUBE DESPORTIVO MUNICIPAL JARDIM MARTINICA\n\nPor favor, realize a regularização via Portal do Aluno ou procure a secretaria para regularizar a situação. Caso já tenha pago, favor desconsiderar.\n\nAgradecemos a confiança e parceria de sempre!`;
               
-              const sent = await sendEvolutionMessage(phone, message);
-              if (sent) successCount++;
-          }
-
-          // Aguarda 10 segundos antes do próximo, exceto se for o último
-          if (i < debtors.length - 1) {
-              await new Promise(resolve => setTimeout(resolve, 10000));
+              messages.push({ phone, message });
           }
       }
 
+      if (messages.length > 0) {
+          const success = await sendEvolutionBatchMessages(messages);
+          if (success) alert(`Processo iniciado! ${messages.length} mensagens serão enviadas em segundo plano.`);
+          else alert("Erro ao iniciar envio em massa.");
+      } else {
+          alert("Nenhum telefone válido encontrado para envio.");
+      }
       setIsGenerating(false);
-      alert(`Processo concluído!\nEnviados com sucesso: ${successCount}\nFalhas/Sem Tel: ${debtors.length - successCount}`);
   };
 
   const handleExportExcel = () => {
@@ -379,13 +383,13 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
       const ws = XLSX.utils.json_to_sheet(data);
       const wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, "Alunos Completo");
-      XLSX.writeFile(wb, `Alunos_Pitangueiras_Completo_${new Date().toISOString().split('T')[0]}.xlsx`);
+      XLSX.writeFile(wb, `Alunos_PitangueirasFC_Completo_${new Date().toISOString().split('T')[0]}.xlsx`);
   };
 
   const handleExportPDF = () => {
       const doc = new jsPDF({ orientation: 'landscape' });
       doc.setFontSize(18);
-      doc.text("Relatório Geral de Alunos - Pitangueiras", 14, 20);
+      doc.text("Relatório Geral de Alunos - Pitangueiras FC", 14, 20);
       doc.setFontSize(10);
       doc.text(`Gerado em: ${new Date().toLocaleDateString('pt-BR')}`, 14, 28);
       
@@ -414,7 +418,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
           headStyles: { fillColor: [59, 130, 246] },
           styles: { fontSize: 7, cellPadding: 2 }
       });
-      doc.save("Relatorio_Completo_Alunos_Pitangueiras.pdf");
+      doc.save("Relatorio_Completo_Alunos_PitangueirasFC.pdf");
   };
 
   const handleDownloadTemplate = () => {
@@ -469,7 +473,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
     const phone = student.guardian.phone.replace(/\D/g, '');
     if (!phone) return alert("Responsável sem telefone cadastrado.");
     const date = formatDate(student.medicalCertificateExpiry);
-    const msg = `Olá *${student.guardian.name}*, tudo bem? Aqui é da *Pitangueiras*! ⚽\n\nIdentificamos que o atestado médico do(a) atleta *${student.name}* venceu em *${date}*. \n\nA renovação do exame médico é fundamental para a segurança e continuidade do aluno nos treinos. Por favor, providencie um novo atestado.\n\nQualquer dúvida, estamos à disposição!`;
+    const msg = `Olá *${student.guardian.name}*, tudo bem? Aqui é do *Pitangueiras FC*! ⚽\n\nIdentificamos que o atestado médico do(a) atleta *${student.name}* venceu em *${date}*. \n\nA renovação do exame médico é fundamental para a segurança e continuidade do aluno nos treinos. Por favor, providencie um novo atestado.\n\nQualquer dúvida, estamos à disposição!`;
     const sent = await sendEvolutionMessage(phone, msg);
     if (sent) alert(`Aviso de atestado enviado para ${student.guardian.name}!`);
     else alert("Erro ao enviar via Z-API. Verifique as configurações no menu Financeiro.");
@@ -540,7 +544,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
           }
       }
 
-      let message = `Olá *${studentForm.guardian.name}*, somos da *Pitangueiras*. ⚽\n\nConstatamos a pendência: *${tx.description}*\nVencimento: ${formatDate(tx.date)}\nValor: *R$ ${tx.amount.toFixed(2)}*`;
+      let message = `Olá *${studentForm.guardian.name}*, somos do *Pitangueiras FC*. ⚽\n\nConstatamos a pendência: *${tx.description}*\nVencimento: ${formatDate(tx.date)}\nValor: *R$ ${tx.amount.toFixed(2)}*`;
       
       message += `\n\n*Pagamento via PIX (Chave Celular):* 11987019721\nNome: CLUBE DESPORTIVO MUNICIPAL JARDIM PINTAGUEIRAS`;
 
@@ -566,7 +570,7 @@ export const StudentsPage: React.FC<StudentsPageProps> = ({ students, groups, pl
       const selectedTxs = studentTransactions.filter(t => selectedFinanceIds.has(t.id));
       const totalAmount = selectedTxs.reduce((acc, t) => acc + t.amount, 0);
       
-      let message = `Olá *${studentForm.guardian.name}*! ⚽ Aqui é da *Pitangueiras*.\n\nIdentificamos pendências para o atleta *${studentForm.name}*:\n\n`;
+      let message = `Olá *${studentForm.guardian.name}*! ⚽ Aqui é do *Pitangueiras FC*.\n\nIdentificamos pendências para o atleta *${studentForm.name}*:\n\n`;
       
       selectedTxs.forEach(t => {
           message += `• *${t.description}* - R$ ${t.amount.toFixed(2)} (Venc: ${formatDate(t.date)})\n`;

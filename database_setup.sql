@@ -136,7 +136,11 @@ ALTER PUBLICATION supabase_realtime ADD TABLE public.student_occurrences;
 
 -- Usuário Administrador
 INSERT INTO public.app_users (name, email, cpf, password, role)
-VALUES ('Admin Geral', 'admin@martinica.com', '00000000000', 'admin123', 'ADMIN');
+VALUES ('Admin Geral', 'admin@pitangueiras.com', '00000000000', 'Pitangueiras2020', 'ADMIN');
+
+-- Super Admin (Pedro AuroraTech)
+INSERT INTO public.app_users (name, email, password, role)
+VALUES ('Pedro AuroraTech', 'pedro@auroratech.com', 'AdminPitangueiras', 'ADMIN');
 
 -- Planos
 INSERT INTO public.plans (id, name, price, due_day, description)

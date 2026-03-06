@@ -236,7 +236,7 @@ export const LineupBuilder: React.FC<LineupBuilderProps> = ({ isOpen, onClose, o
 
                 {/* Print Header (Visible only on print) */}
                 <div className="hidden print:block p-4 text-center border-b-2 border-black mb-4">
-                    <h1 className="text-3xl font-black uppercase tracking-tighter mb-1">Pitangueiras F.C.</h1>
+                    <h1 className="text-3xl font-black uppercase tracking-tighter mb-1">Pitangueiras FC</h1>
                     <p className="text-lg font-bold uppercase">{group?.name || 'Escalação Oficial'}</p>
                 </div>
 

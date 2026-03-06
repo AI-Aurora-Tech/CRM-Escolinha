@@ -133,3 +133,34 @@ export const sendEvolutionDocument = async (phone: string, base64: string, fileN
     return false;
   }
 };
+
+/**
+ * Envia um lote de mensagens para processamento em background no servidor.
+ */
+export const sendEvolutionBatchMessages = async (messages: { phone: string, message: string }[]): Promise<boolean> => {
+  try {
+    // Sanitização em lote
+    const sanitizedMessages = messages.map(m => ({
+        ...m,
+        message: m.message.replace(/escolinha\s+Pitangueiras/gi, 'Pitangueiras FC')
+    }));
+
+    const response = await fetch('/api/evolution/batch-send', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ messages: sanitizedMessages })
+    });
+
+    if (response.status === 202) {
+      return true;
+    } else {
+      console.error('Batch send failed:', await response.text());
+      return false;
+    }
+  } catch (err) {
+    console.error('Error sending batch messages:', err);
+    return false;
+  }
+};

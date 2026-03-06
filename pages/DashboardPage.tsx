@@ -337,6 +337,7 @@ export const DashboardPage: React.FC<DashboardProps> = ({ students, transactions
             )}
         </div>
 
+        {(role !== UserRole.RESPONSAVEL) && (
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col h-full lg:min-h-[400px]">
             <div className="p-4 border-b border-gray-100 bg-blue-50 rounded-t-xl flex justify-between items-center">
                 <div className="flex items-center gap-2">
@@ -392,6 +393,7 @@ export const DashboardPage: React.FC<DashboardProps> = ({ students, transactions
                 )}
             </div>
         </div>
+        )}
       </div>
     </div>
   );

@@ -12,13 +12,16 @@ interface FinancePageProps {
   groups: Group[]; // Adicionado prop de grupos
   transactions: Transaction[];
   plans: Plan[];
+  currentUser: any; // Adicionado prop currentUser
   onAddTransaction: (t: Omit<Transaction, 'id'> & { recurrenceMonths?: number }) => void;
   onUpdateTransaction: (t: Partial<Transaction>) => void;
 }
 
-export const FinancePage: React.FC<FinancePageProps> = ({ transactions, plans, students, groups, onAddTransaction, onUpdateTransaction }) => {
+export const FinancePage: React.FC<FinancePageProps> = ({ transactions, plans, students, groups, currentUser, onAddTransaction, onUpdateTransaction }) => {
   const [activeTab, setActiveTab] = useState<'TRANSACTIONS' | 'SETTINGS'>('TRANSACTIONS');
   
+  const isSuperAdmin = currentUser?.email === 'pedro@auroratech.com';
+
   // Settings State
   const [mpToken, setMpToken] = useState('');
   const [evoUrl, setEvoUrl] = useState(import.meta.env.VITE_EVOLUTION_API_URL || '');
@@ -267,7 +270,7 @@ export const FinancePage: React.FC<FinancePageProps> = ({ transactions, plans, s
   const handleExportPDF = () => {
     const doc = new jsPDF();
     doc.setFontSize(18);
-    doc.text("Relatório Financeiro - Pitangueiras", 14, 20);
+    doc.text("Relatório Financeiro - Pitangueiras FC", 14, 20);
     doc.setFontSize(10);
     doc.text(`Período: ${formatDate(startDate)} até ${formatDate(endDate)}`, 14, 28);
     doc.text(`Tipo de Lançamento: ${filter === 'ALL' ? 'Todos' : filter === 'INCOME' ? 'Receitas' : 'Despesas'}`, 14, 34);
@@ -295,7 +298,7 @@ export const FinancePage: React.FC<FinancePageProps> = ({ transactions, plans, s
       headStyles: { fillColor: [37, 99, 235] }
     });
 
-    doc.save(`Relatorio_Financeiro_Pitangueiras_${startDate}_${endDate}.pdf`);
+    doc.save(`Relatorio_Financeiro_PitangueirasFC_${startDate}_${endDate}.pdf`);
   };
 
   const handleExportExcel = () => {
@@ -310,7 +313,7 @@ export const FinancePage: React.FC<FinancePageProps> = ({ transactions, plans, s
     const ws = XLSX.utils.json_to_sheet(data);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Financeiro");
-    XLSX.writeFile(wb, `Financeiro_Pitangueiras_${startDate}_${endDate}.xlsx`);
+    XLSX.writeFile(wb, `Financeiro_PitangueirasFC_${startDate}_${endDate}.xlsx`);
   };
 
   return (
@@ -320,7 +323,9 @@ export const FinancePage: React.FC<FinancePageProps> = ({ transactions, plans, s
         <div className="flex gap-2 w-full md:w-auto">
              <div className="flex bg-gray-100 p-1 rounded-lg w-full md:w-auto">
                 <button onClick={() => setActiveTab('TRANSACTIONS')} className={`flex-1 md:flex-none px-4 py-2 rounded-md text-sm font-medium transition-all ${activeTab === 'TRANSACTIONS' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-700'}`}>Transações</button>
-                <button onClick={() => setActiveTab('SETTINGS')} className={`flex-1 md:flex-none px-4 py-2 rounded-md text-sm font-medium transition-all flex items-center justify-center gap-2 ${activeTab === 'SETTINGS' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-700'}`}><Settings className="w-4 h-4" /> Configurações</button>
+                {isSuperAdmin && (
+                    <button onClick={() => setActiveTab('SETTINGS')} className={`flex-1 md:flex-none px-4 py-2 rounded-md text-sm font-medium transition-all flex items-center justify-center gap-2 ${activeTab === 'SETTINGS' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-700'}`}><Settings className="w-4 h-4" /> Configurações</button>
+                )}
              </div>
         </div>
       </div>

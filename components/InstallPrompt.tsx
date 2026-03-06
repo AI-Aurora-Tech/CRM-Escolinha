@@ -69,7 +69,7 @@ export const InstallPrompt: React.FC = () => {
                         </div>
                         <div>
                             <h3 className="font-bold text-blue-900 leading-tight">Instalar Aplicativo</h3>
-                            <p className="text-xs text-blue-500">Acesse o Pitangueiras mais rápido!</p>
+                            <p className="text-xs text-blue-500">Acesse o Pitangueiras FC mais rápido!</p>
                         </div>
                     </div>
                     <button onClick={closePrompt} className="p-1 hover:bg-blue-50 rounded-full transition-colors">
