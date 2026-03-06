@@ -17,7 +17,13 @@
       "dest": "server.ts"
     },
     {
+      "src": "/assets/(.*)",
+      "headers": { "cache-control": "public, max-age=31536000, immutable" },
+      "dest": "/dist/assets/$1"
+    },
+    {
       "src": "/(.*)",
+      "headers": { "cache-control": "public, max-age=0, must-revalidate" },
       "dest": "/dist/$1"
     }
   ]
