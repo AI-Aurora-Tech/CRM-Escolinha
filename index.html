@@ -84,43 +84,48 @@
   <body class="bg-blue-50 text-blue-900 font-sans antialiased">
     <div id="root"></div>
     <script>
+      // Global error handler for chunk loading failures (common after deployments)
+      window.addEventListener('error', (event) => {
+        const msg = event.message || '';
+        if (msg.includes('ChunkLoadError') || msg.includes('Loading chunk') || msg.includes('missing')) {
+          console.warn('Chunk load error detected, reloading page...');
+          const lastReload = sessionStorage.getItem('last_chunk_reload');
+          const now = Date.now();
+          if (!lastReload || now - parseInt(lastReload) > 5000) {
+            sessionStorage.setItem('last_chunk_reload', now.toString());
+            window.location.reload(true);
+          }
+        }
+      }, true);
+
       // Fail-safe: If React doesn't mount within 4 seconds, show a recovery screen.
-      // This catches syntax errors in older Safari/iOS versions that stop execution.
       setTimeout(() => {
         const root = document.getElementById('root');
         if (root && !root.hasChildNodes()) {
           console.error('App failed to mount (White Screen of Death detected).');
           
-          // Create a simple error UI
           const errorDiv = document.createElement('div');
           errorDiv.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;z-index:9999;font-family:sans-serif;color:#333;';
           
           errorDiv.innerHTML = `
             <div style="max-width: 400px;">
-              <h2 style="color: #2563eb; margin-bottom: 10px;">Ops! Algo deu errado.</h2>
-              <p style="margin-bottom: 20px; color: #666;">O aplicativo não conseguiu carregar. Isso pode acontecer após uma atualização.</p>
+              <h2 style="color: #2563eb; margin-bottom: 10px;">Atualização Necessária</h2>
+              <p style="margin-bottom: 20px; color: #666;">O sistema foi atualizado. Clique no botão abaixo para carregar a nova versão.</p>
               <button id="reload-btn" style="background: #2563eb; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);">
-                Recarregar Aplicativo
+                Atualizar Agora
               </button>
-              <p style="margin-top: 20px; font-size: 12px; color: #999;">Se o erro persistir, limpe o cache do navegador.</p>
             </div>
           `;
           
           document.body.appendChild(errorDiv);
           
           document.getElementById('reload-btn').onclick = () => {
-            // Clear caches and reload
-            if ('serviceWorker' in navigator) {
-              navigator.serviceWorker.getRegistrations().then(registrations => {
-                for(let registration of registrations) registration.unregister();
-              });
-            }
-            localStorage.clear();
             sessionStorage.clear();
+            localStorage.clear();
             window.location.reload(true);
           };
         }
-      }, 4000); // 4 seconds timeout
+      }, 4000);
     </script>
     <script type="module" src="/index.tsx"></script>
   </body>

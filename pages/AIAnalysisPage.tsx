@@ -111,7 +111,7 @@ export const AIAnalysisPage: React.FC<AIAnalysisPageProps> = ({ students, activi
       `;
 
       const result = await ai.models.generateContent({
-        model: "gemini-3.1-pro-preview",
+        model: "gemini-3-flash-preview",
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
         config: { responseMimeType: "application/json" }
       });
@@ -125,7 +125,7 @@ export const AIAnalysisPage: React.FC<AIAnalysisPageProps> = ({ students, activi
 
     } catch (error) {
       console.error("Erro na análise IA:", error);
-      alert("Não foi possível gerar a análise no momento. Verifique sua conexão ou tente novamente.");
+      alert("Não foi possível gerar a análise no momento. Verifique sua chave de API ou tente novamente.");
     } finally {
       setIsAnalyzing(false);
     }
